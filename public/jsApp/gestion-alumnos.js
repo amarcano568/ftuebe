@@ -283,9 +283,18 @@ $(document).on("ready", function() {
                             $("#fecha_entrada").val(response.data.desde);
                             $("#fecha_salida").val(response.data.hasta);
                             $("#observaciones_entrega_hab").val(response.data.observaciones);
+                            if(response.data.fianza == 'S'){
+                               $("#fianza_si").attr('checked', true);
+                            }else{
+                                $("#fianza_no").attr('checked', true);
+                            }
+                            $("#monto_fianza").val(response.data.fianza_monto);
+                            $("#fecha_entrega_fianza").val(response.data.fianza_fecha);
                         }else{
                             $("#numero_habitacion").val('').trigger("chosen:updated");
                             $("#observaciones_entrega_hab").val('');
+                            $("#monto_fianza").val('');
+                            $("#fianza_no").attr('checked', true);
                         }
                         $.unblockUI();
                     });
@@ -576,7 +585,7 @@ $(document).on("ready", function() {
                 }
                 $("#observaciones_entrega_hab").val('');
                 dt_table_estudiantes.ajax.reload();
-                $("#modal-asignar-habitacion").modal('show')
+                $("#modal-asignar-habitacion").modal('hide')
                 $.unblockUI();
             })
             .fail(function(statusCode, errorThrown) {

@@ -27,7 +27,8 @@ class AlumnosController extends Controller
         $nombre = $file->getClientOriginalName();
 			
         \Storage::disk('local')->put($nombre,  \File::get($file));
-       
+        
+        Alumnos::truncate();
         Alumnos_tmp::truncate();
         Excel::import(new AlumnosImport, $nombre);
 
@@ -54,6 +55,7 @@ class AlumnosController extends Controller
             $data['strCodigoPostal'] = $alumno->strCodigoPostal;
             $data['strEMail'] = $alumno->strEMail;
             $data['strFoto'] = $alumno->strFoto;
+            $data['numIdTipoAlumno'] = $alumno->numIdTipoAlumno;
             $data['blnEmagister'] = $alumno->blnEmagister;
             $data['strNumeroSeguridadSocial'] = $alumno->strNumeroSeguridadSocial;
             $data['strSexo'] = $alumno->strSexo;
@@ -72,9 +74,11 @@ class AlumnosController extends Controller
             $data['strProvinciaNacimiento'] = $alumno->strProvinciaNacimiento;
             $data['numIdProvinciaNacimiento'] = $alumno->numIdProvinciaNacimiento;
 
-            $exists = Alumnos::firstOrCreate([
-                'numIdAlumno' => $alumno->numIdAlumno
-            ], $data);
+            // $exists = Alumnos::firstOrCreate([
+            //     'numIdAlumno' => $alumno->numIdAlumno
+            // ], $data);
+            
+            $exists = Alumnos::create($data);
    
         }
 
@@ -151,7 +155,8 @@ class AlumnosController extends Controller
         if ($habitacion['num_habitacion'] != ''){
             $residencia = '<h6>Habitación asignada: <strong><span class="badge badge-pill badge-success">'.$habitacion['num_habitacion'].'</span></strong></h6>
             <h6 class="card-subtitle mb-2 text-muted">Fecha de entrada: <strong>'.$fec_entrada.'</strong></h6>
-            <h6 class="card-subtitle mb-2 text-muted">Fecha de salida: <strong>'.$fec_salida.'</strong></h6>';
+            <h6 class="card-subtitle mb-2 text-muted">Fecha de salida: <strong>'.$fec_salida.'</strong></h6>
+            <button class="btn btn-warning btn-xs">Check out <i class="fas fa-sign-out-alt"></i></button>';
         }
 
         $foto = $data->strSexo == 'H' ? '<img src="img/man.png" class="img-responsive">' : '<img src="img/woman.png" class="img-responsive">';
@@ -210,7 +215,10 @@ class AlumnosController extends Controller
 
         return Datatables::of($trabajos)
         ->setRowId('id')
-        ->addIndexColumn()                  
+        ->addIndexColumn()  
+        ->addColumn('mes_ano', function ($row) {
+            return Carbon::parse($row->fecha)->format('F-Y');
+        })                
         ->addColumn('action', function ($row) {
             $btn =  '<div class="icono-action">
                                 <a href="" data-accion="eliminar-trabajo" data-id-trabajo-imputado="'.$row->id.'">
@@ -220,7 +228,7 @@ class AlumnosController extends Controller
                             </div>';
             return $btn;
         })
-        ->rawColumns(['action'])
+        ->rawColumns(['action','mes_Ano'])
         ->make(true);
     }
 
@@ -230,7 +238,9 @@ class AlumnosController extends Controller
                                                         'id_trabajo' => $request->trabajo_id,
                                                         'fecha' => $request->fecha_trabajo,
                                                         'id_alumno' => $request->id_alumno_trabajo, 
-                                                        'observaciones' => $request->observaciones_trabajo
+                                                        'observaciones' => $request->observaciones_trabajo,
+                                                        'hora_inicio' => $request->hora_inicio,
+                                                        'hora_fin' => $request->hora_fin,
                                                     ]
                                                 );       
         if($imputar->wasRecentlyCreated){
@@ -253,7 +263,6 @@ class AlumnosController extends Controller
     }
 
     public function actualizarHospedaje(Request $request){
-
         if ( is_null($request->uuid_habitacion) ){     
             $hospedaje  = new Hospedajes();
             $uuid = Uuid::generate();
@@ -268,6 +277,9 @@ class AlumnosController extends Controller
         $hospedaje->desde           = $request->fecha_entrada;
         $hospedaje->hasta           = $request->fecha_salida;
         $hospedaje->observaciones   = $request->observaciones_entrega_hab;
+        $hospedaje->fianza          = $request->entrego_fianza;
+        $hospedaje->fianza_monto    = $request->monto_fianza;
+        $hospedaje->fianza_fecha    = $request->fecha_entrega_fianza;
         $hospedaje->save();
 
         if ($sw){
@@ -278,6 +290,45 @@ class AlumnosController extends Controller
         }
 
         return response()->json(array('success' => true, 'message' => 'La habitación del alumno se actualizo correctamente.', 'data' =>  ''));
+    }
+
+    
+    public function imputarTrabajo()
+    {        
+        $trabajos = Trabajos::get();
+        $alumnos = Alumnos::select('numIdAlumno','strNombre','strApellidos')->where('blnVigente',1)->get();
+        $data = [
+            'trabajos' => $trabajos,
+            'alumnos' => $alumnos,
+        ];
+        return view('alumnos.imputar-trabajo',$data);
+    }
+
+    
+    public function informeTrabajoImputado()
+    {        
+        $alumnos = Alumnos::select('numIdAlumno','strNombre','strApellidos')->where('blnVigente',1)->get();
+        $data = [
+            'alumnos' => $alumnos,
+        ];
+        return view('pdf.informe-imputar-trabajo',$data);
+    }
+
+    
+    public function asignarTarea()
+    {        
+        $trabajos = Trabajos::get();
+        $alumnos = Alumnos::select('numIdAlumno','strNombre','strApellidos')->where('blnVigente',1)->get();
+        $data = [
+            'trabajos' => $trabajos,
+            'alumnos' => $alumnos,
+        ];
+        return view('alumnos.asignar-tarea',$data);
+    }
+
+    public function buscarTareasAsignadas(Request $request){
+        $tareas = Alumnos::select('tareas')->find($request->id_alumno);
+        return response()->json(array('success' => true, 'message' => 'Tareas del alumno obtenidas exitosamente.', 'data' =>  $tareas));
     }
 
 }

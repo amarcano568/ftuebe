@@ -48,8 +48,7 @@
         // Bootstrap ID
         gtag('config', 'UA-118965717-5');
     </script>
-
-    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons@2.0.0-beta.3/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@coreui/icons/css/all.min.css">
     <link href="{{ asset('fontawesome5.13.1/css/all.css') }}" rel="stylesheet">
     <!--load all styles -->
     <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -133,7 +132,63 @@
                     </a>
                 </li>
             @endcan
-            @can('menu_informes')
+            @can('modulo_informes')
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link" href="{{URL::to('/modulo-informes')}}">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-print') }}"></use>
+                        </svg> Certificados, informes y <br>notificaciones
+                    </a>
+                </li>
+            @endcan
+            @can('grupos_familiares')
+                <li class="c-sidebar-nav-item">
+                    <a class="c-sidebar-nav-link" href="{{URL::to('/gestionar-grupos-familiares')}}">
+                        <svg class="c-sidebar-nav-icon">
+                            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-blur') }}"></use>
+                        </svg> Grupos familiares
+                    </a>
+                </li>
+            @endcan
+            @can('menu_trabajo_imputar')
+            <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+                <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+                    <svg class="c-sidebar-nav-icon">
+                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-sign-language') }}"></use>
+                    </svg> Tareas
+                </a>
+                <ul class="c-sidebar-nav-dropdown-items">
+                    @can('asignar_tarea')
+                    <li class="c-sidebar-nav-item">
+                        <a class="c-sidebar-nav-link" href="{{URL::to('/asignar-tarea')}}">
+                            <svg class="c-sidebar-nav-icon">                                
+                                <i class="fab fa-tumblr"></i>
+                            </svg>&nbsp;&nbsp;Asignar Tarea
+                        </a>
+                    </li>
+                    @endcan
+                    @can('imputar_trabajo')
+                    <li class="c-sidebar-nav-item">
+                        <a class="c-sidebar-nav-link" href="{{URL::to('/imputar-trabajo')}}">
+                            <svg class="c-sidebar-nav-icon">
+                                <i class="far fa-plus-square"></i>
+                            </svg>&nbsp;&nbsp;Imputar
+                        </a>
+                    </li>
+                    @endcan
+                    @can('informe2')
+                    <li class="c-sidebar-nav-item">
+                        <a class="c-sidebar-nav-link" href="{{URL::to('/informe-trabajo-imputado')}}">
+                            <svg class="c-sidebar-nav-icon">
+                                <i class="far fa-file-pdf"></i>
+                            </svg>&nbsp;&nbsp;Informe 
+                        </a>
+                    </li>
+                    @endcan                   
+                </ul>
+            </li>
+            @endcan
+            {{-- @can('menu_informes')
             <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
                     <svg class="c-sidebar-nav-icon">
@@ -170,7 +225,7 @@
                     @endcan
                 </ul>
             </li>
-            @endcan
+            @endcan --}}
             @can('menu_configuracion')
                 <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a
                         class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">

@@ -25,6 +25,7 @@ class Alumnos_tmp extends Model
         'strCodigoPostal',
         'strEMail',
         'strFoto',
+        'numIdTipoAlumno',
         'blnEmagister',
         'strNumeroSeguridadSocial',
         'strSexo',

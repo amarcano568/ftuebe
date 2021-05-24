@@ -48,11 +48,30 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/listar-estudiantes', 'AlumnosController@listarEstudiantes');
 	Route::post('/ver-grupo-familiar-alumno', 'AlumnosController@verGrupoFamiliarAlumno');
 	Route::post('/listar-trabajos-realizados', 'AlumnosController@listarTrabajosRealizados');
-	//Route::post('guardar-trabajo-imputado', 'AlumnosController@imputarTrabajo');
 	Route::post('/eliminar-trabajo', 'AlumnosController@eliminarTrabajo');
-	Route::post('/guardar-trabajo-imputado', 'AlumnosController@guardarTrabajoImputado');
+	Route::post('guardar-imputado', 'AlumnosController@guardarTrabajoImputado');
 	Route::post('/ver-hospedaje-alumno', 'AlumnosController@verHospedajeAlumno');
-	Route::post('/actualizar-hospedaje', 'AlumnosController@actualizarHospedaje');
+	Route::post('/actualizar-hospedaje', 'AlumnosController@actualizarHospedaje');	
+	Route::group(['middleware' => ['permission:imputar_trabajo']], function () {
+		Route::get('imputar-trabajo', 'AlumnosController@imputarTrabajo')->name('imputar-trabajo.imputarTrabajo');
+	});		
+	Route::group(['middleware' => ['permission:informe_trabajo_imputado']], function () {
+		Route::get('informe-trabajo-imputado', 'AlumnosController@informeTrabajoImputado')->name('informe-trabajo-imputado.informeTrabajoImputado');
+	});
+	Route::post('/ver-pdf-imputar-trabajo', 'PdfsController@verPdfImputarTrabajo');	
+	
+	Route::group(['middleware' => ['permission:asignar_tarea']], function () {
+		Route::get('asignar-tarea', 'AlumnosController@asignarTarea')->name('asignar-tarea.asignarTarea');
+	});
+	Route::post('/buscar-tareas-asignadas', 'PdfsController@buscarTareasAsignadas');	
+
+	/**	
+	 *  Módulo de informes
+	 */
+	Route::group(['middleware' => ['permission:modulo_informes']], function () {
+		Route::get('modulo-informes', 'PdfsController@moduloInformes')->name('modulo-informes.moduloInformes');
+	});
+	Route::post('/certificados-pdf', 'PdfsController@certificadosPdf');	
 
 	/**	Grupos familiares */
 	Route::group(['middleware' => ['permission:gestion_grupos_familiares']], function () {

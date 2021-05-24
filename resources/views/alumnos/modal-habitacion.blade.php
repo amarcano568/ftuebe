@@ -11,7 +11,7 @@
                 </div>
                 <div class="modal-body">
                         <input type="text" id="id_habitacion_alumno" name="id_habitacion_alumno" style="display: none;">
-                        <input type="text" id="uuid_habitacion" name="uuid_habitacion" style="">
+                        <input type="text" id="uuid_habitacion" name="uuid_habitacion" style="display: none;">
                         <div class="row">
                             <div class="col-sm-6">
                                 <label for="numero_habitacion">Habitación</label>
@@ -32,6 +32,22 @@
                             <div class="col-sm-6">
                                 <label for="tipo_hab">Fecha de salida</label>
                                 <input type="date" class="form-control" id="fecha_salida" name="fecha_salida" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">                                
+                                <label for="tipo_hab">Fianza</label>
+                                <br>
+                                <label class="radio-inline"> <input type="radio" name="entrego_fianza" id="fianza_si" value="S" checked> Si </label>
+                                <label class="radio-inline"> <input type="radio" name="entrego_fianza" id="fianza_no" value="N"> No </label>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="tipo_hab">Monto</label>
+                                <input type="number" class="form-control" id="monto_fianza" name="monto_fianza" >
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="tipo_hab">Fecha de entrega</label>
+                                <input type="date" class="form-control" id="fecha_entrega_fianza" name="fecha_entrega_fianza" >
                             </div>
                         </div>
                         <div class="row">

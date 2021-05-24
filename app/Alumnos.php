@@ -27,6 +27,7 @@ class Alumnos extends Model
         'strCodigoPostal',
         'strEMail',
         'strFoto',
+        'numIdTipoAlumno',
         'blnEmagister',
         'strNumeroSeguridadSocial',
         'strSexo',

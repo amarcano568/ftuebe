@@ -36,6 +36,7 @@ class AlumnosImport implements ToModel, WithHeadingRow, WithValidation
             'strCodigoPostal' => $row[strtolower('strCodigoPostal')],
             'strEMail' => $row[strtolower('strEMail')],   
             'strFoto' => $row[strtolower('strFoto')],
+            'numIdTipoAlumno' => $row[strtolower('numIdTipoAlumno')],
             'blnEmagister' => $row[strtolower('blnEmagister')],
             'strNumeroSeguridadSocial' => $row[strtolower('strNumeroSeguridadSocial')], 
             'strSexo' => $row[strtolower('strSexo')], 
