@@ -101,7 +101,7 @@ $(document).on("ready", function() {
                     data: "num_habitacion"
                 },
                 {
-                    data: "tipo"
+                    data: "tipo_hab"
                 },
                 {
                     data: "capacidad"

@@ -13,7 +13,7 @@ $(document).on("ready", function() {
         id_alumno = $("#id_alumno").val();
         tipo_certificado = $("#tipo_certificado").val();
 
-        if (id_alumno == ""){
+        if (id_alumno == "" && tipo_certificado != "inf-mobiliario-habitacion"){
             alertify.error('<i class="fa-2x far fa-meh"></i><br>Debe seleccionar un alumno');
             return false;
         }
@@ -21,7 +21,7 @@ $(document).on("ready", function() {
             alertify.error('<i class="fa-2x far fa-meh"></i><br>Debe seleccionar un tipo de certificado');
             return false;
         }
-
+     
         var form = $("#form-pdf-certificados");
         var formData = form.serialize();
 
@@ -87,6 +87,14 @@ $(document).on("ready", function() {
         $(".datos_adicionales").hide();
         tipo = $(this).val();
         $("#"+tipo).show();
+        $("#filtro_alumno").show();
+        arreglo = [
+            'inf-mobiliario-habitacion',
+            'inf-mobiliario-total',
+        ];
+        if ($.inArray(tipo, arreglo)>=0){
+            $("#filtro_alumno").hide();
+        }
     });
 
     

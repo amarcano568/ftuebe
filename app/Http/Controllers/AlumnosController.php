@@ -328,7 +328,28 @@ class AlumnosController extends Controller
 
     public function buscarTareasAsignadas(Request $request){
         $tareas = Alumnos::select('tareas')->find($request->id_alumno);
-        return response()->json(array('success' => true, 'message' => 'Tareas del alumno obtenidas exitosamente.', 'data' =>  $tareas));
+        if ($tareas->tareas === null or $tareas->tareas === '' ){
+            return response()->json(array('success' => false, 'message' => 'Este alumno no tiene tareas asignadas.', 'data' =>  $tareas->tareas));
+        }
+        return response()->json(array('success' => true, 'message' => 'Tareas del alumno obtenidas exitosamente.', 'data' =>  $tareas->tareas));
+    }
+
+    public function guardarTareasAsignadas(Request $request){
+        $tareas = Alumnos::find($request->id_alumno);
+        $tareas->tareas = \implode('|', $request->tareas_asignadas);
+        if ($tareas->save()){            
+            return response()->json(array('success' => true, 'message' => 'Tareas asignadas exitosamente.', 'data' =>  ''));
+        }        
+        return response()->json(array('success' => false, 'message' => 'Las Tareas del alumno no se pudieron asignar. .', 'data' =>  ''));
+    }
+
+    public function informeTareasAsignadas()
+    {        
+        $alumnos = Alumnos::select('numIdAlumno','strNombre','strApellidos')->where('blnVigente',1)->get();
+        $data = [
+            'alumnos' => $alumnos,
+        ];
+        return view('pdf.informe-tareas-asignadas',$data);
     }
 
 }

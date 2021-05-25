@@ -8,6 +8,13 @@
                 <form action="" id="form-pdf-imputar-trabajo">
                     @csrf
                     <div class="row">
+                        <div class="col-sm-12">
+                            <center>
+                                <h3 class="text-primary"><i class="far fa-file-pdf"></i> Informe de tareas realizadas</h3>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-4">
                             <label for="">Seleccione un alumno</label>
                             <select data-placeholder="Seleccione un alumno" name="id_alumno" id="id_alumno"

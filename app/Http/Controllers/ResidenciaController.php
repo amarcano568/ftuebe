@@ -30,6 +30,9 @@ class ResidenciaController extends Controller
         return Datatables::of($habitaciones)
             ->setRowId('id')
             ->addIndexColumn()           
+            ->addColumn('tipo_hab', function ($row) {
+                return $this->tipoHabitacion($row->tipo);
+            })
             ->addColumn('action', function ($row) {
                 $btn =  '<div class="icono-action">
                                     <a href="" data-accion="editar-habitacion" data-id-habitacion="' . $row->id . '" data-nombre="'.$row->num_habitacion.'">
@@ -42,11 +45,24 @@ class ResidenciaController extends Controller
                                 </div>';
                 return $btn;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action','tipo_hab'])
             ->make(true);
 
     }
 
+    public function tipoHabitacion($tipo){
+        $tipos = [
+            1 => 'Habitación familiar',
+            2 => 'Habitación con cocina',
+            3 => 'Habitación sin cocina',
+            4 => 'Habitación complementaria sin cocina',
+            5 => 'Habitación Zona UEBE',
+            6 => 'Otras habitaciones',
+        ];
+
+        return $tipos[$tipo];
+
+    }
 
     public function getDataHabitacion(Request $request){
         $habitacion = Habitaciones::find($request->id_hab);

@@ -18,6 +18,8 @@ use App\Trabajos;
 use App\Tipo_documento;
 use App\Tipo_estudios;
 use App\GruposFamiliares;
+use App\Habitaciones;
+use App\Mobiliarios;
 
 class PdfsController extends Controller
 {
@@ -106,8 +108,10 @@ class PdfsController extends Controller
     public function moduloInformes()
     {        
         $alumnos = Alumnos::select('numIdAlumno','strNombre','strApellidos')->where('blnVigente',1)->get();
+        $habitaciones = Habitaciones::get();
         $data = [
             'alumnos' => $alumnos,
+            'habitaciones' => $habitaciones,
         ];
         return view('pdf.modulo-informes',$data);
     }
@@ -124,7 +128,12 @@ class PdfsController extends Controller
             case "cert-de-empadronamiento":
                 include_once "certificados/cert-de-empadronamiento.php";
                 break;
-            
+            case "inf-mobiliario-habitacion":
+                include_once "certificados/inf-mobiliario-habitacion.php";
+                break;                
+            case "inf-mobiliario-total":
+                include_once "certificados/inf-mobiliario-total.php";
+                break; 
         }
 
         if ($resul){
@@ -135,5 +144,68 @@ class PdfsController extends Controller
             
     }
 
+    public function mobiliarios($mobiliarios){
+        $mobiliarios = str_replace('|',',',$mobiliarios);
+        $items = Mobiliarios::whereIn('id',\explode(',',$mobiliarios))->get();
+        $arreglo = [];
+
+        foreach($items as $item){
+            array_push($arreglo,['id' => $item->id, 'mobiliario' => $item->descripcion]);
+        }
+        return $arreglo;        
+    }
+
     
+    public function verPdfTareasAsignadas(Request $request)
+    {        
+        $alumnos = Alumnos::select('numIdAlumno','strNombre','strApellidos','tareas')
+        ->alumno($request->id_alumno)
+        ->status($request->status)
+        ->whereNotNull('tareas')
+        ->where('tareas','!=','')->get();
+        $data_pdf = [];
+        foreach($alumnos as $alumno){            
+            $data_pdf[] = [
+                    'nombre' => trim($alumno->strNombre).' '.trim($alumno->strApellidos),
+                    'tarea' => $this->tareasAsignadas($alumno->tareas)
+            ];
+        }
+        $data = array(
+            'data' =>   $data_pdf
+        );
+        $nameFilePdf = uniqid('pdf_').'.pdf';
+        $rutaFile = public_path() . '/pdf/' . $nameFilePdf;
+        $ruta = 'pdf/' . $nameFilePdf;
+        
+        \PDF::loadView('pdf.pdf-horas-asignadas', $data)->setPaper('A4', 'portrait')->save($rutaFile);
+        return response()->json(array('success' => true, 'mensaje' => 'Pdf detalle generado exitosamente', 'data' => $ruta, '' => ''));
+    }
+
+    public function tareasAsignadas($tareas){
+        $tareas = str_replace('|',',',$tareas);
+        $tareas = Trabajos::whereIn('id',explode(',',$tareas))->get();
+        $arreglo = [];
+        foreach($tareas as $tarea){
+            array_push($arreglo,[
+                'tarea' => $tarea->trabajo,
+                
+            ]);
+        }
+        return $arreglo;
+    }
+
+    public function tipoHabitacion($tipo){
+        $tipos = [
+            1 => 'Habitación familiar',
+            2 => 'Habitación con cocina',
+            3 => 'Habitación sin cocina',
+            4 => 'Habitación complementaria sin cocina',
+            5 => 'Habitación Zona UEBE',
+            6 => 'Otras habitaciones',
+        ];
+
+        return $tipos[$tipo];
+
+    }
+
 }

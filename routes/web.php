@@ -63,7 +63,12 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::group(['middleware' => ['permission:asignar_tarea']], function () {
 		Route::get('asignar-tarea', 'AlumnosController@asignarTarea')->name('asignar-tarea.asignarTarea');
 	});
-	Route::post('/buscar-tareas-asignadas', 'PdfsController@buscarTareasAsignadas');	
+	Route::post('/buscar-tareas-asignadas', 'AlumnosController@buscarTareasAsignadas');	
+	Route::post('/guardar-tareas-asignadas', 'AlumnosController@guardarTareasAsignadas');	
+	Route::group(['middleware' => ['permission:informe_tareas_asignadas']], function () {
+		Route::get('informe-tareas-asignadas', 'AlumnosController@informeTareasAsignadas')->name('informe-tareas-asignadas.informeTareasAsignadas');
+	});	
+	Route::post('/ver-pdf-tareas-asignadas', 'PdfsController@verPdfTareasAsignadas');
 
 	/**	
 	 *  Módulo de informes

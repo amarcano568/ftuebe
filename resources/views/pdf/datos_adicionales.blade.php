@@ -52,3 +52,23 @@
           </div>
     </div>
 </div>
+{{-- Informe de mobiliario por habitación --}}
+<div class="row datos_adicionales" id="inf-mobiliario-habitacion" style="display: none;">
+    <div class="col-sm-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="">Habitaciones</label>
+                        <select data-placeholder="Seleccione una habitación" name="numero_habitacion" id="numero_habitacion" class="form-control chosen-select">
+                            <option value=""></option>
+                            @foreach ($habitaciones as $habitacion)
+                                <option value="{{ $habitacion->id }}">{{ $habitacion->num_habitacion }}</option>
+                            @endforeach
+                        </select>
+                    </div>                    
+                </div>
+            </div>
+          </div>
+    </div>
+</div>

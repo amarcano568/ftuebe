@@ -85,7 +85,7 @@
                     <div class="d-flex justify-content-between">
                         <br><br>
                         <center>
-                            <img src="img/logo.jpg" alt="" class="img-responsive">
+                            <img src="img/logo_vertical.png" alt="" class="img-responsive">
                         </center>
                         <br><br>
                     </div>    

@@ -52,5 +52,11 @@ class Alumnos extends Model
             return $query->where('alumnos.blnVigente',$status);
         }
     }
+
+    public function scopeAlumno($query, $alumno){
+        if($alumno){
+            return $query->where('alumnos.numIdAlumno', '=', $alumno);
+        }
+    }
     
 }

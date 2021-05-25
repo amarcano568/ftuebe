@@ -15,11 +15,15 @@ $(document).on("ready", function() {
 
     $(document).on("change", "#id_alumno", function (event) {
       id_alumno = $(this).val();     
+      if (id_alumno == ''){
+          return false;
+      }
       $.ajax({
         url: 'buscar-tareas-asignadas',
         type: "post",
         data: {
-            id_alumno: id_alumno,            
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            id_alumno: id_alumno,                
         },
         dataType: "json",
         beforeSend: function() {
@@ -32,10 +36,14 @@ $(document).on("ready", function() {
                 alertify.success(
                     response.message
                 );
+                tareas = response.data
+                tareas = tareas.split('|');
+                $("#tareas_asignadas").val(tareas).trigger("chosen:updated");
             } else {
                 alertify.error(
                     response.message
                 );
+                $("#tareas_asignadas").val('').trigger("chosen:updated");
             }
             
             $.unblockUI();
@@ -47,46 +55,47 @@ $(document).on("ready", function() {
         });
     });
 
-        $(document).on("click", "#btn-guardar-trabajo", function(event) {
-
-        $.ajax({
-            url: 'guardar-imputado',
-            type: "post",
-            data: {
-                id_alumno_trabajo: $("#id_alumno_trabajo").val(),
-                trabajo_id: $("#trabajo_id").val(),
-                fecha_trabajo: $("#fecha_trabajo").val(),
-                observaciones_trabajo: $("#observaciones_trabajo").val(),
-                _token: $('meta[name="csrf-token"]').attr('content'),
-                hora_inicio: $("#hora_inicio").val(),
-                hora_fin: $("#hora_fin").val(),
-            },
-            dataType: "json",
-            beforeSend: function() {
-                loadingUI("Actualizando los trabajos realizados");
-            }
-        })
-            .done(function(response) {
-                console.log(response);
-                if (response.success === true) {
-                    alertify.success(
-                        response.message
-                    );
-                } else {
-                    alertify.error(
-                        response.message
-                    );
-                }
-                dt_table_trabajos_imputados.ajax.reload();
-                $("#observaciones_trabajo").val('');
-                $.unblockUI();
-            })
-            .fail(function(statusCode, errorThrown) {
-                $.unblockUI();
-                console.log(errorThrown);
-                ajaxError(statusCode, errorThrown);
-            });
+    $("#form-tareas-asignadas")
+    .parsley()
+    .on("field:validated", function() {
+        var ok = $(".parsley-error").length === 0;
+        $(".bs-callout-info").toggleClass("hidden", !ok);
+        $(".bs-callout-warning").toggleClass("hidden", ok);
+    })
+    .on("form:submit", function() {
+        return true;
     });
+
+$("#form-tareas-asignadas").submit(function(e) {
+    e.preventDefault();
+    var form = $("#form-tareas-asignadas");
+    var formData = form.serialize();
+    var route = form.attr("action");
+    $.ajax({
+        url: route,
+        type: "post",
+        data: formData,
+        dataType: "json",
+        beforeSend: function() {
+            loadingUI("Actualizando la Empresa");
+        }
+    })
+        .done(function(data) {
+            console.log(data);
+            if (data.success === true) {
+                alertify.success(data.message);
+            } else {
+                alertify.error(data.message);
+            }
+
+            $.unblockUI();
+        })
+        .fail(function(statusCode, errorThrown) {
+            $.unblockUI();
+            console.log(errorThrown);
+            ajaxError(statusCode, errorThrown);
+        });
+});
 
     
     

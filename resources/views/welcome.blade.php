@@ -89,7 +89,7 @@
          $logo = \App\Empresa::select('logo')->first(); 
       @endphp
             <div id="logoWelcome">
-            <img src="{{ asset("$logo->logo") }}" alt="" width="118" height="46" class="img-fluid">
+            <img src="{{ asset("$logo->logo") }}" alt="" width="200" height="50" class="img-fluid">
             </div>
 
             <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
@@ -176,15 +176,24 @@
                         </a>
                     </li>
                     @endcan
-                    @can('informe2')
+                    @can('informe_trabajo_imputado')
                     <li class="c-sidebar-nav-item">
                         <a class="c-sidebar-nav-link" href="{{URL::to('/informe-trabajo-imputado')}}">
                             <svg class="c-sidebar-nav-icon">
                                 <i class="far fa-file-pdf"></i>
-                            </svg>&nbsp;&nbsp;Informe 
+                            </svg>&nbsp;&nbsp;Informe de tareas<br>&nbsp;realizadas (horas)
+                        </a>
+                    </li>                    
+                    @endcan                   
+                    @can('informe_tareas_asignadas')
+                    <li class="c-sidebar-nav-item">
+                        <a class="c-sidebar-nav-link" href="{{URL::to('/informe-tareas-asignadas')}}">
+                            <svg class="c-sidebar-nav-icon">
+                                <i class="far fa-file-pdf"></i>
+                            </svg>&nbsp;&nbsp;Informe de tareas<br>&nbsp;asignadas
                         </a>
                     </li>
-                    @endcan                   
+                    @endcan
                 </ul>
             </li>
             @endcan

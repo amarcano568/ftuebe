@@ -12,11 +12,12 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <form id="form-imputar-trabajo" data-parsley-validate="">
+                <form id="form-tareas-asignadas" data-parsley-validate="" action="guardar-tareas-asignadas">
+                    @csrf
                     <div class="row">
                         <div class="col-sm-4">
                             <label for="id_alumno">Alumno</label>
-                            <select data-placeholder="Seleccione un alumno" name="id_alumno" id="id_alumno"
+                            <select required data-placeholder="Seleccione un alumno" name="id_alumno" id="id_alumno"
                                 class="form-control chosen-select">
                                 <option value=""></option>
                                 @foreach($alumnos as $alumno)
@@ -26,8 +27,8 @@
                             </select>
                         </div>
                         <div class="col-sm-8">
-                            <label for="trabajo_id">Tareas asignadas</label>
-                            <select data-placeholder="Seleccione trabajo a imputar" name="trabajo_id" id="trabajo_id"
+                            <label for="tareas_asignadas">Tareas asignadas</label>
+                            <select multiple data-placeholder="Seleccione las tareas" name="tareas_asignadas[]" id="tareas_asignadas"
                                 class="form-control chosen-select" required>
                                 <option value=""></option>
                                 @foreach($trabajos as $trabajo)

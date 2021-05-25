@@ -26,9 +26,12 @@
                             Tipo de habitación
                         </label>
                            <select name="tipo_hab" id="tipo_hab" class="form-control chosen-select">
-                               <option value="Individual">Individual</option>
-                               <option value="Doble">Doble</option>
-                               <option value="Cuadruple">Cuádruple</option>
+                               <option value="1">Habitación familiar</option>
+                               <option value="2">Habitación con cocina</option>
+                               <option value="3">Habitación sin cocina</option>
+                               <option value="4">Habitación complementaria sin cocina</option>
+                               <option value="5">Habitación Zona UEBE</option>
+                               <option value="6">Otras habitaciones</option>                               
                            </select>
                        </div>
                    </div>
