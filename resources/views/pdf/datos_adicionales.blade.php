@@ -72,3 +72,110 @@
           </div>
     </div>
 </div>
+{{-- Informe Ocupación de habitación entre fechas --}}
+<div class="row datos_adicionales" id="inf-ocupacion-hab-entre-fecha" style="display: none;">
+    <div class="col-sm-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="">Habitaciones</label>
+                        <select data-placeholder="Seleccione una habitación" name="num_hab_ocup_fechas" id="num_hab_ocup_fechas" class="form-control chosen-select">
+                            <option value=""></option>
+                            @foreach ($habitaciones as $habitacion)
+                                <option value="{{ $habitacion->num_habitacion }}">{{ $habitacion->num_habitacion }}</option>
+                            @endforeach
+                        </select>
+                    </div> 
+                    <div class="col-sm-3">
+                        <label for="">Desde</label>
+                        <input type="date" class="form-control" id="fec_desde_ocup_hah" name="fec_desde_ocup_hah">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="">Hasta</label>
+                        <input type="date" class="form-control" id="fec_hasta_ocup_hah" name="fec_hasta_ocup_hah">
+                    </div>                   
+                </div>
+            </div>
+          </div>
+    </div>
+</div>
+{{-- Informe de habitaciones desocupadas entre fechas --}}
+<div class="row datos_adicionales" id="inf-hab-desocupadas-entre-fechas" style="display: none;">
+    <div class="col-sm-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    {{-- <div class="col-sm-3">
+                        <label for="">Habitaciones</label>
+                        <select data-placeholder="Seleccione una habitación" name="num_hab_desocupadas_fechas" id="num_hab_desocupadas_fechas" class="form-control chosen-select">
+                            <option value=""></option>
+                            @foreach ($habitaciones as $habitacion)
+                                <option value="{{ $habitacion->num_habitacion }}">{{ $habitacion->num_habitacion }}</option>
+                            @endforeach
+                        </select>
+                    </div>  --}}
+                    <div class="col-sm-3">
+                        <label for="">Desde</label>
+                        <input type="date" class="form-control" id="fec_desde_desocupadas_hah" name="fec_desde_desocupadas_hah">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="">Hasta</label>
+                        <input type="date" class="form-control" id="fec_hasta_desocupadas_hah" name="fec_hasta_desocupadas_hah">
+                    </div>                   
+                </div>
+            </div>
+          </div>
+    </div>
+</div>
+{{-- Informe de habitaciones ocupadas entre fechas --}}
+<div class="row datos_adicionales" id="inf-hab-ocupadas-entre-fechas" style="display: none;">
+    <div class="col-sm-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    {{-- <div class="col-sm-3">
+                        <label for="">Habitaciones</label>
+                        <select data-placeholder="Seleccione una habitación" name="num_hab_desocupadas_fechas" id="num_hab_desocupadas_fechas" class="form-control chosen-select">
+                            <option value=""></option>
+                            @foreach ($habitaciones as $habitacion)
+                                <option value="{{ $habitacion->num_habitacion }}">{{ $habitacion->num_habitacion }}</option>
+                            @endforeach
+                        </select>
+                    </div>  --}}
+                    <div class="col-sm-3">
+                        <label for="">Desde</label>
+                        <input type="date" class="form-control" id="fec_desde_ocupadas_hah" name="fec_desde_ocupadas_hah">
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="">Hasta</label>
+                        <input type="date" class="form-control" id="fec_hasta_ocupadas_hah" name="fec_hasta_ocupadas_hah">
+                    </div>                   
+                </div>
+            </div>
+          </div>
+    </div>
+</div>
+{{-- Notificación de asignación de alojamiento --}}
+<div class="row datos_adicionales" id="not-asignacion-alojamiento" style="display: none;">
+    <div class="col-sm-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for=""># habitación</label>
+                        <input type="text" class="form-control" id="notifica_numero_hab" name="notifica_numero_hab" readonly>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="">Hasta</label>
+                        <input type="date" class="form-control" id="notifica_desde_hab" name="notifica_desde_hab" readonly>
+                    </div>                   
+                    <div class="col-sm-3">
+                        <label for="">Hasta</label>
+                        <input type="date" class="form-control" id="notifica_hasta_hab" name="notifica_hasta_hab" readonly>
+                    </div> 
+                </div>
+            </div>
+          </div>
+    </div>
+</div>

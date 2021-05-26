@@ -102,6 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/editar-mobiliario', 'ResidenciaController@editarMobiliario');
 	Route::post('/actualizar-mobiliarios', 'ResidenciaController@actualizarMobiliarios');
 	Route::post('eliminar-mobiliario', 'ResidenciaController@eliminarMobiliario');
+	Route::post('/verificar-alojamiento-alumno', 'ResidenciaController@verificarAlojamientoAlumno');
 		
 	/**	Usuarios */
 	// Route::group(['middleware' => ['permission:mantenimiento_usuarios']], function () {

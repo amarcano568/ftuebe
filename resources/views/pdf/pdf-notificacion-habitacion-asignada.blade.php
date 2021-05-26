@@ -15,11 +15,11 @@
         left: 0px; 
         top: -1em; 
         right: 0px; 
-        height: 3em;
+        height: 2em;
         text-align: center; }
 
         body {
-            margin-top: 8em;
+            margin-top: 6em;
         }
 
         .otraPagina {
@@ -48,11 +48,7 @@
                 <h4><strong>UNIÓN EVANGÉLICA BAUTISTA DE ESPAÑA</strong></h4>
                 <h5>“Capacitando para el ministerio cristiano desde 1922” (Ef. 4:12)</h5>
             </div>
-        </div>
-        <center>
-            <h4 style="margin-top: -0em;" class=" text-uppercase">Informe de mobiliario por habitación</h4>
-        </center>
-        <hr style="margin-top: -0.5em;">
+        </div>        
     </header>
     <footer>
         <div class="row">
@@ -71,35 +67,47 @@
     </footer>
     <main>       
         <div class="row">
-            <div class="col-sm-12">
-                @foreach ($habitaciones_mobiliarios as $item)                                       
-                       <div class="row">
-                            <div class="col-xs-3">
-                                    <h5># Habitación: <strong>{{ $item['numero'] }}</strong></h5>
-                            </div>
-                            <div class="col-xs-3">
-                                <h5>Tipo: <strong>{{ $item['tipo'] }}</strong></h5>
-                            </div>
-                            <div class="col-xs-3">
-                                <h5>Capacidad: <strong>{{ $item['capacidad'] }}</strong></h5>
-                            </div>
-                            <div class="col-xs-3">
-                                <h5>Piso: <strong>{{ $item['piso'] }}</strong></h5>
-                            </div>
-                       </div>
-                       <ul>
-                            @foreach ($item['mobiliarios'] as $row)
-                                <li>{{ $row['mobiliario'] }}</li>
-                            @endforeach   
-                        </ul>  
-                        <hr>                                                    
-                @endforeach
+            <div class="col-xs-12">
+                <h3 class="text-center">NOTIFICACIÓN</h3>
+             </div>
+             <br><br><br>
+             <div class="row">               
+                <div class="col-xs-1"></div>
+                <div class="col-xs-10">
+                    <hr>
+                    <p style="font-size: 18px;">
+                        <strong>{{ $alumno->strNombre }} {{ $alumno->strApellidos }}</strong>, es un gusto saludarte y aprovechamos la ocasión para notificarte que le ha sido asignado 
+                        alojamiento en la residencia de esta institución.
+                        <br><br>
+                        Número de habitacion: {{  $habitacion }}
+                        <br>
+                        Desde: {{ $del }}
+                        <br>
+                        Hasta: {{ $al }}
+                        <br>
+                    </p>
+                </div>            
             </div>
-
+            <br><br><br><br>
+            <div class="row">
+                <div class="col-xs-12 text-center" >
+                    Lo que hago constar a los efectos oportunos.
+                </div>   
+            </div>
+            <br><br>
+            <div class="row">
+                <div class="col-xs-12 text-center" >
+                    En Alcobendas (Madrid), a {{$fecha}}
+                </div>   
+            </div>
+            <br><br><br><br><br><br>
+            <div class="row">
+                <div class="col-xs-12 text-center" >
+                    <h5><strong>D. Julio Díaz Piñeiro</strong></h5>
+                    <h5>Rector de la FT - UEBE</h5>
+                </div>   
+            </div>
         </div>
-        
-
-        
     </main>
 </body>
 

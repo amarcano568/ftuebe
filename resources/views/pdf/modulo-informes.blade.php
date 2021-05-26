@@ -24,13 +24,13 @@
                                 <option value="cert-condicion-alumno">Certificado de condición de alumno</option>
                                 <option value="cert-condicion-alumno">Certificado de condición de alumno para renovación de visado o NIE </option>
                                 <option value="cert-de-empadronamiento">Certificado de empadronamiento</option>
-                                {{-- <option value="">Informe de habitaciones totales desocupadas entre fechas</option>
-                                <option value="">Informe de habitaciones totales ocupadas entre fechas</option>                                --}}
+                                <option value="inf-hab-desocupadas-entre-fechas">Informe de habitaciones totales desocupadas entre fechas</option>
+                                <option value="inf-hab-ocupadas-entre-fechas">Informe de habitaciones totales ocupadas entre fechas</option>         
                                 <option value="inf-mobiliario-habitacion">Informe de mobiliario por habitaciones</option>
                                 <option value="inf-mobiliario-total">Informe de mobiliario total</option>
-                                <option value="">Informe de ocupación de una habitación entre fechas</option>
-                                {{-- <option value="">Notificación de asignación de alojamiento</option>
-                                <option value="">Notificación de asignación de tarea de trabajo</option>
+                                <option value="inf-ocupacion-hab-entre-fecha">Informe de ocupación de una habitación entre fechas</option>
+                                <option value="not-asignacion-alojamiento">Notificación de asignación de alojamiento</option>
+                                {{-- <option value="">Notificación de asignación de tarea de trabajo</option>
                                 <option value="">Notificación de finalización de alojamiento</option>
                                 <option value="">Notificación de incumpliento de tarea asignada</option> --}}
                             </select>

@@ -183,4 +183,15 @@ class ResidenciaController extends Controller
         return response()->json(array('success' => true, 'message' => 'El mobiliario fue eliminado correctamente.', 'data' => '' , ''));
     }
 
+    public function verificarAlojamientoAlumno(Request $request){
+        $habitacion = Alumnos::select('num_habitacion','desde','hasta')
+                    ->join('hospedajes', 'hospedajes.uuid', 'alumnos.uuid_habitacion')
+                    ->find($request->id_alumno);
+        if($habitacion === null){
+            return response()->json(array('success' => false, 'message' => 'El alumno no tiene habitación asignada.', 'data' => ''));
+        }else{
+            return response()->json(array('success' => true, 'message' => 'Datos del hospedaje obtenido correctamente.', 'data' =>  $habitacion));
+        }
+    }
+
 }

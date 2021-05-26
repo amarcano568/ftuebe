@@ -134,6 +134,18 @@ class PdfsController extends Controller
             case "inf-mobiliario-total":
                 include_once "certificados/inf-mobiliario-total.php";
                 break; 
+            case "inf-ocupacion-hab-entre-fecha":
+                include_once "certificados/inf-ocupacion-hab-entre-fecha.php";
+                break; 
+            case "inf-hab-desocupadas-entre-fechas":
+                include_once "certificados/inf-hab-desocupadas-entre-fechas.php";
+                break;
+            case "inf-hab-ocupadas-entre-fechas":
+                include_once "certificados/inf-hab-ocupadas-entre-fechas.php";
+                break;
+            case "not-asignacion-alojamiento":
+                include_once "certificados/not-asignacion-alojamiento.php";
+                break;
         }
 
         if ($resul){

@@ -266,7 +266,7 @@ class AlumnosController extends Controller
         if ( is_null($request->uuid_habitacion) ){     
             $hospedaje  = new Hospedajes();
             $uuid = Uuid::generate();
-            $hospedaje->uuid = $uuid;
+            $hospedaje->uuid = $uuid;            
             $sw = true;
         }else{
             $hospedaje  = Hospedajes::where('uuid',$request->uuid_habitacion)->first(); 
@@ -274,12 +274,14 @@ class AlumnosController extends Controller
         }
 
 		$hospedaje->num_habitacion  = $request->numero_habitacion;
+        $hospedaje->id_alumno       = $request->id_habitacion_alumno;
         $hospedaje->desde           = $request->fecha_entrada;
         $hospedaje->hasta           = $request->fecha_salida;
         $hospedaje->observaciones   = $request->observaciones_entrega_hab;
         $hospedaje->fianza          = $request->entrego_fianza;
         $hospedaje->fianza_monto    = $request->monto_fianza;
         $hospedaje->fianza_fecha    = $request->fecha_entrega_fianza;
+        $hospedaje->check           = 'checkin';
         $hospedaje->save();
 
         if ($sw){

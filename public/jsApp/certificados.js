@@ -4,6 +4,13 @@ $(document).on("ready", function() {
     var pathnameArray = pathname.split("/public/");
     var archivoPdf = "";
     var inpcChange = false;
+    var arreglo = [
+            'inf-mobiliario-habitacion',
+            'inf-mobiliario-total',
+            'inf-ocupacion-hab-entre-fecha',
+            'inf-hab-desocupadas-entre-fechas',
+            'inf-hab-ocupadas-entre-fechas',
+        ];
 
     server = pathnameArray.length > 0 ? pathnameArray[0] + "/public/" : "";
     $(".chosen-select").chosen(ConfigChosen());
@@ -13,12 +20,12 @@ $(document).on("ready", function() {
         id_alumno = $("#id_alumno").val();
         tipo_certificado = $("#tipo_certificado").val();
 
-        if (id_alumno == "" && tipo_certificado != "inf-mobiliario-habitacion"){
+        if (id_alumno == "" && $.inArray(tipo_certificado, arreglo)<0){
             alertify.error('<i class="fa-2x far fa-meh"></i><br>Debe seleccionar un alumno');
             return false;
         }
         if (tipo_certificado == ""){
-            alertify.error('<i class="fa-2x far fa-meh"></i><br>Debe seleccionar un tipo de certificado');
+            alertify.error('<i class="fa-2x far fa-meh"></i><br>Debe seleccionar un tipo de certificado, informe o notificación');
             return false;
         }
      
@@ -49,7 +56,7 @@ $(document).on("ready", function() {
             })
             .fail(function(statusCode, errorThrown) {
                 $.unblockUI();
-                console.log(errorThrown);
+                console.log(statusCode);
                 ajaxError(statusCode, errorThrown);
             });
     });
@@ -88,13 +95,56 @@ $(document).on("ready", function() {
         tipo = $(this).val();
         $("#"+tipo).show();
         $("#filtro_alumno").show();
-        arreglo = [
-            'inf-mobiliario-habitacion',
-            'inf-mobiliario-total',
-        ];
         if ($.inArray(tipo, arreglo)>=0){
             $("#filtro_alumno").hide();
         }
+    });
+
+    $(document).on("change", "#id_alumno", function(event) {
+        event.preventDefault();
+        tipo = $("#tipo_certificado").val();
+        if ( tipo != 'not-asignacion-alojamiento' ){
+            return false;
+        }        
+        if ( $(this).val() == '' ){
+            return false;
+        }  
+        $(".datos_adicionales").hide();
+        $("#"+tipo).show();
+        $("#filtro_alumno").show();
+        $.ajax({
+            url: "verificar-alojamiento-alumno",
+            type: "post",
+            data: { 
+                id_alumno: $(this).val(),
+                _token: $('meta[name="csrf-token"]').attr('content'),
+             },
+            dataType: "json",
+            beforeSend: function() {
+                loadingUI("Verificar hospedaje alumno.");
+            }
+        })
+            .done(function(response) {
+                console.log(response);
+                $.unblockUI();               
+                if (response.success === true) {
+                    alertify.success(response.message);
+                    $("#notifica_numero_hab").val(response.data.num_habitacion);
+                    $("#notifica_desde_hab").val(response.data.desde);
+                    $("#notifica_hasta_hab ").val(response.data.hasta);
+                } else {
+                    alertify.error(response.message);
+                    $("#notifica_numero_hab").val('');
+                    $("#notifica_desde_hab").val('');
+                    $("#notifica_hasta_hab ").val('');
+                }    
+            })
+            .fail(function(statusCode, errorThrown) {
+                $.unblockUI();
+                console.log(errorThrown);
+                ajaxError(statusCode, errorThrown);
+            });
+
     });
 
     

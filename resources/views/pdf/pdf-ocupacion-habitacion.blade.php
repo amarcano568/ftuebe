@@ -9,8 +9,8 @@
             left: 0cm;
             right: 0cm;
             height: 2.5cm;
-        }   
-        
+        }
+
         header { position: fixed; 
         left: 0px; 
         top: -1em; 
@@ -19,8 +19,21 @@
         text-align: center; }
 
         body {
-            margin-top: 8em;
-        }     
+            margin-top: 10em;
+        }
+
+        .otraPagina {
+            page-break-before: always;
+        }
+
+        .otraPagina:last-child {
+            page-break-before: never;
+        }
+       
+        .page-number:before {
+        content: "Pág: " counter(page);
+        }
+        
     </style>
 </head>
 
@@ -37,9 +50,10 @@
             </div>
         </div>
         <center>
-            <h4 style="margin-top: -0em;" class=" text-uppercase">Informe de mobiliario por habitación</h4>
+            <h5 style="margin-top: -0em;" class=" text-uppercase">Informe de ocupación por habitación del {{ $del }} al {{ $al }}</h5>
         </center>
-        <hr style="margin-top: -0.5em;">
+        <hr style="margin-top: -0.5em;">  
+
     </header>
     <footer>
         <div class="row">
@@ -59,26 +73,22 @@
     <main>       
         <div class="row">
             <div class="col-sm-12">
- 
-                @foreach ($mobiliario_totales as $item) 
-                                     
+                @foreach ($hospedajes as $hospedaje)                                       
                        <div class="row">
-                            <div class="col-xs-8">
-                                <h5>* <strong>{{ $item['mobiliario'] }}</strong></h5>
+                            <div class="col-xs-1" style="margin-top: -0.5em;">
+                                <strong>{{ $hospedaje['num_habitacion'] }}</strong>
                             </div>
-                            <div class="col-xs-2">
-                                <h5>Total: <strong>{{ $item['total'] }}</strong></h5>
+                            <div class="col-xs-3" style="margin-top: -0.5em;">
+                                <strong>{{ $hospedaje['strNombre'] }} {{ $hospedaje['strApellidos'] }}</strong>
                             </div>
-                        </div>
-
+                            <div class="col-xs-5" style="margin-top: -0.5em;">
+                                <strong>del {{ Carbon\Carbon::parse($hospedaje['desde'])->format('d-m-Y') }} al {{ Carbon\Carbon::parse($hospedaje['hasta'])->format('d-m-Y') }}</strong>
+                            </div>                           
+                       </div>                   
+                        <hr style="margin-top: -0em;">                                                    
                 @endforeach
-
             </div>
-
         </div>
-        
-
-        
     </main>
 </body>
 
