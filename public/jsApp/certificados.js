@@ -47,6 +47,7 @@ $(document).on("ready", function() {
                     archivoPdf = response.data;
                     $("#ObjPdf").attr("src", response.data);   
                     alertify.success(response.message);
+                    deleteFile(response.data);
                 }else{
                     alertify.error(response.message);
                     $("#ObjPdf").attr("src", ''); 
@@ -106,6 +107,9 @@ $(document).on("ready", function() {
         if ( tipo != 'not-asignacion-alojamiento' ){
             return false;
         }        
+        if ( tipo != 'not-finalizacion-alojamiento' ){
+            return false;
+        } 
         if ( $(this).val() == '' ){
             return false;
         }  
