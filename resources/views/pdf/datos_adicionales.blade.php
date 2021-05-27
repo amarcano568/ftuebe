@@ -179,3 +179,73 @@
           </div>
     </div>
 </div>
+{{-- Notificación de finalización de alojamiento --}}
+<div class="row datos_adicionales" id="not-finalizacion-alojamiento" style="display: none;">
+    <div class="col-sm-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for=""># habitación</label>
+                        <input type="text" class="form-control" id="notifica_fin_numero_hab" name="notifica_fin_numero_hab" readonly>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="">Hasta</label>
+                        <input type="date" class="form-control" id="notifica_fin_desde_hab" name="notifica_fin_desde_hab" readonly>
+                    </div>                   
+                    <div class="col-sm-3">
+                        <label for="">Hasta</label>
+                        <input type="date" class="form-control" id="notifica_fin_hasta_hab" name="notifica_fin_hasta_hab" readonly>
+                    </div> 
+                </div>
+            </div>
+          </div>
+    </div>
+</div>
+{{-- Notificación de incumpliento de tareas --}}
+<div class="row datos_adicionales" id="not-incumpliento-tarea-asignada" style="display: none;">
+    <div class="col-sm-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="">Seleccione el mes</label>
+                        <select data-placeholder="Seleccione el mes" name="mes_filtro" id="mes_filtro"
+                            class="form-control chosen-select">
+                            <option value=""></option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="">Seleccione el año</label>
+                        <select data-placeholder="Seleccione el mes" name="ano_filtro" id="ano_filtro"
+                            class="form-control chosen-select">
+                            <option value=""></option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+          </div>
+    </div>
+</div>

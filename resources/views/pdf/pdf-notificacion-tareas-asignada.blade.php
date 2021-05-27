@@ -76,19 +76,23 @@
                 <div class="col-xs-10">
                     <hr>
                     <p style="font-size: 18px;">
-                        <strong>{{ $alumno->strNombre }} {{ $alumno->strApellidos }}</strong>, es un gusto saludarte y aprovechamos la ocasión para notificarte que le ha sido asignado 
-                        alojamiento en la residencia de esta institución.
+                        <strong>{{ $data[0]['nombre'] }}</strong>, es un gusto saludarte y aprovechamos la ocasión para notificarte que tiene asignadas las siguientes 
+                        tareas:
                         <br><br>
-                        Número de habitacion: {{  $habitacion }}
-                        <br>
-                        Desde: {{ $del }}
-                        <br>
-                        Hasta: {{ $al }}
-                        <br>
+                        @foreach ($data[0]['tarea'] as $item)
+                            * {{ $item['tarea'] }}<br>
+                        @endforeach
                     </p>
                 </div>            
             </div>
-            <br><br><br><br>
+            @php
+                if (count($data[0]['tarea']) >= 8){
+                    echo '<br>';
+                }else{
+                    echo '<br><br><br><br>';
+                }
+            @endphp
+            
             <div class="row">
                 <div class="col-xs-12 text-center" >
                     Sin más por el momento, me despido.
@@ -100,7 +104,7 @@
                     En Alcobendas (Madrid), a {{$fecha}}
                 </div>   
             </div>
-            <br><br><br><br><br><br>
+            <br><br><br><br>
             <div class="row">
                 <div class="col-xs-12 text-center" >
                     <h5><strong>D. Julio Díaz Piñeiro</strong></h5>

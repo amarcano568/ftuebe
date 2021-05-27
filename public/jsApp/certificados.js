@@ -19,6 +19,8 @@ $(document).on("ready", function() {
         event.preventDefault();
         id_alumno = $("#id_alumno").val();
         tipo_certificado = $("#tipo_certificado").val();
+        mes = $("#mes_filtro").val();
+        ano = $("#ano_filtro").val();
 
         if (id_alumno == "" && $.inArray(tipo_certificado, arreglo)<0){
             alertify.error('<i class="fa-2x far fa-meh"></i><br>Debe seleccionar un alumno');
@@ -26,6 +28,10 @@ $(document).on("ready", function() {
         }
         if (tipo_certificado == ""){
             alertify.error('<i class="fa-2x far fa-meh"></i><br>Debe seleccionar un tipo de certificado, informe o notificación');
+            return false;
+        }
+        if ( (tipo_certificado == "not-incumpliento-tarea-asignada" && mes == '') || (tipo_certificado == "not-incumpliento-tarea-asignada" && ano == '') ){
+            alertify.error('<i class="fa-2x far fa-meh"></i><br>Debe seleccionar el mes y año');
             return false;
         }
      

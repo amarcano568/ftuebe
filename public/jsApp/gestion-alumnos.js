@@ -326,7 +326,8 @@ $(document).on("ready", function() {
             datatype: "json",
             data: {
                 _token: $('meta[name="csrf-token"]').attr('content'),
-                uuid: uuid
+                uuid: uuid,
+                botones: false,
             },
             beforeSend: function() {
                 loadingUI("Obteniendo datos del grupo familiar.");

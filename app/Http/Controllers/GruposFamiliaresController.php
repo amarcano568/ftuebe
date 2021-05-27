@@ -35,9 +35,16 @@ class GruposFamiliaresController extends Controller
         return response()->json(array('success' => true, 'message' => 'Se genero el listado de grupos', 'data' => '<div class="row">'.$salida.'</div>', ''));
     }
 
-    public function drawGroupFamily($grupo,$col){
+    public function drawGroupFamily($grupo,$col,$botones = true){
         $padre = $this->padres($grupo->padre);
         $madre = $this->padres($grupo->madre);
+        $muestra_botones = '';
+        if ($botones === true){
+            $muestra_botones = '<div class="float-right">
+                                    <a href=""><i data-uuid="'.$grupo->uuid.'" data-toggle="tooltip" data-placement="top" title="Editar este grupo" class="editar-grupo-familiar text-success fa-2x far fa-edit"></i></a>
+                                    <a href=""><i data-uuid="'.$grupo->uuid.'" data-toggle="tooltip" data-placement="top" title="Eliminar este grupo" class="eliminar-grupo-familiar text-danger fa-2x far fa-trash-alt"></i></a>
+                                </div>';
+        }
         return '<div class="col-sm-'.$col.'">
             <div class="card">
                 <center>
@@ -58,10 +65,7 @@ class GruposFamiliaresController extends Controller
                         </tr>
                         '.$this->hijos($grupo->hijos).'
                     </table>
-                    <div class="float-right">
-                        <a href=""><i data-uuid="'.$grupo->uuid.'" data-toggle="tooltip" data-placement="top" title="Editar este grupo" class="editar-grupo-familiar text-success fa-2x far fa-edit"></i></a>
-                        <a href=""><i data-uuid="'.$grupo->uuid.'" data-toggle="tooltip" data-placement="top" title="Eliminar este grupo" class="eliminar-grupo-familiar text-danger fa-2x far fa-trash-alt"></i></a>
-                    </div>
+                    '.$muestra_botones.'
                 </div>
             </div>
         </div>';

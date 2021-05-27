@@ -30,9 +30,9 @@
                                 <option value="inf-mobiliario-total">Informe de mobiliario total</option>
                                 <option value="inf-ocupacion-hab-entre-fecha">Informe de ocupación de una habitación entre fechas</option>
                                 <option value="not-asignacion-alojamiento">Notificación de asignación de alojamiento</option>
-                                {{-- <option value="">Notificación de asignación de tarea de trabajo</option>
-                                <option value="">Notificación de finalización de alojamiento</option>
-                                <option value="">Notificación de incumpliento de tarea asignada</option> --}}
+                                <option value="not-asignacion-tarea">Notificación de asignación de tarea de trabajo</option>
+                                <option value="not-finalizacion-alojamiento">Notificación de finalización de alojamiento</option>
+                                <option value="not-incumpliento-tarea-asignada">Notificación de incumpliento de tarea asignada</option>
                             </select>
                         </div> 
                         <div class="col-sm-4" id="filtro_alumno">

@@ -28,7 +28,7 @@ class AlumnosController extends Controller
 			
         \Storage::disk('local')->put($nombre,  \File::get($file));
         
-        Alumnos::truncate();
+        //Alumnos::truncate();
         Alumnos_tmp::truncate();
         Excel::import(new AlumnosImport, $nombre);
 
@@ -74,11 +74,11 @@ class AlumnosController extends Controller
             $data['strProvinciaNacimiento'] = $alumno->strProvinciaNacimiento;
             $data['numIdProvinciaNacimiento'] = $alumno->numIdProvinciaNacimiento;
 
-            // $exists = Alumnos::firstOrCreate([
-            //     'numIdAlumno' => $alumno->numIdAlumno
-            // ], $data);
+            $exists = Alumnos::updateOrCreate([
+                'numIdAlumno' => $alumno->numIdAlumno
+            ], $data);
             
-            $exists = Alumnos::create($data);
+           // $exists = Alumnos::create($data);           
    
         }
 
@@ -128,11 +128,7 @@ class AlumnosController extends Controller
                 return $this->detalleAlumno($row);
             })
             ->addColumn('action', function ($row) {
-                $btn =  '<div class="icono-action">
-                                    <a href="" data-accion="imputar-trabajo" data-id-alumno="' . $row->numIdAlumno . '" >
-                                        <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Imputar trabajo a <strong>' . $row->strNombre . '</strong>." class="icono-action text-primary fas fa-tools">
-                                        </i>
-                                    </a>
+                $btn =  '<div class="icono-action">                                    
                                     <a href="" data-accion="asignar-habitacion" data-uuid-habitacion="'.$row->uuid_habitacion.'" data-id-alumno="'. $row->numIdAlumno .'" data-nombre="'. $row->strNombre .'">
                                         <i data-trigger="hover" data-html="true" data-toggle="popover" data-placement="top" data-content="Residencia del alumno (<strong>' . $row->strNombre . '</strong>)." class="text-info fas fa-hotel"></i>
                                     </a>
@@ -196,7 +192,6 @@ class AlumnosController extends Controller
                             <hr>
                             <a href="#" class="card-link btn btn-xs btn-outline-success">Ir al expediente académico</a>
                             <button data-uuid="'.$data->uuid_grupo_familiar.'" class="btn btn-xs btn-outline-primary ver-grupo-familiar">Ver grupo familiar</button>
-                            <button data-id-alumno="'.$data->numIdAlumno.'" class="imputar btn btn-xs btn-outline-info">Imputar trabajo realizado</button>
                         </div>
                     </div>';
         return $salida;
@@ -204,7 +199,7 @@ class AlumnosController extends Controller
 
     public function verGrupoFamiliarAlumno(Request $request){
         $grupo = GruposFamiliares::where('uuid',$request->uuid)->first();
-        $vista = app(GruposFamiliaresController::class)->drawGroupFamily($grupo,12);
+        $vista = app(GruposFamiliaresController::class)->drawGroupFamily($grupo,12,$request->botones);
         return response()->json(array('success' => true, 'message' => 'Grupo familiar obtenido correctamente', 'data' => $vista, ''));
     }
 

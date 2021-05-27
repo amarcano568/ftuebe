@@ -163,4 +163,5 @@ class PerfilController extends Controller
 
         return response()->json(array('success' => true, 'mensaje' => 'Data del tablero obtenida extisamente', 'data' => $data));
     }
+
 }

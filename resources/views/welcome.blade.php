@@ -98,7 +98,7 @@
         </div>
         <ul class="c-sidebar-nav">
             <li class="c-sidebar-nav-item">
-                <a class="c-sidebar-nav-link" href="/">
+                <a class="c-sidebar-nav-link" href="{{URL::to('/')}}">
                     <svg class="c-sidebar-nav-icon">
                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
                     </svg> Tablero
@@ -288,7 +288,7 @@
                 {{-- <svg width="118" height="46" alt="CoreUI Logo">
                     <use xlink:href="assets/brand/coreui.svg#full"></use>
                 </svg></a> --}}
-                <img src="{{ asset('img/logo.png') }}" alt="" width="118" height="46">
+                <img src="{{ asset('img/logo_horizontal.png') }}" alt="" width="118" height="46">
             </a>
             <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar"
                 data-class="c-sidebar-lg-show" responsive="true">

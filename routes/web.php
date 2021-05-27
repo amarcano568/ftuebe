@@ -129,6 +129,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('revocar-permiso', 'MantenimientoRolesController@revocarPermiso');
 	Route::get('dar-permiso-a', 'MantenimientoRolesController@darPermisoA');
 	Route::post('nuevo-role', 'MantenimientoRolesController@nuevoRole');
+
 	
+	Route::get('delete-file-pdf', 'PdfsController@deleteFilePdf');
 
 });

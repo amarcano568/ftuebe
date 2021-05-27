@@ -146,6 +146,15 @@ class PdfsController extends Controller
             case "not-asignacion-alojamiento":
                 include_once "certificados/not-asignacion-alojamiento.php";
                 break;
+            case "not-asignacion-tarea":
+                include_once "certificados/not-asignacion-tarea.php";
+                break;
+            case "not-finalizacion-alojamiento":
+                include_once "certificados/not-finalizacion-alojamiento.php";
+                break;
+            case "not-incumpliento-tarea-asignada":
+                include_once "certificados/not-incumpliento-tarea-asignada.php";
+                break;
         }
 
         if ($resul){
@@ -218,6 +227,14 @@ class PdfsController extends Controller
 
         return $tipos[$tipo];
 
+    }
+
+    
+    public function deleteFilePdf(Request $request){
+        if (\unlink($request->fileDelete)){
+            return response()->json(array('success' => true, 'mensaje' => 'El fichero pdf fue borrado con exito.', 'data' => ''));
+        }
+        return response()->json(array('success' => false, 'mensaje' => 'El fichero pdf no pudo ser borrado.', 'data' => ''));
     }
 
 }

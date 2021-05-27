@@ -76,15 +76,11 @@
                 <div class="col-xs-10">
                     <hr>
                     <p style="font-size: 18px;">
-                        <strong>{{ $alumno->strNombre }} {{ $alumno->strApellidos }}</strong>, es un gusto saludarte y aprovechamos la ocasión para notificarte que le ha sido asignado 
-                        alojamiento en la residencia de esta institución.
-                        <br><br>
-                        Número de habitacion: {{  $habitacion }}
-                        <br>
-                        Desde: {{ $del }}
-                        <br>
-                        Hasta: {{ $al }}
-                        <br>
+                        <strong>{{ $alumno->strNombre }} {{ $alumno->strApellidos }}</strong>, es un gusto saludarte y aprovechamos la ocasión para notificarte que
+                        en fecha {{ $mes }} del {{ $ano }} no realizo las siguientes tareas asignadas:<br><br>
+                        @foreach ($tareas_no_realizadas as $tarea)
+                            * {{ $tarea['tarea'] }}<br>
+                        @endforeach
                     </p>
                 </div>            
             </div>
