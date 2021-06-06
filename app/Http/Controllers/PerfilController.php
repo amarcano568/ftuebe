@@ -7,6 +7,8 @@ use \App\Paises;
 use Illuminate\Support\Facades\Auth;
 use \App\Usuario;
 use \App\Pensiones;
+use \App\Actualizaciones;
+
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -158,10 +160,22 @@ class PerfilController extends Controller
 
         );
 
-
-
-
         return response()->json(array('success' => true, 'mensaje' => 'Data del tablero obtenida extisamente', 'data' => $data));
     }
+
+
+    public function getActualizacion(){
+        $data = Actualizaciones::get();
+        foreach($data as $item){
+            if ($item->id == 1){
+                $alumnos = $item->updated_at;
+            }
+            if ($item->id == 2){
+                $fichas = $item->updated_at;
+            }
+        }
+        return response()->json(array('success' => true, 'mensaje' => 'Datos de las ultimas actualizaciones', 'data' => Carbon::parse($alumnos)->isoFormat('dddd D \d\e MMMM \d\e\l Y'), 'dataAux' => Carbon::parse($fichas)->isoFormat('dddd D \d\e MMMM \d\e\l Y')));
+    }
+    
 
 }

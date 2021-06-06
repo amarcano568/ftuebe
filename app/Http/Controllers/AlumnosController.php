@@ -12,11 +12,15 @@ use \DataTables;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Imports\AlumnosImport;
+use App\Imports\FichasImport;
 use App\Trabajos_realizados;
 use App\Trabajos;
 use App\Habitaciones;
 use App\Hospedajes;
 use Webpatser\Uuid\Uuid;
+use App\Fichas_alumnos_tmp;
+use App\Fichas_alumnos;
+use App\Actualizaciones;
 
 class AlumnosController extends Controller
 {
@@ -82,6 +86,10 @@ class AlumnosController extends Controller
    
         }
 
+        $actualizacion = Actualizaciones::find(1);
+        $actualizacion->tabla = 'Alumnos';
+        $actualizacion->save();
+
 
     }
 
@@ -96,6 +104,57 @@ class AlumnosController extends Controller
         }
 
         return response()->json(array('success' => false, 'message' => '<i class="far fa-sad-tear"></i> Hubo un problema intentando borrar el fichero.', 'data' => '', ''));
+    }
+
+    public function subirFicheroFichasAlumnos(Request $request)
+    {
+      
+        $file   = $request->file('file');
+        $nombre = $file->getClientOriginalName();
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        Fichas_alumnos_tmp::truncate();
+        Excel::import(new FichasImport, $nombre);
+
+        $count = 0;
+        $data = [];
+        
+        $fichas = Fichas_alumnos_tmp::get();
+        foreach ($fichas as $ficha) {
+            $data = [];
+            $data['numIdFichaAlumno'] = $ficha->numIdFichaAlumno;
+            $data['strResumenInforme'] = $ficha->strResumenInforme;
+            $data['fecFecha'] = $ficha->fecFecha;
+            $data['memComentarios'] = $ficha->memComentarios;
+            $data['numNota'] = $ficha->numNota;
+            $data['numIdCursoAcademico'] = $ficha->numIdCursoAcademico;
+            $data['numIdConvocatoria'] = $ficha->numIdConvocatoria;
+            $data['blnDefinitivo'] = $ficha->blnDefinitivo;
+            $data['numIdAlumno'] = $ficha->numIdAlumno;
+            $data['numIdCalificacion'] = $ficha->numIdCalificacion;
+            $data['numIdClase'] = $ficha->numIdClase;
+            $data['numIdGrupo'] = $ficha->numIdGrupo;
+            $data['blnVisibleConnect'] = $ficha->blnVisibleConnect;
+            $data['blnNoMostrarNumericoConnect'] = $ficha->blnNoMostrarNumericoConnect;
+            $data['numIdAsignatura'] = $ficha->numIdAsignatura;
+            $data['blnBoletinPublicadoConnect'] = $ficha->blnBoletinPublicadoConnect;
+            $data['numIdCliente'] = $ficha->numIdCliente;
+            $data['numEstadoComunicacion'] = $ficha->numEstadoComunicacion;
+            $data['numIdPersonal'] = $ficha->numIdPersonal;
+            $data['fecCambioEstadoComunicacion'] = $ficha->fecCambioEstadoComunicacion;
+            $data['strEstadoComunicacion'] = $ficha->strEstadoComunicacion;
+            $data['blnFirmada'] = $ficha->blnFirmada;
+            $data['fecFirma'] = $ficha->fecFirma;
+            
+            $exists = Fichas_alumnos::updateOrCreate([
+                'numIdFichaAlumno' => $ficha->numIdFichaAlumno
+            ], $data);            
+        }
+
+        $actualizacion = Actualizaciones::find(2);
+        $actualizacion->tabla = 'Fichas_alumnos';
+        $actualizacion->save();
+
+
     }
 
     
@@ -190,7 +249,7 @@ class AlumnosController extends Controller
                                 </div>
                             </div>
                             <hr>
-                            <a href="#" class="card-link btn btn-xs btn-outline-success">Ir al expediente académico</a>
+                            <a href="#" data-tipo-estudio="'.$data->numIdTipoAlumno.'" data-id-alumno="'.$data->numIdAlumno.'" class="expediente-academico card-link btn btn-xs btn-outline-success">Ir al expediente académico</a>
                             <button data-uuid="'.$data->uuid_grupo_familiar.'" class="btn btn-xs btn-outline-primary ver-grupo-familiar">Ver grupo familiar</button>
                         </div>
                     </div>';

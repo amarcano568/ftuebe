@@ -15,7 +15,7 @@
     <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
     <meta name="author" content="Ing. Alexander Marcano A.">
     <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
-    <title>.:: Sistema de Gestión | Pensión a la medida ::.</title>
+    <title>.:: Sistema de Gestión | Ftuebe ::.</title>
     <link rel="apple-touch-icon" sizes="57x57" href="assets/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="assets/favicon/apple-icon-72x72.png">
@@ -122,7 +122,7 @@
                 <div>
                   <h2>Importante!</h2>
                   <p>Sistema de Control para la gestión de la Faculta <strong>Ftuebe</strong>, para tener acceso al sistema debe poseer una cuenta de usuario.</p>
-                  <img src="img/logo.png" alt="" class="img-responsive" style="width: 100%">
+                  <img src="img/logo_vertical.png" alt="" class="img-responsive" style="width: 100%">
                 </div>
               </div>
             </div>

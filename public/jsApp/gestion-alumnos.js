@@ -344,6 +344,22 @@ $(document).on("ready", function() {
             });
     });
 
+    $(document).on("click", ".expediente-academico", function(event) {
+        event.preventDefault();
+        tipo_estudio = $(this).data('tipo-estudio');
+        idAlumno = $(this).data('id-alumno');
+       alert(tipo_estudio)
+        switch (tipo_estudio) {
+            case 8: //'grado_oficial'
+                location.href = "expediente-academico/grado_oficial/" + idAlumno;
+                break;
+            case 20: //'titulo_propio'
+                location.href = "expediente-academico/titulo_propio/" + idAlumno;
+                break;
+          
+        }
+    });
+
     $(".close").click(function(){
         $("#modal-grupo-familiar").modal({
             backdrop: 'static',

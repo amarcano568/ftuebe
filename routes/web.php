@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('home');
 	});
 	Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+	Route::post('get-actualizacion', 'PerfilController@getActualizacion');
 
 	/** Perfil de Usuario */
 	Route::get('ver-perfil', 'PerfilController@verPerfil');
@@ -39,6 +40,9 @@ Route::group(['middleware' => 'auth'], function () {
 	/**	Importar nuevos alumnos */
 	Route::post('subir-fichero-nuevos-alumnos', 'AlumnosController@subirFicheroNuevosAlumnos');
 	Route::post('delete-fichero-importar-alumno', 'AlumnosController@deleteFicheroImportarAlumno');
+
+	/** Importar Fichas de los alumnos */
+	Route::post('subir-fichero-fichas-alumnos', 'AlumnosController@subirFicheroFichasAlumnos');
 
 	
 	/**	Alumnos */	
@@ -69,6 +73,11 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('informe-tareas-asignadas', 'AlumnosController@informeTareasAsignadas')->name('informe-tareas-asignadas.informeTareasAsignadas');
 	});	
 	Route::post('/ver-pdf-tareas-asignadas', 'PdfsController@verPdfTareasAsignadas');
+
+	/**	
+	 * Expediente academico
+	 */
+	Route::get('expediente-academico/{estudio}/{idAlumno}', 'ExpedienteAcademicoController@expedienteAcademico');
 
 	/**	
 	 *  Módulo de informes

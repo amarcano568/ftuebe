@@ -8,7 +8,7 @@
     <meta name="description" content="Sistema de Gestión de Pensiones">
     <meta name="author" content="Alexander Marcano A">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>.:: Sistema de Gestión | Pensión a la medida ::.</title>
+    <title>.:: Sistema de Gestión | Ftuebe ::.</title>
     <link rel="apple-touch-icon" sizes="57x57" href="assets/favicon/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="assets/favicon/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="assets/favicon/apple-icon-72x72.png">
@@ -114,7 +114,7 @@
                     </a>
                 </li>
             @endcan
-            @can('gestionar_clientes')
+            {{-- @can('gestionar_clientes')
                 <li class="c-sidebar-nav-item">
                     <a class="c-sidebar-nav-link" href="{{URL::to('/gestion-clientes')}}">
                         <svg class="c-sidebar-nav-icon">
@@ -122,7 +122,7 @@
                         </svg> Expediente académico
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
             @can('gestionar_clientes')
                 <li class="c-sidebar-nav-item">
                     <a class="c-sidebar-nav-link" href="{{URL::to('/gestion-residencia')}}">

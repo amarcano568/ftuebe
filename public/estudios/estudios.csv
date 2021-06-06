@@ -1,0 +1,111 @@
+id;estudio;curso;idAsig;materia;class;credito
+2;grado_oficial;1;GRD01;Antiguo Testamento I;Old Testament I;6
+3;grado_oficial;1;GRD02;Antiguo Testamento II;Old Testament II;6
+4;grado_oficial;1;GRD04;Nuevo Testamento I;New Testament I;6
+5;grado_oficial;1;GRD05;Nuevo Testamento II;New Testament II ;6
+6;grado_oficial;1;GRD07;Hermenéutica;Hermeneutics;4
+7;grado_oficial;1;GRD09;Griego I;New Testament Greek I;8
+8;grado_oficial;1;GRD17;Historia de la Iglesia I;Church History I;6
+9;grado_oficial;1;GRD35;Homilética I;Homiletics I;4
+10;grado_oficial;1;GRD36;Homilética II;Homiletics II;4
+11;grado_oficial;1;GRD39;Discipulado;Discipleship;4
+12;grado_oficial;1;GRD40;Evangelización;Evangelism;4
+13;grado_oficial;1;GRD45;Metodología de la Investigación;Research and Investigation;2
+14;grado_oficial;2;GRD03;Antiguo Testamento III;Old Testament III ;6
+15;grado_oficial;2;GRD06;Nuevo Testamento III;New Testament III;6
+16;grado_oficial;2;GRD10;Griego II;New Testament Greek II;4
+17;grado_oficial;2;GRD12;Hebreo I;Hebrew I;4
+18;grado_oficial;2;GRD12b;Hebreo II;Hebrew II;2
+19;grado_oficial;2;GRD18;Historia de la Iglesia II;Church History II;6
+20;grado_oficial;2;GRD20;Historia de la Filosofía ;Philosophy ;8
+21;grado_oficial;2;GRD25;Ética I;Ethics I;4
+22;grado_oficial;2;GRD28;Teología Sistemática I;Systematic Theology I;6
+23;grado_oficial;2;GRD32;Historia de las Religiones;History of Religions ;6
+24;grado_oficial;2;GRD37;Filosofía de la Educación;Philosophy of Education I;4
+25;grado_oficial;2;GRD43;Culto Cristiano;Christian Worship;4
+26;grado_oficial;3;GRD13;Exégesis de A.T. I  - Profetas;Old Testament Exegesis I - Prophets;4
+27;grado_oficial;3;GRD16;Exégesis de N.T. II - Romanos;New Testament Exegesis II – Romans;4
+28;grado_oficial;3;GRD23;Historia de los Bautistas I;Baptist History I;4
+29;grado_oficial;3;GRD24;Historia de los Bautistas II - UEBE;Baptist History II, UEBE (Span. Bapt. Union);2
+30;grado_oficial;3;GRD26;Ética II;Ethics II;4
+31;grado_oficial;3;GRD29;Teología Sistemática II;Systematic Theology II;6
+32;grado_oficial;3;GRD29a;Teología Sistemática III;Systematic Theology III;4
+33;grado_oficial;3;GRD33;Misionología;Missiology;4
+34;grado_oficial;3;GRD38;Educación Infantil;Childhood Education;4
+35;grado_oficial;3;GRD44;Principios de Iglecrecimiento Integral;Principles of Church Growth;4
+36;grado_oficial;3;GRD48;Consejería Pastoral I;Pastoral Counseling I;4
+37;grado_oficial;3;GRD49;Consejería Pastoral II;Pastoral Counseling II;4
+38;grado_oficial;3;GRD50;Métodos Exegéticos;Exegetical Methods;4
+39;grado_oficial;3;GRD53;Educación de Jóvenes;Youth Ministry;2
+40;grado_oficial;3;GRD56;Prácticas Externas I;Ministry Practicum 1;4
+41;grado_oficial;3;GRD60a;Música y Canto Coral;Music and Choral Singing ;2
+42;grado_oficial;4;GRD08;Parábolas de Jesús;Parables of Jesus;4
+43;grado_oficial;4;GRD14;Exégesis de A.T. II - Salmos;Old Testament Exegesis II – Psalms;4
+44;grado_oficial;4;GRD15;Exégesis de  N. T. I - Lucas;New Testament Exegesis I – Luke;4
+45;grado_oficial;4;GRD22;Historia de la Reforma en España;History of the Reformation in Spain;4
+46;grado_oficial;4;GRD31;Teología Contemporánea;Contemporary Theology;4
+47;grado_oficial;4;GRD41;Sociología;Sociology;4
+48;grado_oficial;4;GRD42;Nuevos Movimientos Religiosos;New Religious Movements;4
+49;grado_oficial;4;GRD46;Ministerio Pastoral I;Pastoral Ministry I;4
+50;grado_oficial;4;GRD47;Ministerio Pastoral II;Pastoral Ministry II;4
+51;grado_oficial;4;GRD52;Educación de Adultos;Ministry with Adults;2
+52;grado_oficial;4;GRD54;Teología de Antiguo Testamento;Old Testament Theology;4
+53;grado_oficial;4;GRD55;Teología de Nuevo Testamento;New Testament Theology;4
+54;grado_oficial;4;GRD56a;Prácticas Externas II;Ministry Practicum 2;4
+55;grado_oficial;4;GRD58;Trabajo Fin de Grado;Final Project work;8
+56;grado_oficial;4;GRD62;Teología de la Reforma;Reformation Theology;2
+57;titulo_propio;1;Lic01;Antiguo Testamento I;Old Testament I;6
+58;titulo_propio;1;Lic02;Antiguo Testamento II;Old Testament II;6
+59;titulo_propio;1;Lic53;Educación de Jóvenes;Youth Ministry;2
+60;titulo_propio;1;Lic37;Filosofía de la Educación;Philosophy of Education I;4
+61;titulo_propio;1;Lic09;Griego I - II;New Testament Greek I-II;8
+62;titulo_propio;1;Lic07;Hermenéutica;Hermeneutics;4
+63;titulo_propio;1;Lic20;Historia de la Filosofía I;Philosophy I;4
+64;titulo_propio;1;Lic21;Historia de la Filosofía II;Philosophy I-II;4
+65;titulo_propio;1;Lic17;Historia de la Iglesia I;Church History I;6
+66;titulo_propio;1;Lic18;Historia de la Iglesia II;Church History II;6
+67;titulo_propio;1;Lic24;Historia de los Bautistas II - UEBE;Baptist History II, UEBE (Span. Bapt. Union);2
+68;titulo_propio;1;Lic45;Ciencias de la Investigación;Research and Investigation;2
+69;titulo_propio;1;Lic04;Nuevo Testamento I;New Testament I;6
+70;titulo_propio;1;Lic05;Nuevo Testamento II;New Testament II ;4
+71;titulo_propio;1;Lic56a;Prácticas Externas;Ministry Practicum;4
+72;titulo_propio;2;Lic03;Antiguo Testamento III;Old Testament III ;6
+73;titulo_propio;2;Lic38;Educación Infantil;Childhood Education;4
+74;titulo_propio;2;Lic25;Ética I;Ethics I;4
+75;titulo_propio;2;Lic13;Exégesis de A.T. I  - Profetas;Old Testament Exegesis I - Prophets;4
+76;titulo_propio;2;Lic10;Griego III;New Testament Greek III;4
+77;titulo_propio;2;Lic32;Religiones Comparadas;History of Religions ;6
+78;titulo_propio;2;Lic35;Homilética I;Homiletics I;4
+79;titulo_propio;2;Lic36;Homilética II;Homiletics II;4
+80;titulo_propio;2;Lic50;Métodos Exegéticos;Exegetical Methods;4
+81;titulo_propio;2;Lic06;Nuevo Testamento III;New Testament III;4
+82;titulo_propio;2;Lic42;Sectas;New Religious Movements;4
+83;titulo_propio;2;Lic44;Principios de Iglecrecimiento Integral;Principles of Church Growth;4
+84;titulo_propio;2;Lic56b;Prácticas Externas;Ministry Practicum;4
+85;titulo_propio;2;Lic28;Teología Sistemática I;Systematic Theology I;8
+86;titulo_propio;2;Lic29;Teología Sistemática II;Systematic Theology II;8
+87;titulo_propio;3;Lic43;Culto Cristiano;Christian Worship;4
+88;titulo_propio;3;Lic39;Discipulado;Discipleship;4
+89;titulo_propio;3;Lic26;Ética II;Ethics II;4
+90;titulo_propio;3;Lic40;Evangelización;Evangelism;4
+91;titulo_propio;3;Lic15;Exégesis de  N. T. I - Lucas;New Testament Exegesis I – Luke;4
+92;titulo_propio;3;Lic14;Exégesis de A.T. II - Salmos;Old Testament Exegesis II – Psalms;4
+93;titulo_propio;3;Lic12;Hebreo I;Hebrew I;4
+94;titulo_propio;3;Lic22;Historia de la Reforma en España;History of the Reformation in Spain;4
+95;titulo_propio;3;Lic46;Ministerio Pastoral I;Pastoral Ministry I;4
+96;titulo_propio;3;Lic47;Ministerio Pastoral II;Pastoral Ministry II;4
+97;titulo_propio;3;Lic33;Misionología;Missiology;4
+98;titulo_propio;3;Lic08;Parábolas de Jesús;Parables of Jesus;4
+99;titulo_propio;3;Lic56;Prácticas Externas I;Ministry Practicum 1;4
+100;titulo_propio;3;Lic41;Sociología;Sociology;4
+101;titulo_propio;3;Lic31;Teología Contemporánea;Contemporary Theology;4
+102;titulo_propio;3;Lic54;Teología de Antiguo Testamento;Old Testament Theology;4
+103;titulo_propio;3;Lic55;Teología de Nuevo Testamento;New Testament Theology;4
+104;titulo_propio;4;Lic48;Consejería Pastoral I;Pastoral Counseling I;4
+105;titulo_propio;4;Lic49;Consejería Pastoral II;Pastoral Counseling II;4
+106;titulo_propio;4;Lic16;Exégesis de N.T. II - Romanos;New Testament Exegesis II – Romans;4
+107;titulo_propio;4;Lic52;Educación de Adultos;Ministry with Adults;2
+108;titulo_propio;4;Lic23;Historia de los Bautistas I;Baptist History I;4
+109;titulo_propio;4;Lic56a;Prácticas Externas II;Ministry Practicum 2;4
+110;titulo_propio;4;Lic60a;Música y Canto Coral;Music and Choral Singing ;2
+111;titulo_propio;4;Lic58;Trabajo Fin de Grado;Final Project work;8

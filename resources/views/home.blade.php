@@ -9,8 +9,9 @@
                         <div
                             class="card-body card-body pb-0 d-flex justify-content-between align-items-start">
                             <div>
-                                <div class="text-value-lg" id="pensionesHoy">0</div>
-                                <div>Estudiantes</div>
+                                <div class="text-value-lg" id="pensionesHoy">Alumnos</div>
+                                <div>Ultima vez que se actualizo</div>
+                                <span id="actualizacion-alumnos"></span>
                             </div>
                         </div>
                         <div style="height:70px;"  id="pensionesHoyFecha">
@@ -30,8 +31,8 @@
                         <div
                             class="card-body card-body pb-0 d-flex justify-content-between align-items-start">
                             <div>
-                                <div class="text-value-lg" id="pensionesMesActual">0</div>
-                                <div>Grupos familiares</div>
+                                <div class="text-value-lg" id="pensionesMesActual">Grupos familiares</div>
+                                <div>Ultima vez que se creo un grupo </div>
                             </div>
                         </div>
                         <div style="height:70px;"  id="pensionesMesActualFecha">
@@ -67,14 +68,15 @@
                         <div
                             class="card-body card-body pb-0 d-flex justify-content-between align-items-start">
                             <div>
-                                <div class="text-value-lg" id="pensionesAnoActual">0</div>
-                                <div>Expedientes académicos</div>
+                                <div class="text-value-lg" id="pensionesAnoActual">Fichas alumnos</div>
+                                <div>Ultima vez que se actualizo</div>
+                                <span id="actualizacion-fichas"></span>
                             </div>
                         </div>
                         <div style="height:70px;"  id="pensionesAnoActualFecha">
                             
                         </div>
-                        <button class="btn btn-primary btn-sm"><i class="far fa-file-alt"></i>&nbsp;Ir a los expedientes</button>
+                        <button id="btn-importar-fichas-alumnos" class="btn btn-primary btn-sm"><i class="far fa-file-excel"></i>&nbsp;Importar fichas alumnos</button>
                     </div>
                 </div>
                 <!-- /.col-->
@@ -142,6 +144,7 @@
         </div>
     </div>
     @include('modal-importar-alumnos')
+    @include('modal-importar-fichas-alumnos')
 </main>
 
 @endsection
