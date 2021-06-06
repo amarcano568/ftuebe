@@ -22,7 +22,6 @@ function getActualizacion(){
         });
 }
 
-
 $(document).on("click", "#btn-importar-nuevos-alumnos", function(event) {
     event.preventDefault();
     $("#modal-importar-alumnos").modal("show");

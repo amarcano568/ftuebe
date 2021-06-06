@@ -348,13 +348,12 @@ $(document).on("ready", function() {
         event.preventDefault();
         tipo_estudio = $(this).data('tipo-estudio');
         idAlumno = $(this).data('id-alumno');
-       alert(tipo_estudio)
         switch (tipo_estudio) {
             case 8: //'grado_oficial'
-                location.href = "expediente-academico/grado_oficial/" + idAlumno;
+                location.href = "expediente-academico/grado_oficial/" + idAlumno+"/es/";
                 break;
             case 20: //'titulo_propio'
-                location.href = "expediente-academico/titulo_propio/" + idAlumno;
+                location.href = "expediente-academico/titulo_propio/" + idAlumno+"/es/";
                 break;
           
         }
