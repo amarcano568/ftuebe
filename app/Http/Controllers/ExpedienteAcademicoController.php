@@ -111,6 +111,11 @@ class ExpedienteAcademicoController extends Controller
         $mp_c2 = $this->media_ponderada($mp_creditos_c2,$mp_notas_c2);
         $mp_c3 = $this->media_ponderada($mp_creditos_c3,$mp_notas_c3);
         $mp_c4 = $this->media_ponderada($mp_creditos_c4,$mp_notas_c4);
+
+        $nameFilePdf = uniqid('pdf_').'.pdf';
+        $rutaFile = base_path() . '/public/pdf/' . $nameFilePdf;
+        $ruta = 'pdf/' . $nameFilePdf;   
+
         $data = [
             'alumno' => $alumno,
             'curso1' => $curso1,
@@ -123,9 +128,46 @@ class ExpedienteAcademicoController extends Controller
             'mp_c4' => $mp_c4,
             'estudio' => $request->estudio,
             'idAlumno' => $request->idAlumno,
-            'language' => $request->language
+            'language' => $request->language,
+            'pdf' => $nameFilePdf,
+            'title' => $this->title($request->language,$alumno,$request->estudio),
         ];
+                
+        \PDF::loadView('pdf.pdf-expediente-academico', $data)->setPaper('A4', 'portrait')->save($rutaFile);     
         return view('expediente-academico.gestion',$data);
+    }
+
+    public function title($lenguage,$alumno,$estudio){
+        switch ($estudio) {
+            case 'grado_oficial':
+                $estudio = '';
+                break;
+            case 'master_grado_oficial':
+                $estudio = '';
+                break;
+            case 'titulo_propio':
+                $estudio = '';
+                break;
+            case 'master_titulo_propio':
+                $estudio = '';
+                break;
+            }
+
+        if ($lenguage == 'es'){
+            $parrafo1 = 'Raquel Molina Becerra, secretaria académica de la Facultad Protestante de Teología UEBE, con títulos reconocidos a efectos civiles por el Real Decreto 1633/2011 de 14 de noviembre (BOE nº 276 de 16 de noviembre de 2011) e inscrita en el Registro Universitario de Centros y Títulos (RUCT) con el nº 28053204.';
+            $parrafo2 = 'Que '.$alumno->strNombre.' '.$alumno->strApellidos.', con documento de identidad '.$alumno->documento.' '.$alumno->strNif.', ha cursado las asignaturas que conforman el programa de  Grado en Teología (título inscrito en el RUCT con el nº 9000003) que a continuación se detallan:';
+            $parrafo3 = '1 crédito ECTS corresponde a 25 horas teóricas y prácticas - Sistema de calificación usado: 9-10 Sobresaliente, 7-8 Notable, 5-6 aprobado';
+        }else{
+            $parrafo1 = 'Raquel Molina Becerra, academic secretary of the Protestant Faculty of Theology of the UEBE, officially recognized by Royal Decree 1633/2011 of 14 November (BOE no. 276 of 16 November 2011) and registered in the Registrar of Universities, Schools and Degrees (RUCT) under number 28053204,';
+            $parrafo2 = 'That'.$alumno->strNombre.' '.$alumno->strApellidos.', ID '.$alumno->documento.' '.$alumno->strNif.' , has completed the courses that make up the program _____________________________ (title registered in the RUCT under number 9000003), as is detailed below:';
+            $parrafo3 = '1 ECTS credit corresponds to 25 hours of theory and practical work. Grading System used: 9-10 = excellent; 7-8 = good; 5-6 = passing ';
+        }
+
+        return [
+            'parrafo1' => $parrafo1,
+            'parrafo2' => $parrafo2,
+            'parrafo3' => $parrafo3,
+        ];
     }
 
     public function media_ponderada($creditos,$notas){  
@@ -140,6 +182,9 @@ class ExpedienteAcademicoController extends Controller
             $soma_p += $p;
         }
         //a media
+        if ($soma_vp == 0 or $soma_p == 0){
+            return 0;
+        }
         return $soma_vp / $soma_p;
     }
 
@@ -225,5 +270,7 @@ class ExpedienteAcademicoController extends Controller
         }
        
     }
+
+   
 
 }

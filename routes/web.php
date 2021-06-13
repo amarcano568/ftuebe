@@ -79,6 +79,7 @@ Route::group(['middleware' => 'auth'], function () {
 	 */
 	Route::get('expediente-academico/{estudio}/{idAlumno}/{language}', 'ExpedienteAcademicoController@expedienteAcademico');
 
+
 	/**	
 	 *  Módulo de informes
 	 */

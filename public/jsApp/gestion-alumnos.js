@@ -352,10 +352,15 @@ $(document).on("ready", function() {
             case 8: //'grado_oficial'
                 location.href = "expediente-academico/grado_oficial/" + idAlumno+"/es/";
                 break;
+            case 9: //'master_grado_oficial'
+                location.href = "expediente-academico/master_grado_oficial/" + idAlumno+"/es/";
+                break;
             case 20: //'titulo_propio'
                 location.href = "expediente-academico/titulo_propio/" + idAlumno+"/es/";
                 break;
-          
+            case 13: //'master_titulo_propio'
+                location.href = "expediente-academico/titulo_propio/" + idAlumno+"/es/";
+                break;          
         }
     });
 
