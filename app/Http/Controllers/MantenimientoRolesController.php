@@ -26,10 +26,14 @@ class MantenimientoRolesController extends Controller
         $role = \Spatie\Permission\Models\Role::find($request->idRole);
 
         $permisosAsignados = $role->getPermissionNames();
+        $asignadosPermisos = [];
+        foreach ($permisosAsignados as $permiso) {
+            $id = \Spatie\Permission\Models\Permission::select('idOrden')->where('name', $permiso)->first();
+            array_push($asignadosPermisos,[ 'id' => $id->idOrden, 'permiso' => $permiso]);            
+        }
+        $asignadosPermisos =  collect($asignadosPermisos)->sortBy('id');
 
-        $permisosDisponibles = \Spatie\Permission\Models\Permission::whereNotIn('name', $permisosAsignados)->get();
-
-
+        $permisosDisponibles = \Spatie\Permission\Models\Permission::whereNotIn('name', $permisosAsignados)->orderby('idOrden')->get();
         $liDispoibles = '';
         foreach ($permisosDisponibles as $disponibles) {
             $liDispoibles .= '<li class="permisoDisponible ui-state-default draggable-item" permission="' . $disponibles->name . '">' . $disponibles->icono . ' ' . $disponibles->nombre . '</li>';
@@ -39,8 +43,8 @@ class MantenimientoRolesController extends Controller
         }
 
         $liAsignados = '';
-        foreach ($permisosAsignados as $asignados) {
-            $permisosNombre = \Spatie\Permission\Models\Permission::where('name', $asignados)->first();
+        foreach ($asignadosPermisos as $asignados) {
+            $permisosNombre = \Spatie\Permission\Models\Permission::where('name', $asignados['permiso'])->first();
             $liAsignados .= '<li class="permisoAsignado ui-state-default draggable-item" permission="' . $permisosNombre->name . '">' . $permisosNombre->icono . ' ' . $permisosNombre->nombre . '</li>';
         }
         if ($liAsignados == '') {

@@ -105,7 +105,7 @@
                 </a>
             </li>
             <li class="c-sidebar-nav-title">Opciones del Sistema</li>
-            @can('gestionar_pension')
+            @can('gestionar-estudiantes')
                 <li class="c-sidebar-nav-item">
                     <a class="c-sidebar-nav-link" href="{{URL::to('/gestionar-estudiantes')}}">
                         <svg class="c-sidebar-nav-icon">
@@ -114,16 +114,7 @@
                     </a>
                 </li>
             @endcan
-            {{-- @can('gestionar_clientes')
-                <li class="c-sidebar-nav-item">
-                    <a class="c-sidebar-nav-link" href="{{URL::to('/gestion-clientes')}}">
-                        <svg class="c-sidebar-nav-icon">
-                            <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-contact') }}"></use>
-                        </svg> Expediente académico
-                    </a>
-                </li>
-            @endcan --}}
-            @can('gestionar_clientes')
+            @can('gestionar-residencia')
                 <li class="c-sidebar-nav-item">
                     <a class="c-sidebar-nav-link" href="{{URL::to('/gestion-residencia')}}">
                         <svg class="c-sidebar-nav-icon">
@@ -150,6 +141,35 @@
                     </a>
                 </li>
             @endcan
+            @can('indicadores-tasas-sigc')
+            <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
+                <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
+                    <svg class="c-sidebar-nav-icon">
+                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#indicadores-tasas') }}"></use>
+                    </svg> Indicadores-Tasas SIGC
+                </a>
+                <ul class="c-sidebar-nav-dropdown-items">
+                    @can('indicadores-tasas')
+                        <li class="c-sidebar-nav-item">
+                            <a class="c-sidebar-nav-link" href="{{URL::to('/indicadores-tasas')}}">
+                                <svg class="c-sidebar-nav-icon">
+                                    <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-user') }}"></use>
+                                </svg> Tasas SIGC
+                            </a>
+                        </li>
+                    @endcan                               
+                    @can('tasas-indicadores-graficos')
+                        <li class="c-sidebar-nav-item">
+                            <a class="c-sidebar-nav-link" href="{{URL::to('/gestion-usuarios')}}">
+                                <svg class="c-sidebar-nav-icon">
+                                    <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-bar-chart') }}"></use>
+                                </svg> Gráficos
+                            </a>
+                        </li>
+                    @endcan  
+                </ul>
+            </li>
+            @endcan 
             @can('menu_trabajo_imputar')
             <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
@@ -196,45 +216,7 @@
                     @endcan
                 </ul>
             </li>
-            @endcan
-            {{-- @can('menu_informes')
-            <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
-                <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-                    <svg class="c-sidebar-nav-icon">
-                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-print') }}"></use>
-                    </svg> Informes
-                </a>
-                <ul class="c-sidebar-nav-dropdown-items">
-                    @can('informe1')
-                    <li class="c-sidebar-nav-item">
-                        <a class="c-sidebar-nav-link" href="#">
-                            <svg class="c-sidebar-nav-icon">
-                                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/brand.svg#cib-adobe-acrobat-reader') }}"></use>
-                            </svg> Informe 1
-                        </a>
-                    </li>
-                    @endcan
-                    @can('informe2')
-                    <li class="c-sidebar-nav-item">
-                        <a class="c-sidebar-nav-link" href="#">
-                            <svg class="c-sidebar-nav-icon">
-                                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/brand.svg#cib-adobe-acrobat-reader') }}"></use>
-                            </svg> Informe 2
-                        </a>
-                    </li>
-                    @endcan
-                    @can('informe3')
-                    <li class="c-sidebar-nav-item">
-                        <a class="c-sidebar-nav-link" href="#">
-                            <svg class="c-sidebar-nav-icon">
-                                <use xlink:href="{{ asset('vendors/@coreui/icons/svg/brand.svg#cib-adobe-acrobat-reader') }}"></use>
-                            </svg> Informe 3
-                        </a>
-                    </li>
-                    @endcan
-                </ul>
-            </li>
-            @endcan --}}
+            @endcan         
             @can('menu_configuracion')
                 <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a
                         class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
@@ -256,7 +238,7 @@
                                 <a class="c-sidebar-nav-link" href="{{URL::to('/informacion-empresa')}}">
                                     <svg class="c-sidebar-nav-icon">
                                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-building') }}"></use>
-                                    </svg> Información de Empresa
+                                    </svg> Información de la facultad
                                 </a>
                             </li>
                         @endcan

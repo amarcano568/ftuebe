@@ -46,8 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 	
 	/**	Alumnos */	
-	Route::group(['middleware' => ['permission:gestion_alumnos']], function () {
-		Route::get('gestionar-estudiantes', 'AlumnosController@gestionarEstudiantes')->name('gestion-estudiantes.gestionarEstudiantes');
+	Route::group(['middleware' => ['permission:gestionar-estudiantes']], function () {
+		Route::get('gestionar-estudiantes', 'AlumnosController@gestionarEstudiantes')->name('gestionar-estudiantes.gestionarEstudiantes');
 	});
 	Route::post('/listar-estudiantes', 'AlumnosController@listarEstudiantes');
 	Route::post('/ver-grupo-familiar-alumno', 'AlumnosController@verGrupoFamiliarAlumno');
@@ -89,7 +89,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/certificados-pdf', 'PdfsController@certificadosPdf');	
 
 	/**	Grupos familiares */
-	Route::group(['middleware' => ['permission:gestion_grupos_familiares']], function () {
+	Route::group(['middleware' => ['permission:grupos_familiares']], function () {
 		Route::get('gestionar-grupos-familiares', 'GruposFamiliaresController@gestionarGrupoFamiliar')->name('gestion-grupos-familiares.gestionarGrupoFamiliar');
 	});
 	Route::post('/listar-grupos-familiares', 'GruposFamiliaresController@listarGruposFamiliares');
@@ -100,7 +100,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/guardar-grupo-familiar', 'GruposFamiliaresController@guardarGrupoFamiliar');
 
 	/**	Residencia */
-	Route::group(['middleware' => ['permission:gestion_residencia']], function () {
+	Route::group(['middleware' => ['permission:gestionar-residencia']], function () {
 		Route::get('gestion-residencia', 'ResidenciaController@gestionResidencia')->name('gestion-residencia.gestionResidencia');
 	});
 	Route::post('/listar-habitaciones', 'ResidenciaController@listarHabitaciones');
@@ -113,6 +113,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('/actualizar-mobiliarios', 'ResidenciaController@actualizarMobiliarios');
 	Route::post('eliminar-mobiliario', 'ResidenciaController@eliminarMobiliario');
 	Route::post('/verificar-alojamiento-alumno', 'ResidenciaController@verificarAlojamientoAlumno');
+
+	/** Tasas indicadores */
+	Route::group(['middleware' => ['permission:tasas-indicadores']], function () {
+		Route::get('indicadores-tasas', 'TasasIndicadoresController@indicadoresTasas')->name('indicadores-tasas.indicadoresTasas');
+	});
+	Route::post('ver-indicadores-tasas', 'TasasIndicadoresController@veIndicadoresTasas');
+	Route::post('imprimir-pdf-indicadores-resumen', 'TasasIndicadoresController@imprimirPdfIndicadoresResumen');
 		
 	/**	Usuarios */
 	// Route::group(['middleware' => ['permission:mantenimiento_usuarios']], function () {
