@@ -120,6 +120,14 @@ Route::group(['middleware' => 'auth'], function () {
 	});
 	Route::post('ver-indicadores-tasas', 'TasasIndicadoresController@veIndicadoresTasas');
 	Route::post('imprimir-pdf-indicadores-resumen', 'TasasIndicadoresController@imprimirPdfIndicadoresResumen');
+
+	/** Grado de Satisfacción */
+	Route::group(['middleware' => ['permission:grado-sastifaccion']], function () {
+		Route::get('grado-sastifaccion', 'TasasIndicadoresController@gradoSatisfaccion')->name('grado-sastifaccion.gradoSatisfaccion');
+	});
+
+	Route::post('subir-fichero-grado-satisfaccion', 'TasasIndicadoresController@subirFicheroGradoSatisfaccion');
+	//Route::post('delete-fichero-importar-alumno', 'AlumnosController@deleteFicheroImportarAlumno');
 		
 	/**	Usuarios */
 	// Route::group(['middleware' => ['permission:mantenimiento_usuarios']], function () {

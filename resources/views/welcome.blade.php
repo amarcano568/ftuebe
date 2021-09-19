@@ -145,7 +145,7 @@
             <li class="c-sidebar-nav-item c-sidebar-nav-dropdown">
                 <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
                     <svg class="c-sidebar-nav-icon">
-                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#indicadores-tasas') }}"></use>
+                        <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-star') }}"></use>
                     </svg> Indicadores-Tasas SIGC
                 </a>
                 <ul class="c-sidebar-nav-dropdown-items">
@@ -157,16 +157,16 @@
                                 </svg> Tasas SIGC
                             </a>
                         </li>
-                    @endcan                               
-                    @can('tasas-indicadores-graficos')
+                    @endcan 
+                    @can('grado-sastifaccion')
                         <li class="c-sidebar-nav-item">
-                            <a class="c-sidebar-nav-link" href="{{URL::to('/gestion-usuarios')}}">
+                            <a class="c-sidebar-nav-link" href="{{URL::to('/grado-sastifaccion')}}">
                                 <svg class="c-sidebar-nav-icon">
-                                    <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-bar-chart') }}"></use>
-                                </svg> Gráficos
+                                    <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-sign-language') }}"></use>
+                                </svg> Grado de sastifacción
                             </a>
                         </li>
-                    @endcan  
+                    @endcan                                                  
                 </ul>
             </li>
             @endcan 
