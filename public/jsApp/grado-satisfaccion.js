@@ -43,6 +43,7 @@ $(document).on("ready", function() {
         tipo_estudio = $("#tipo_estudio").val();
         profesores = $("#profesores").val();
         asignaturas = $("#asignaturas").val();
+        personal = $("#personal").val();
         Dropzone.autoDiscover = false;
         Dropzone.prototype.defaultOptions.dictRemoveFile = "Borrar archivo..";
         $("#formDropZone").html("");
@@ -67,7 +68,8 @@ $(document).on("ready", function() {
                 periodo: periodo,
                 tipo_estudio: tipo_estudio,
                 profesores: profesores,
-                asignaturas: asignaturas
+                asignaturas: asignaturas,
+                personal: personal
             },                                       
             success: function(file, response) {
                 console.log(response);
@@ -80,7 +82,7 @@ $(document).on("ready", function() {
                 link.click();
                 document.body.removeChild(link);
 
-                deleteFile(response);
+                //deleteFile(response);
             },
             error: function(file, response) {
                 return false;
@@ -94,5 +96,15 @@ $(document).on("ready", function() {
                 Dropzone.instances.forEach(bz => bz.destroy());           
         });
     }
+
+    $(document).on("change", "#grupo", function (event) {
+        $(".tipos-grupos").hide();
+        tipo = $(this).val();
+        if (tipo == "profesorado"){
+            $("#div-profesorado").show();
+        }else if(tipo == 'pas'){
+            $("#div-personal").show();
+        }
+    });
     
 });

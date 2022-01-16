@@ -12,7 +12,7 @@
         </div>
         <div class="card">
             <div class="card-body">
-                    <a href="" id="download">download</a>
+                    <a href="" id="download" style="display: none">download</a>
                     <div class="row">
                         <div class="col-sm-3">
                             <label for="">Grupo a procesar</label>
@@ -21,6 +21,8 @@
                                 <option value=""></option>
                                 <option value="profesorado">Profesorado</option>
                                 <option value="alumnado">Alumnado</option>
+                                <option value="pas">PAS</option>
+                                <option value="otros">Otros</option>
                             </select>
                         </div>
                         <div class="col-sm-3">
@@ -52,21 +54,33 @@
                         </div>                        
                     </div>
                     <br>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label for="profesores">Profesores</label>
-                            <input type="number" class="form-control" id="profesores" name="profesores" required>
+                    
+                        <div class="tipos-grupos" id="div-profesorado" style="display: none">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label for="profesores">Profesores</label>
+                                    <input type="number" class="form-control" id="profesores" name="profesores">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="asignaturas">Asignaturas</label>
+                                    <input type="number" class="form-control" id="asignaturas" name="asignaturas">              
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-sm-3">
-                            <label for="asignaturas">Asignaturas</label>
-                            <input type="number" class="form-control" id="asignaturas" name="asignaturas" required>              
+                        <div class="tipos-grupos" id="div-personal" style="display: none">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label for="personal">Personal</label>
+                                    <input type="number" class="form-control" id="personal" name="personal">
+                                </div>     
+                            </div>                     
                         </div>
-                        <div class="col-sm-3">
+                        <br>
+                        <center>
                             <button class="btn btn-success btn-lg" id="btn-cargar-fichero">
                                 <i class="fas fa-cloud-upload-alt"></i>&nbsp;&nbsp;Cargar fichero csv
                             </button>
-                        </div>
-                    </div>
+                        </center>
                     <br>
                     <div class="row">
                         <div class="col-sm-3"></div>
