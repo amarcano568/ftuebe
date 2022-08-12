@@ -1,0 +1,75 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Matriculas extends Model
+{
+    protected $table = 'matriculas'; 
+    protected $primaryKey = 'numIdMatricula';
+
+    protected $fillable = [
+            'numIdMatricula',
+            'numIdSerie',                      
+            'numIdAlumno',                      
+            'strAlumnoMatricula',
+            'numIdCliente',               
+            'strClienteMatricula',
+            'numTipoRecibo',             
+            'fecFechaMatricula',
+            'blnEmagister',
+            'fecFechaFin',
+            'numTipoTarifaEstudios',
+            'numIdPersonal',
+            'numIdCursoAcademico',
+            'strCodigoExpediente',
+            'numIdTipoMatricula',
+            'numIdPlanVencimiento',
+            'fecPrimerVencimiento',
+            'numImporteTotalGlobal',
+            'strNomenclaturaRecibo',
+            'blnTarjeta',           
+            'blnFinalizada',
+            'blnAnulada',
+            'numCobrado',
+            'blnLiquidada',
+            'numImporteMatricula',
+            'bolPagadoMatricula',
+            'bolDomiciliacionBancaria',
+            'numImporteDescuento',
+            'numPorcentajeDescuento',
+            'numPendiente',
+            'numImporteGruposGlobal',
+            'strConceptoDescuentoGlobal',
+            'blnDescuentoGlobalConPorcentaje',
+            'numPorcentajeDescuentoGlobal',
+            'numImporteDescuentoGlobal',
+            'numIdDescuentoGlobal',
+            'strConceptoRecargoGlobal',
+            'blnRecargoGlobalConPorcentaje',
+            'numPorcentajeRecargoGlobal',
+            'numImporteRecargoGlobal',
+            'numIdRecargoGlobal',
+            'numPeriodicidadLiquidacion',
+            'blnPresencial',
+            'blnSeguroEscolar',
+            'numTotalAdeudos',
+            'blnExcluirFicheroAsnef',
+            'numImporteIVAGlobal',
+            'numImporteRetencionGlobal',
+            'blnVariosAdeudos',
+            'numImporteBaseGlobal',
+            'numIdUsuario',
+            'strMaquina',
+            'blnEnviadoMail',
+            'numImporteBaseMatricula',
+            'blnFundae',
+            'numIdMatriculaFundae',
+            'numOrdenInscripcion',
+            'blnExcluirAlumnoFicheroAsnef',
+            'blnCobrosOnline',
+            'blnSuperadoFundae',
+            'strComentarios',           
+    ];
+}

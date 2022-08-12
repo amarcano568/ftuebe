@@ -82,9 +82,9 @@
 <body class="c-app">
     <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
         <div class="c-sidebar-brand d-lg-down-none" style="background-color: #EBEDEF!important;">
-            <!-- <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
-        <use xlink:href="assets/brand/coreui.svg#full"></use>
-      </svg> -->
+            {{-- <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
+                <use xlink:href="assets/brand/coreui.svg#full"></use>
+            </svg> --}}
       @php
          $logo = \App\Empresa::select('logo')->first(); 
       @endphp
@@ -146,7 +146,7 @@
                 <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
                     <svg class="c-sidebar-nav-icon">
                         <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-star') }}"></use>
-                    </svg> Indicadores-Tasas SIGC
+                    </svg> Indicadores-Sastifacción
                 </a>
                 <ul class="c-sidebar-nav-dropdown-items">
                     @can('indicadores-tasas')
@@ -166,7 +166,16 @@
                                 </svg> Grado de sastifacción
                             </a>
                         </li>
-                    @endcan                                                  
+                    @endcan    
+                    @can('informe-final')
+                        <li class="c-sidebar-nav-item">
+                            <a class="c-sidebar-nav-link" href="{{URL::to('/informe-final')}}">
+                                <svg class="c-sidebar-nav-icon">
+                                    <use xlink:href="{{ asset('vendors/@coreui/icons/svg/free.svg#cil-print') }}"></use>
+                                </svg> Informe final
+                            </a>
+                        </li>
+                    @endcan                                               
                 </ul>
             </li>
             @endcan 

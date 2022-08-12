@@ -348,19 +348,26 @@ $(document).on("ready", function() {
         event.preventDefault();
         tipo_estudio = $(this).data('tipo-estudio');
         idAlumno = $(this).data('id-alumno');
+        alertify.set('notifier','position', 'top-center');        
         switch (tipo_estudio) {
             case 8: //'grado_oficial'
+                alertify.success('Espere lo estamos redirigiendo al expediente de este alumno.');
                 location.href = "expediente-academico/grado_oficial/" + idAlumno+"/es/";
                 break;
             case 9: //'master_grado_oficial'
+                alertify.success('Espere lo estamos redirigiendo al expediente de este alumno.');
                 location.href = "expediente-academico/master_grado_oficial/" + idAlumno+"/es/";
                 break;
             case 12: //'titulo_propio'
+                alertify.success('Espere lo estamos redirigiendo al expediente de este alumno.');
                 location.href = "expediente-academico/titulo_propio/" + idAlumno+"/es/";
                 break;
             case 13: //'master_titulo_propio'
+                alertify.success('Espere lo estamos redirigiendo al expediente de este alumno.');
                 location.href = "expediente-academico/titulo_propio/" + idAlumno+"/es/";
-                break;          
+                break;
+            default:
+                alertify.alert('<strong class="text-danger">Precaución</strong>', 'El tipo de estudio de este alumno es '+tipo_estudio+' y no esta configurado en este sistemas.</br></br><hr><span class="text-primary">Los tipos de estudios permitidos son:</span><br>8 => Grado oficial.<br>9 => Master grado oficial.<br>12 => Título propio.<br>13 => Master título propio.', function(){  });          
         }
     });
 

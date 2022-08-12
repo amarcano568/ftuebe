@@ -33,6 +33,7 @@ $(document).on("ready", function() {
         }
        
         iconoDropZone = '<br><br><i class="text-success fa-4x far fa-file-excel"></i><br><h6>Click para cargar fichero csv.</h6>';
+        $("#formDropZone").show();
         configuraDropZone(iconoDropZone);
 
     });
@@ -43,7 +44,20 @@ $(document).on("ready", function() {
         tipo_estudio = $("#tipo_estudio").val();
         profesores = $("#profesores").val();
         asignaturas = $("#asignaturas").val();
+        empleadores = $("#empleadores").val();
+        ExAlumnos = $("#ExAlumnos").val();
+
         personal = $("#personal").val();
+        grado_1 = $("#grado_1").val();
+        grado_2 = $("#grado_2").val();
+        grado_3 = $("#grado_3").val();
+        grado_4 = $("#grado_4").val();
+
+        grado_1_alumno_cruso = $("#grado_1_alumno_cruso").val();
+        grado_2_alumno_curso = $("#grado_2_alumno_curso").val();
+        grado_3_alumno_curso = $("#grado_3_alumno_curso").val();
+        grado_4_alumno_curso = $("#grado_4_alumno_curso").val();
+
         Dropzone.autoDiscover = false;
         Dropzone.prototype.defaultOptions.dictRemoveFile = "Borrar archivo..";
         $("#formDropZone").html("");
@@ -69,7 +83,17 @@ $(document).on("ready", function() {
                 tipo_estudio: tipo_estudio,
                 profesores: profesores,
                 asignaturas: asignaturas,
-                personal: personal
+                personal: personal,
+                empleadores: empleadores,
+                ExAlumnos: ExAlumnos,
+                grado_1: grado_1,
+                grado_2: grado_2,
+                grado_3: grado_3,
+                grado_4: grado_4,
+                grado_1_alumno_cruso: grado_1_alumno_cruso,
+                grado_2_alumno_curso: grado_2_alumno_curso,
+                grado_3_alumno_curso: grado_3_alumno_curso,
+                grado_4_alumno_curso: grado_4_alumno_curso,
             },                                       
             success: function(file, response) {
                 console.log(response);
@@ -81,7 +105,7 @@ $(document).on("ready", function() {
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-
+                $("#formDropZone").hide();
                 //deleteFile(response);
             },
             error: function(file, response) {
@@ -98,12 +122,29 @@ $(document).on("ready", function() {
     }
 
     $(document).on("change", "#grupo", function (event) {
+        $('#tipo_estudio').prop('required',true);
         $(".tipos-grupos").hide();
         tipo = $(this).val();
         if (tipo == "profesorado"){
             $("#div-profesorado").show();
         }else if(tipo == 'pas'){
             $("#div-personal").show();
+        }else if(tipo == 'alumnado'){
+            $("#div-alumnos").show();
+        }else if(tipo == 'empleadores'){
+            $("#div-empleadores").show();
+            $('#tipo_estudio').prop('required',false);
+        }else if(tipo == 'egresados'){
+            $("#div-egresados").show();
+        }
+    });
+
+    $(document).on("change", "#tipo_estudio", function (event) {        
+        tipo = $(this).val();
+        if (tipo == "grado-oficial"){
+            $(".grado-view").show();
+        }else{
+            $(".grado-view").hide();
         }
     });
     

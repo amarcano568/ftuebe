@@ -13,6 +13,9 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Imports\AlumnosImport;
 use App\Imports\FichasImport;
+use App\Imports\GruposImport;
+use App\Imports\MatriculasImport;
+use App\Imports\MatriculasGruposImport;
 use App\Trabajos_realizados;
 use App\Trabajos;
 use App\Habitaciones;
@@ -21,6 +24,12 @@ use Webpatser\Uuid\Uuid;
 use App\Fichas_alumnos_tmp;
 use App\Fichas_alumnos;
 use App\Actualizaciones;
+use App\Grupos_tmp;
+use App\Grupos;
+use App\Matriculas_grupos;
+use App\Matriculas_grupos_tmp;
+use App\Matriculas;
+use App\Matriculas_tmp;
 
 class AlumnosController extends Controller
 {
@@ -108,7 +117,6 @@ class AlumnosController extends Controller
 
     public function subirFicheroFichasAlumnos(Request $request)
     {
-      
         $file   = $request->file('file');
         $nombre = $file->getClientOriginalName();
         \Storage::disk('local')->put($nombre,  \File::get($file));
@@ -157,6 +165,253 @@ class AlumnosController extends Controller
 
     }
 
+    public function subirFicheroGrupos(Request $request)
+    {
+        $file   = $request->file('file');
+        $nombre = $file->getClientOriginalName();
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        Grupos_tmp::truncate();
+        Excel::import(new GruposImport, $nombre);
+
+        $count = 0;
+        $data = [];
+        
+        $grupos = Grupos_tmp::get();
+        foreach ($grupos as $grupo) {
+            $data = [];           
+            $data['numIdGrupo'] = $grupo->numIdGrupo;
+            $data['strCodigoExpediente'] = $grupo->strCodigoExpediente; 
+            $data['strNombreGrupo'] = $grupo->strNombreGrupo;
+            $data['bolDefinitivo'] = $grupo->bolDefinitivo; 
+            $data['bolFinalizado'] = $grupo->bolFinalizado;
+            $data['fecFechaInicio'] = $grupo->fecFechaInicio;
+            $data['fecFechaFinalizacion'] = $grupo->fecFechaFinalizacion;
+            $data['id_curso'] = $grupo->id_curso; 
+            $data['id_convocatoria'] = $grupo->id_convocatoria;
+            $data['bolIndefinido'] = $grupo->bolIndefinido;
+            $data['numMinimoAlumnos'] = $grupo->numMinimoAlumnos;
+            $data['numMaximoAlumnos'] = $grupo->numMaximoAlumnos;
+            $data['blnSimplificado'] = $grupo->blnSimplificado;
+            $data['blnRentable'] = $grupo->blnRentable;
+            $data['numAccionformativa'] = $grupo->numAccionformativa;
+            $data['numAlumnos'] = $grupo->numAlumnos;
+            $data['numDiferencia'] = $grupo->numDiferencia;
+            $data['numGrupoForcem'] = $grupo->numGrupoForcem;
+            $data['numPorcentaje'] = $grupo->numPorcentaje;
+            $data['strModalidadForcem'] = $grupo->strModalidadForcem;
+            $data['strTituloModulo'] = $grupo->strTituloModulo;
+            $data['numIdTipoGrupo'] = $grupo->numIdTipoGrupo;
+            $data['blnEmagister'] = $grupo->blnEmagister;
+            $data['numIdCursoAcademico'] = $grupo->numIdCursoAcademico;
+            $data['numColor'] = $grupo->numColor;
+            $data['numIdIva'] = $grupo->numIdIva;
+            $data['numIdIdiomaMerit'] = $grupo->numIdIdiomaMerit;
+            $data['blnServicio'] = $grupo->blnServicio;
+            $data['numIdNivelMerit'] = $grupo->numIdNivelMerit;
+            $data['numIdProfesorEncargado'] = $grupo->numIdProfesorEncargado;
+            $data['numModeloBoletin'] = $grupo->numModeloBoletin;
+            $data['numTotalHoras'] = $grupo->numTotalHoras;
+            $data['numIdPersonal'] = $grupo->numIdPersonal;
+            $data['numIdTipoGrupo2'] = $grupo->numIdTipoGrupo2;
+            $data['blnDistanciaJornadaLaboral'] = $grupo->blnDistanciaJornadaLaboral;
+            $data['strRepresentanteLegal'] = $grupo->strRepresentanteLegal;
+            $data['strNifRepresentanteLegal'] = $grupo->strNifRepresentanteLegal;
+            $data['numTipoNifRepresentanteLegal'] = $grupo->numTipoNifRepresentanteLegal;
+            $data['strEstado'] = $grupo->strEstado;
+            $data['numPrecioGrupo'] = $grupo->numPrecioGrupo;
+            $data['numPrecioPeriodicoGrupo'] = $grupo->numPrecioPeriodicoGrupo;
+            $data['numPrecioHoraGrupo'] = $grupo->numPrecioHoraGrupo;
+            $data['numIdRetencion'] = $grupo->numIdRetencion;
+            $data['strCuentaBeneficios'] = $grupo->strCuentaBeneficios;
+            $data['strNombreCuentaBeneficios'] = $grupo->strNombreCuentaBeneficios;
+            $data['numCursoMoodle'] = $grupo->numCursoMoodle;
+            $data['numGrupoMoodle'] = $grupo->numGrupoMoodle;
+            $data['blnGrupoMoodleEliminado'] = $grupo->blnGrupoMoodleEliminado;
+            $data['strNombreCortoCursoMoodle'] = $grupo->strNombreCortoCursoMoodle;
+            $data['blnPublicarEnMoodle'] = $grupo->blnPublicarEnMoodle;
+            $data['strNombreGrupoMoodle'] = $grupo->strNombreGrupoMoodle;
+            $data['numIdCategoriaMoodle'] = $grupo->numIdCategoriaMoodle;
+            $data['strUrl'] = $grupo->strUrl;
+            $data['memComentarios'] = $grupo->memComentarios;
+
+            $exists = Grupos::updateOrCreate([
+                'numIdGrupo' => $grupo->numIdGrupo
+            ], $data);            
+        }
+
+        $actualizacion = Actualizaciones::find(3);
+        $actualizacion->tabla = 'Grupos';
+        $actualizacion->save();
+
+    }
+
+    public function subirFicheroMatriculasGrupos(Request $request)
+    {
+        $file   = $request->file('file');
+        $nombre = $file->getClientOriginalName();
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        Matriculas_grupos_tmp::truncate();
+        Excel::import(new MatriculasGruposImport, $nombre);
+
+        $count = 0;
+        $data = [];
+        
+        $grupos = Matriculas_grupos_tmp::get();
+        foreach ($grupos as $grupo) {
+            $data = [];           
+            
+            $data['numIdMatriculaGrupo']                        = $grupo->numIdMatriculaGrupo;
+            $data['blnFinalizada']                              = $grupo->blnFinalizada;
+            $data['bolDefinitiva']                              = $grupo->bolDefinitiva;
+            $data['fecFechaInicio']                             = $grupo->fecFechaInicio;
+            $data['fecBajaDefinitiva']                          = $grupo->fecBajaDefinitiva;
+            $data['fecUltimaLiquidacion']                       = $grupo->fecUltimaLiquidacion;
+            $data['fecProximaLiquidacion']                      = $grupo->fecProximaLiquidacion;
+            $data['fecFinBajaTemporal']                         = $grupo->fecFinBajaTemporal;
+            $data['strCausaBaja']                               = $grupo->strCausaBaja;
+            $data['fecInicioBajaTemporal']                      = $grupo->fecInicioBajaTemporal;
+            $data['numImporteBaseMatriculaGrupo']               = $grupo->numImporteBaseMatriculaGrupo;
+            $data['bolBajaDefinitiva']                          = $grupo->bolBajaDefinitiva;
+            $data['bolBajaTemporal']                            = $grupo->bolBajaTemporal;
+            $data['numIdCausaBaja']                             = $grupo->numIdCausaBaja;
+            $data['numIdGrupo']                                 = $grupo->numIdGrupo;
+            $data['numIdMatricula']                             = $grupo->numIdMatricula;
+            $data['numPeriodicidadImporte']                     = $grupo->numPeriodicidadImporte;
+            $data['numPeriodicidadLiquidacion']                 = $grupo->numPeriodicidadLiquidacion;
+            $data['blnFinalizacionAPriori']                     = $grupo->blnFinalizacionAPriori;
+            $data['blnSinDerechoCalificacion']                  = $grupo->blnSinDerechoCalificacion;
+            $data['numIdRecargoPredefinido']                    = $grupo->numIdRecargoPredefinido;
+            $data['fecFinalizacionPrevista']                    = $grupo->fecFinalizacionPrevista;
+            $data['numLicencias']                               = $grupo->numLicencias;
+            $data['numHorasContratadas']                        = $grupo->numHorasContratadas;
+            $data['numHorasConsumidas']                         = $grupo->numHorasConsumidas;
+            $data['numImporteTotalMatriculaGrupo']              = $grupo->numImporteTotalMatriculaGrupo;
+            $data['numIdDescuentoGrupo']                        = $grupo->numIdDescuentoGrupo;
+            $data['numImporteDescuentoMatriculaGrupo']          = $grupo->numImporteDescuentoMatriculaGrupo;
+            $data['numPorcentajeDescuentoMatriculaGrupo']       = $grupo->numPorcentajeDescuentoMatriculaGrupo;
+            $data['blnDescuentoGrupoConPorcentaje']             = $grupo->blnDescuentoGrupoConPorcentaje;
+            $data['strConceptoRecargoGrupo']                    = $grupo->strConceptoRecargoGrupo;
+            $data['strConceptoDescuentoGrupo']                  = $grupo->strConceptoDescuentoGrupo;
+            $data['numImporteBaseImponibleMatriculaGrupo']      = $grupo->numImporteBaseImponibleMatriculaGrupo;
+            $data['numImporteIVAMatriculaGrupo']                = $grupo->numImporteIVAMatriculaGrupo;
+            $data['numImporteRetencionMatriculaGrupo']          = $grupo->numImporteRetencionMatriculaGrupo;
+            $data['numPorcentajeIVAMatriculaGrupo']             = $grupo->numPorcentajeIVAMatriculaGrupo;
+            $data['numPorcentajeRetencionMatriculaGrupo']       = $grupo->numPorcentajeRetencionMatriculaGrupo;
+            $data['numIdCuentaIVA']                             = $grupo->numIdCuentaIVA;
+            $data['numIdCuentaRetencion']                       = $grupo->numIdCuentaRetencion;
+            $data['strCuentaIva']                               = $grupo->strCuentaIva;
+            $data['strCuentaRetencion']                         = $grupo->strCuentaRetencion;
+            $data['numImporteRecargoMatriculaGrupo']            = $grupo->numImporteRecargoMatriculaGrupo;
+            $data['numPorcentajeRecargoMatriculaGrupo']         = $grupo->numPorcentajeRecargoMatriculaGrupo;
+            $data['blnRecargoGrupoConPorcentaje']               = $grupo->blnRecargoGrupoConPorcentaje;
+            $data['strCuentaBeneficios']                        = $grupo->strCuentaBeneficios;
+            $data['strNombreCuentaBeneficios']                  = $grupo->strNombreCuentaBeneficios;
+            $data['blnEnrolMoodle']                             = $grupo->blnEnrolMoodle;
+            $data['blnSuspendida']                              = $grupo->blnSuspendida;
+            $data['numIdGrupoFundae']                           = $grupo->numIdGrupoFundae;
+            $data['blnEntregadoDiplomaFundae']                  = $grupo->blnEntregadoDiplomaFundae;
+            $data['blnJornadaLaboralFundae']                    = $grupo->blnJornadaLaboralFundae;
+
+            $exists = Matriculas_grupos::updateOrCreate([
+                'numIdMatriculaGrupo' => $grupo->numIdMatriculaGrupo
+            ], $data);            
+        }
+
+        $actualizacion = Actualizaciones::find(4);
+        $actualizacion->tabla = 'Matriculas Grupos';
+        $actualizacion->save();
+
+    }
+
+    public function subirFicheroMatriculas(Request $request)
+    {
+        $file   = $request->file('file');
+        $nombre = $file->getClientOriginalName();
+        \Storage::disk('local')->put($nombre,  \File::get($file));
+        Matriculas_tmp::truncate();
+        Excel::import(new MatriculasImport, $nombre);
+
+        $count = 0;
+        $data = [];
+        
+        $matriculas = Matriculas_tmp::get();
+        foreach ($matriculas as $matricula) {
+            $data = [];           
+            
+            $data['numIdMatricula']                     = $matricula->numIdMatricula;
+            $data['numIdSerie']                         = $matricula->numIdSerie;                      
+            $data['numIdAlumno']                        = $matricula->numIdAlumno;                      
+            $data['strAlumnoMatricula']                 = $matricula->strAlumnoMatricula;
+            $data['numIdCliente']                       = $matricula->numIdCliente;               
+            $data['strClienteMatricula']                = $matricula->strClienteMatricula;
+            $data['numTipoRecibo']                      = $matricula->numTipoRecibo;             
+            $data['fecFechaMatricula']                  = $matricula->fecFechaMatricula;
+            $data['blnEmagister']                       = $matricula->blnEmagister;
+            $data['fecFechaFin']                        = $matricula->fecFechaFin;
+            $data['numTipoTarifaEstudios']              = $matricula->numTipoTarifaEstudios;
+            $data['numIdPersonal']                      = $matricula->numIdPersonal;
+            $data['numIdCursoAcademico']                = $matricula->numIdCursoAcademico;
+            $data['strCodigoExpediente']                = $matricula->strCodigoExpediente;
+            $data['numIdTipoMatricula']                 = $matricula->numIdTipoMatricula;
+            $data['numIdPlanVencimiento']               = $matricula->numIdPlanVencimiento;
+            $data['fecPrimerVencimiento']               = $matricula->fecPrimerVencimiento;
+            $data['numImporteTotalGlobal']              = $matricula->numImporteTotalGlobal;
+            $data['strNomenclaturaRecibo']              = $matricula->strNomenclaturaRecibo;
+            $data['blnTarjeta']                         = $matricula->blnTarjeta;           
+            $data['blnFinalizada']                      = $matricula->blnFinalizada;
+            $data['blnAnulada']                         = $matricula->blnAnulada;
+            $data['numCobrado']                         = $matricula->numCobrado;
+            $data['blnLiquidada']                       = $matricula->blnLiquidada;
+            $data['numImporteMatricula']                = $matricula->numImporteMatricula;
+            $data['bolPagadoMatricula']                 = $matricula->bolPagadoMatricula;
+            $data['bolDomiciliacionBancaria']           = $matricula->bolDomiciliacionBancaria;
+            $data['numImporteDescuento']                = $matricula->numImporteDescuento;
+            $data['numPorcentajeDescuento']             = $matricula->numPorcentajeDescuento;
+            $data['numPendiente']                       = $matricula->numPendiente;
+            $data['numImporteGruposGlobal']             = $matricula->numImporteGruposGlobal;
+            $data['strConceptoDescuentoGlobal']         = $matricula->strConceptoDescuentoGlobal;
+            $data['blnDescuentoGlobalConPorcentaje']    = $matricula->blnDescuentoGlobalConPorcentaje;
+            $data['numPorcentajeDescuentoGlobal']       = $matricula->numPorcentajeDescuentoGlobal;
+            $data['numImporteDescuentoGlobal']          = $matricula->numImporteDescuentoGlobal;
+            $data['numIdDescuentoGlobal']               = $matricula->numIdDescuentoGlobal;
+            $data['strConceptoRecargoGlobal']           = $matricula->strConceptoRecargoGlobal;
+            $data['blnRecargoGlobalConPorcentaje']      = $matricula->blnRecargoGlobalConPorcentaje;
+            $data['numPorcentajeRecargoGlobal']         = $matricula->numPorcentajeRecargoGlobal;
+            $data['numImporteRecargoGlobal']            = $matricula->numImporteRecargoGlobal;
+            $data['numIdRecargoGlobal']                 = $matricula->numIdRecargoGlobal;
+            $data['numPeriodicidadLiquidacion']         = $matricula->numPeriodicidadLiquidacion;
+            $data['blnPresencial']                      = $matricula->blnPresencial;
+            $data['blnSeguroEscolar']                   = $matricula->blnSeguroEscolar;
+            $data['numTotalAdeudos']                    = $matricula->numTotalAdeudos;
+            $data['blnExcluirFicheroAsnef']             = $matricula->blnExcluirFicheroAsnef;
+            $data['numImporteIVAGlobal']                = $matricula->numImporteIVAGlobal;
+            $data['numImporteRetencionGlobal']          = $matricula->numImporteRetencionGlobal;
+            $data['blnVariosAdeudos']                   = $matricula->blnVariosAdeudos;
+            $data['numImporteBaseGlobal']               = $matricula->numImporteBaseGlobal;
+            $data['numIdUsuario']                       = $matricula->numIdUsuario;
+            $data['strMaquina']                         = $matricula->strMaquina;
+            $data['blnEnviadoMail']                     = $matricula->blnEnviadoMail;
+            $data['numImporteBaseMatricula']            = $matricula->numImporteBaseMatricula;
+            $data['blnFundae']                          = $matricula->blnFundae;
+            $data['numIdMatriculaFundae']               = $matricula->numIdMatriculaFundae;
+            $data['numOrdenInscripcion']                = $matricula->numOrdenInscripcion;
+            $data['blnExcluirAlumnoFicheroAsnef']       = $matricula->blnExcluirAlumnoFicheroAsnef;
+            $data['blnCobrosOnline']                    = $matricula->blnCobrosOnline;
+            $data['blnSuperadoFundae']                  = $matricula->blnSuperadoFundae;
+            $data['strComentarios']                     = $matricula->strComentarios;
+            $data['updated_at']                         = $matricula->updated_at;
+            $data['created_at']                         = $matricula->created_at;
+
+            $exists = Matriculas::updateOrCreate([
+                'numIdMatricula' => $matricula->numIdMatricula
+            ], $data);            
+        }
+
+        $actualizacion = Actualizaciones::find(5);
+        $actualizacion->tabla = 'Matriculas';
+        $actualizacion->save();
+
+    }
     
     public function gestionarEstudiantes()
     {

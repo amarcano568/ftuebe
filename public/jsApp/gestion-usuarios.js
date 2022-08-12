@@ -76,9 +76,11 @@ $(document).on("ready", function() {
             ],
             iDisplayLength: 10,
             ajax: {
-                method: "get",
-                url: "/listar-usuarios",
-                data: {}
+                method: "post",
+                url: "listar-usuarios",
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                }
             },
             initComplete: function(settings, json) {
                 $.unblockUI();

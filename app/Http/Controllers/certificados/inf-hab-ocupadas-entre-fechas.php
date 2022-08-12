@@ -14,8 +14,6 @@
         DB::enableQueryLog();
         foreach($habitaciones as $habitacion){
             $hospedajes = App\Hospedajes::select('num_habitacion', 'desde', 'hasta', 'fianza', 'fianza_monto', 'fianza_fecha', 'observaciones', 'check', 'checkout_at')
-            ->whereBetween('desde', [$desde, $hasta])
-            ->whereBetween('hasta', [$desde, $hasta])
             ->where('check','checkin')
             ->where('num_habitacion', $habitacion->num_habitacion)
             ->orderBy('id', 'desc')

@@ -83,13 +83,13 @@
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <label for="rfc">
-                                        RFC
+                                        Otros datos de interes
                                     </label>
                                     <input class="form-control" id="rfc" name="rfc" type="text" placeholder="RFC"
                                         required
                                         data-parsley-required-message="<i class='fas fa-exclamation-triangle'></i> El nombre comercial es requerido.">
                                 </div>
-                                <div class="form-group col-sm-6">
+                                {{-- <div class="form-group col-sm-6">
                                     <label for="estado">
                                         Estado
                                     </label>
@@ -102,7 +102,7 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="row">
                                 <div class="form-group col-sm-12">

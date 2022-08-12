@@ -44,6 +44,14 @@ Route::group(['middleware' => 'auth'], function () {
 	/** Importar Fichas de los alumnos */
 	Route::post('subir-fichero-fichas-alumnos', 'AlumnosController@subirFicheroFichasAlumnos');
 
+	/**	Importar grupos */
+	Route::post('subir-fichero-grupos', 'AlumnosController@subirFicheroGrupos');
+
+	/** Importar matrículas grupos */
+	Route::post('subir-fichero-matriculas-grupos', 'AlumnosController@subirFicheroMatriculasGrupos');
+
+	/** Importar matrículas */
+	Route::post('subir-fichero-matriculas', 'AlumnosController@subirFicheroMatriculas');
 	
 	/**	Alumnos */	
 	Route::group(['middleware' => ['permission:gestionar-estudiantes']], function () {
@@ -126,25 +134,34 @@ Route::group(['middleware' => 'auth'], function () {
 		Route::get('grado-sastifaccion', 'TasasIndicadoresController@gradoSatisfaccion')->name('grado-sastifaccion.gradoSatisfaccion');
 	});
 
+	/** Informe final */
+	Route::group(['middleware' => ['permission:informe-final']], function () {
+		Route::get('informe-final', 'TasasIndicadoresController@informeFinal')->name('informe-final.informeFinal');
+	});
+
+	Route::post('/guardar-indicadores-principales', 'TasasIndicadoresController@guardarIndicadoresPrincipales');
+
+	Route::post('/generar-informe-final', 'TasasIndicadoresController@generarInformeFinal');
+
 	Route::post('subir-fichero-grado-satisfaccion', 'TasasIndicadoresController@subirFicheroGradoSatisfaccion');
 	//Route::post('delete-fichero-importar-alumno', 'AlumnosController@deleteFicheroImportarAlumno');
 		
 	/**	Usuarios */
-	// Route::group(['middleware' => ['permission:mantenimiento_usuarios']], function () {
-	// 	Route::get('gestion-usuarios', 'MantenimientoUsuariosController@gestionUsuarios')->name('gestion-usuarios.gestionUsuarios');
-	// });
-	// Route::get('/listar-usuarios', 'MantenimientoUsuariosController@listarUsuarios');
-	// Route::get('/editar-usuario', 'MantenimientoUsuariosController@editarUsuario');
-	// Route::get('/bloquear-usuario', 'MantenimientoUsuariosController@bloquearUsuario');
+	Route::group(['middleware' => ['permission:mantenimiento_usuarios']], function () {
+		Route::get('gestion-usuarios', 'MantenimientoUsuariosController@gestionUsuarios')->name('gestion-usuarios.gestionUsuarios');
+	});
+	Route::post('/listar-usuarios', 'MantenimientoUsuariosController@listarUsuarios');
+	Route::get('/editar-usuario', 'MantenimientoUsuariosController@editarUsuario');
+	Route::get('/bloquear-usuario', 'MantenimientoUsuariosController@bloquearUsuario');
 	
 	/** Información de la Empresa */
-	// Route::group(['middleware' => ['permission:mantenimiento_empresa']], function () {
-	// 	Route::get('informacion-empresa', 'MantenimientoEmpresaController@informacionEmpresa')->name('informacion-empresa.informacionEmpresa');
-	// });
-	// Route::get('buscar-empresa', 'MantenimientoEmpresaController@buscarempresa');
-	// Route::post('actualizar-empresa', 'MantenimientoEmpresaController@actualizarEmpresa');
-	// Route::post('subir-logo', 'MantenimientoEmpresaController@subirLogo');
-	// Route::post('delete-logo', 'MantenimientoEmpresaController@deleteLogo');
+	Route::group(['middleware' => ['permission:mantenimiento_empresa']], function () {
+		Route::get('informacion-empresa', 'MantenimientoEmpresaController@informacionEmpresa')->name('informacion-empresa.informacionEmpresa');
+	});
+	Route::get('buscar-empresa', 'MantenimientoEmpresaController@buscarempresa');
+	Route::post('actualizar-empresa', 'MantenimientoEmpresaController@actualizarEmpresa');
+	Route::post('subir-logo', 'MantenimientoEmpresaController@subirLogo');
+	Route::post('delete-logo', 'MantenimientoEmpresaController@deleteLogo');
 
 	/** Gestión de roles */
 	Route::group(['middleware' => ['permission:gestion_roles']], function () {

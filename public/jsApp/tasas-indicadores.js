@@ -227,14 +227,57 @@ $(document).on("ready", function() {
             b23 =  parseInt($("#table_1_total").text());
             b24 = parseInt($("#table_2_total").text());
             b25 = parseInt($("#table_3_total").text());
-            $("#tasa-graduacion").html((( ( b19 +b28) * 100) / b20)+'%');
-            $("#tasa-abandono").html(((b21/b20)*100)+'%');
-            $("#tasa-eficiencia").html('0');
-            $("#tasa-exito").html(((( b24 * 100 ) / b25))+'%');
-            $("#tasa-rendimiento").html(((b24/b23)*100).toLocaleString('en-US', {maximumFractionDigits: 2})+'%');
-            $("#duracion-media-estudio").html((((b26*4)+(b27*5)+(b28*6))/(b26+b27+b28)).toLocaleString('en-US', {maximumFractionDigits: 2})+'%');
+            
+            tasa_graduacion = (( ( b19 +b28) * 100) / b20).toFixed(2);
+            tasa_abandono = ((b21/b20)*100).toFixed(2);
+            tasa_eficiencia = '0';
+            tasa_exito = ((( b24 * 100 ) / b25)).toFixed(2);
+            tasa_rendimiento = ((b24/b23)*100).toLocaleString('en-US', {maximumFractionDigits: 2});
+            duracion_media_estudio = (((b26*4)+(b27*5)+(b28*6))/(b26+b27+b28)).toLocaleString('en-US', {maximumFractionDigits: 2})
+
+            $("#tasa-graduacion").html(tasa_graduacion+'%');
+            $("#tasa-abandono").html(tasa_abandono+'%');
+            $("#tasa-eficiencia").html(tasa_eficiencia);
+            $("#tasa-exito").html(tasa_exito+'%');
+            $("#tasa-rendimiento").html(tasa_rendimiento+'%');
+            $("#duracion-media-estudio").html(duracion_media_estudio+'%');
+
+            guardar_indicadores_principales(tasa_graduacion,tasa_abandono,tasa_eficiencia,tasa_exito,tasa_rendimiento,duracion_media_estudio);
         }
 
+    }
+
+    function guardar_indicadores_principales(tasa_graduacion,tasa_abandono,tasa_eficiencia,tasa_exito,tasa_rendimiento,duracion_media_estudio){
+        estudio = $("#tipo_estudio").val();
+        estudio = estudio == 8 ? 'grado-oficial' : 'master-oficial';
+        periodo = $("#periodo").val();
+        $.ajax({
+            url: "guardar-indicadores-principales",
+            type: "post",
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                estudio: estudio,
+                periodo: periodo,
+                tasa_graduacion: tasa_graduacion,
+                tasa_abandono: tasa_abandono,
+                tasa_eficiencia: tasa_eficiencia,
+                tasa_exito: tasa_exito,
+                tasa_rendimiento: tasa_rendimiento,
+                duracion_media_estudio: duracion_media_estudio
+            },
+            dataType: "json",
+            // beforeSend: function() {
+            //     loadingUI("...");                
+            // }
+        })
+            .done(function(response) {
+                console.log(response);               
+            })
+            .fail(function(statusCode, errorThrown) {
+                $.unblockUI();
+                console.log(errorThrown);
+                ajaxError(statusCode, errorThrown);
+            });
     }
     
 });

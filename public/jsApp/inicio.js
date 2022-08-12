@@ -184,6 +184,231 @@ function configuraDropZoneFichasAlumnos(iconoDropZone) {
     //         Dropzone.instances.forEach(bz => bz.destroy());
     //     $("#ModalAgregarLogo").modal("hide");
     // });
+        
 }
 
+$(document).on("click", "#btn-importar-grupos", function(event) {
+    $("#modal-importar-grupos").modal("show");
+});
 
+$("#modal-importar-grupos").on("shown.bs.modal", function() {
+    iconoDropZone =
+        '<br><br><i class="text-success fa-4x far fa-file-excel"></i><br><h6>Click para importar los grupos.</h6>';
+    configuraDropZoneGrupos(iconoDropZone);
+});
+
+
+function configuraDropZoneGrupos(iconoDropZone) {
+    Dropzone.autoDiscover = false;
+    Dropzone.prototype.defaultOptions.dictRemoveFile = "Borrar archivo..";
+    // if (Dropzone.instances.length > 0)
+    //     Dropzone.instances.forEach(bz => bz.destroy());
+    $("#formDropZoneGrupos").html("");
+    $("#formDropZoneGrupos").append(
+        "<form action='subir-fichero-grupos' method='POST' files='true' enctype='multipart/form-data' id='dZUploadGrupos' class='dropzone borde-dropzone' style='width: 100%;padding: 0;cursor: pointer;'>" +
+            "<div style='padding: 0;margin-top: 0em;' class='dz-default dz-message text-center'>" +
+            iconoDropZone +
+            "</div></form>"
+    );
+
+
+    myAwesomeDropzone = myAwesomeDropzone = {
+        maxFilesize: 12,
+        acceptedFiles: ".xlsx, .xls",
+        addRemoveLinks: true,
+        timeout: 50000,
+        maxFiles: 1,
+        removedfile: function(file) {
+            var name = file.name;
+            // console.log(name);
+            $.ajax({
+                type: "post",
+                url: "delete-fichero-importar-grupo",
+                data: {
+                    filename: name
+                },
+                success: function(response) {
+                    console.log("File has been successfully removed!!");
+                    var dt = new Date();
+                    if (response.success){
+                        alertify.success(response.message);
+                    }else{
+                        alertify.error(response.message);
+                    }
+                   
+                },
+                error: function(e) {
+                    console.log(e);
+                }
+            });
+            var fileRef;
+            return (fileRef = file.previewElement) != null
+                ? fileRef.parentNode.removeChild(file.previewElement)
+                : void 0;
+        },
+        params: {},
+        success: function(file, response) {
+            console.log(response);
+            //$("#ModalAgregarLogo").modal("hide");
+            //$("#ModalAgregarLogo .close").click();
+            var dt = new Date();
+            $("#modal-importar-grupos").modal("hide");
+            alertify.success('<i class="far fa-thumbs-up"></i> El fichero con los grupos fue importado correctamente.');
+        },
+        error: function(file, response) {
+            return false;
+        }
+    };
+
+    var myDropzone = new Dropzone("#dZUploadGrupos", myAwesomeDropzone);
+}
+
+$(document).on("click", "#btn-importar-matriculas-grupos", function(event) {
+    $("#modal-importar-matriculas-grupos").modal("show");
+});
+
+$("#modal-importar-matriculas-grupos").on("shown.bs.modal", function() {
+    iconoDropZone =
+        '<br><br><i class="text-success fa-4x far fa-file-excel"></i><br><h6>Click para importar las matrículas grupos.</h6>';
+    configuraDropZoneMatriculasGrupos(iconoDropZone);
+});
+
+function configuraDropZoneMatriculasGrupos(iconoDropZone) {
+    Dropzone.autoDiscover = false;
+    Dropzone.prototype.defaultOptions.dictRemoveFile = "Borrar archivo..";
+    // if (Dropzone.instances.length > 0)
+    //     Dropzone.instances.forEach(bz => bz.destroy());
+    $("#formDropZoneMatriculasGrupos").html("");
+    $("#formDropZoneMatriculasGrupos").append(
+        "<form action='subir-fichero-matriculas-grupos' method='POST' files='true' enctype='multipart/form-data' id='dZUploadMatriculasGrupos' class='dropzone borde-dropzone' style='width: 100%;padding: 0;cursor: pointer;'>" +
+            "<div style='padding: 0;margin-top: 0em;' class='dz-default dz-message text-center'>" +
+            iconoDropZone +
+            "</div></form>"
+    );
+
+
+    myAwesomeDropzone = myAwesomeDropzone = {
+        maxFilesize: 12,
+        acceptedFiles: ".xlsx, .xls",
+        addRemoveLinks: true,
+        timeout: 50000,
+        maxFiles: 1,
+        removedfile: function(file) {
+            var name = file.name;
+            // console.log(name);
+            $.ajax({
+                type: "post",
+                url: "delete-fichero-importar-matriculas-grupos",
+                data: {
+                    filename: name
+                },
+                success: function(response) {
+                    console.log("File has been successfully removed!!");
+                    var dt = new Date();
+                    if (response.success){
+                        alertify.success(response.message);
+                    }else{
+                        alertify.error(response.message);
+                    }
+                   
+                },
+                error: function(e) {
+                    console.log(e);
+                }
+            });
+            var fileRef;
+            return (fileRef = file.previewElement) != null
+                ? fileRef.parentNode.removeChild(file.previewElement)
+                : void 0;
+        },
+        params: {},
+        success: function(file, response) {
+            console.log(response);
+            //$("#ModalAgregarLogo").modal("hide");
+            //$("#ModalAgregarLogo .close").click();
+            var dt = new Date();
+            $("#modal-importar-matriculas-grupos").modal("hide");
+            alertify.success('<i class="far fa-thumbs-up"></i> El fichero con las matrículas grupos fue importado correctamente.');
+        },
+        error: function(file, response) {
+            return false;
+        }
+    };
+
+    var myDropzone = new Dropzone("#dZUploadMatriculasGrupos", myAwesomeDropzone);
+}
+
+$(document).on("click", "#btn-importar-matriculas", function(event) {
+    $("#modal-importar-matriculas").modal("show");
+});
+
+$("#modal-importar-matriculas").on("shown.bs.modal", function() {
+    iconoDropZone =
+        '<br><br><i class="text-success fa-4x far fa-file-excel"></i><br><h6>Click para importar las matrículas.</h6>';
+    configuraDropZoneMatriculas(iconoDropZone);
+});
+
+function configuraDropZoneMatriculas(iconoDropZone) {
+    Dropzone.autoDiscover = false;
+    Dropzone.prototype.defaultOptions.dictRemoveFile = "Borrar archivo..";
+    // if (Dropzone.instances.length > 0)
+    //     Dropzone.instances.forEach(bz => bz.destroy());
+    $("#formDropZoneMatriculas").html("");
+    $("#formDropZoneMatriculas").append(
+        "<form action='subir-fichero-matriculas' method='POST' files='true' enctype='multipart/form-data' id='dZUploadMatriculas' class='dropzone borde-dropzone' style='width: 100%;padding: 0;cursor: pointer;'>" +
+            "<div style='padding: 0;margin-top: 0em;' class='dz-default dz-message text-center'>" +
+            iconoDropZone +
+            "</div></form>"
+    );
+
+
+    myAwesomeDropzone = myAwesomeDropzone = {
+        maxFilesize: 12,
+        acceptedFiles: ".xlsx, .xls",
+        addRemoveLinks: true,
+        timeout: 50000,
+        maxFiles: 1,
+        removedfile: function(file) {
+            var name = file.name;
+            // console.log(name);
+            $.ajax({
+                type: "post",
+                url: "delete-fichero-importar-matriculas",
+                data: {
+                    filename: name
+                },
+                success: function(response) {
+                    console.log("File has been successfully removed!!");
+                    var dt = new Date();
+                    if (response.success){
+                        alertify.success(response.message);
+                    }else{
+                        alertify.error(response.message);
+                    }
+                   
+                },
+                error: function(e) {
+                    console.log(e);
+                }
+            });
+            var fileRef;
+            return (fileRef = file.previewElement) != null
+                ? fileRef.parentNode.removeChild(file.previewElement)
+                : void 0;
+        },
+        params: {},
+        success: function(file, response) {
+            console.log(response);
+            //$("#ModalAgregarLogo").modal("hide");
+            //$("#ModalAgregarLogo .close").click();
+            var dt = new Date();
+            $("#modal-importar-matriculas").modal("hide");
+            alertify.success('<i class="far fa-thumbs-up"></i> El fichero con las matrículas fue importado correctamente.');
+        },
+        error: function(file, response) {
+            return false;
+        }
+    };
+
+    var myDropzone = new Dropzone("#dZUploadMatriculas", myAwesomeDropzone);
+}

@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Alumnos;
 use App\Tipo_estudios;
 use App\Fichas_alumnos;
+use App\Grupos;
+use App\Matriculas;
+use App\Matriculas_grupos;
+use App\Informes_finales;
 use Carbon\Carbon;
 use \DataTables;
 use Illuminate\Http\Request;
@@ -156,7 +160,7 @@ class TasasIndicadoresController extends Controller
             $cretidos_sum = 0;
             $creditos_array = [];
         }
-        $salida .= '<td class="text-center"><strong>'.$total_creditos.'</strong></td>';
+        $salida .= '<td class="text-center"><strong>'.number_format($total_creditos, 0, ',', '.').'</strong></td>';
         
        return $salida;
     }
@@ -194,7 +198,7 @@ class TasasIndicadoresController extends Controller
             $cretidos_sum = 0;
             $creditos_array = [];
         }
-        $salida .= '<td class="text-center"><strong>'.$total_creditos.'</strong></td>';
+        $salida .= '<td class="text-center"><strong>'.number_format($total_creditos, 0, ',', '.').'</strong></td>';
         
        return $salida;
     }
@@ -233,7 +237,7 @@ class TasasIndicadoresController extends Controller
             $cretidos_sum = 0;
             $creditos_array = [];
         }
-        $salida .= '<td class="text-center"><strong>'.$total_creditos.'</strong></td>';
+        $salida .= '<td class="text-center"><strong>'.number_format($total_creditos, 0, ',', '.').'</strong></td>';
         
        return [
                 'resultado_1' => $salida,
@@ -289,8 +293,14 @@ class TasasIndicadoresController extends Controller
                 break;
             case 'otros':
                 $ficheroGenerado = $this->generaGradoSatisfaccionOtros($request,$ficheroCSV);
-                break;          
-        }        
+                break;   
+            case 'empleadores':
+                $ficheroGenerado = $this->generaGradoSatisfaccionEmpleadores($request,$ficheroCSV);
+                break;        
+            case 'egresados':
+                $ficheroGenerado = $this->generaGradoSatisfaccionEgresados($request,$ficheroCSV);
+                break;   
+        }      
     
         return $ficheroGenerado;
 
@@ -313,6 +323,8 @@ class TasasIndicadoresController extends Controller
         }        
         
         $respondidas = respondidasOtros($ficheroCSV);
+
+        $worksheet->setCellValue('B3', $request->periodo);
         
         /*  
                     PREGUNTA 1
@@ -388,6 +400,8 @@ class TasasIndicadoresController extends Controller
         $respondidas = respondidasPas($ficheroCSV);
         $worksheet->setCellValue($posicionExcel['respondidas'], $respondidas); //Preguntas respondidas
         $worksheet->setCellValue($posicionExcel['personal'], $request->personal); //Personal
+
+        $worksheet->setCellValue('B4', $request->periodo); //Período
         
         /*  
                     PREGUNTA 1
@@ -411,48 +425,48 @@ class TasasIndicadoresController extends Controller
         $worksheet->setCellValue($posicionExcel['pos_items_segunda_pregunta'][4], $preguntas_2_pas['item5']); 
         # Item 6
         $worksheet->setCellValue($posicionExcel['pos_items_segunda_pregunta'][5], $preguntas_2_pas['item6']); 
-        /*  
-                    PREGUNTA 3
-        */        
-        $preguntas_3_pas = preguntas_3_pas($ficheroCSV,$respondidas);
-        # Item 1
-        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][0], $preguntas_3_pas['item1']);     
-        # Item 2
-        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][1], $preguntas_3_pas['item2']); 
-        # Item 3
-        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][2], $preguntas_3_pas['item3']); 
-        # Item 4
-        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][3], $preguntas_3_pas['item4']);
-        # Item 5
-        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][4], $preguntas_3_pas['item5']); 
-        # Item 6
-        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][5], $preguntas_3_pas['item6']);             
-        # Item 7
-        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][6], $preguntas_3_pas['item7']);     
-        # Item 8
-        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][7], $preguntas_3_pas['item8']);
-        /*  
-                    PREGUNTA 4
-        */        
-        $preguntas_4_pas = preguntas_4_pas($ficheroCSV,$respondidas);
-        # Item 1
-        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][0], $preguntas_4_pas['item1']);     
-        # Item 2
-        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][1], $preguntas_4_pas['item2']); 
-        # Item 3
-        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][2], $preguntas_4_pas['item3']); 
-        # Item 4
-        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][3], $preguntas_4_pas['item4']);
-        # Item 5
-        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][4], $preguntas_4_pas['item5']); 
-        # Item 6
-        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][5], $preguntas_4_pas['item6']);             
-        # Item 7
-        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][6], $preguntas_4_pas['item7']);     
-        # Item 8
-        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][7], $preguntas_4_pas['item8']);
-         # Item 9
-        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][8], $preguntas_4_pas['item9']);     
+        // /*  
+        //             PREGUNTA 3
+        // */        
+        // $preguntas_3_pas = preguntas_3_pas($ficheroCSV,$respondidas);
+        // # Item 1
+        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][0], $preguntas_3_pas['item1']);     
+        // # Item 2
+        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][1], $preguntas_3_pas['item2']); 
+        // # Item 3
+        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][2], $preguntas_3_pas['item3']); 
+        // # Item 4
+        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][3], $preguntas_3_pas['item4']);
+        // # Item 5
+        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][4], $preguntas_3_pas['item5']); 
+        // # Item 6
+        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][5], $preguntas_3_pas['item6']);             
+        // # Item 7
+        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][6], $preguntas_3_pas['item7']);     
+        // # Item 8
+        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][7], $preguntas_3_pas['item8']);
+        // /*  
+        //             PREGUNTA 4
+        // */        
+        // $preguntas_4_pas = preguntas_4_pas($ficheroCSV,$respondidas);
+        // # Item 1
+        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][0], $preguntas_4_pas['item1']);     
+        // # Item 2
+        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][1], $preguntas_4_pas['item2']); 
+        // # Item 3
+        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][2], $preguntas_4_pas['item3']); 
+        // # Item 4
+        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][3], $preguntas_4_pas['item4']);
+        // # Item 5
+        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][4], $preguntas_4_pas['item5']); 
+        // # Item 6
+        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][5], $preguntas_4_pas['item6']);             
+        // # Item 7
+        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][6], $preguntas_4_pas['item7']);     
+        // # Item 8
+        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][7], $preguntas_4_pas['item8']);
+        //  # Item 9
+        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][8], $preguntas_4_pas['item9']);     
         
                     
         $writer = new Xlsx($spreadsheet);   
@@ -466,19 +480,21 @@ class TasasIndicadoresController extends Controller
         include_once "satisfaccion/satisfaccion_alumnado.php";
 
         if ($request->tipo_estudio == 'grado-oficial'){
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/estudiante-profesorado-recursos-grado-satisfaccion.xlsx");
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/alumnado-grado-satisfaccion.xlsx");
             $worksheet = $spreadsheet->getActiveSheet();
             $posicionExcel = posicionEnElExcelAlumnado($request->periodo);
             $nameFile = \uniqid('grado-satifaccion-alumnado-').'.xlsx';
         }else{
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/estudiante-profesorado-recursos-master-satisfaccion.xlsx");
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/alumnado-master-satisfaccion-original.xlsx");
             $worksheet = $spreadsheet->getActiveSheet();
             $posicionExcel = posicionEnElExcelAlumnado($request->periodo);
             $nameFile = \uniqid('master-satifaccion-alumnado-').'.xlsx';
         }        
         
         $respondidas = respondidasAlumnado($ficheroCSV);
-        
+
+        $worksheet->setCellValue('B3', $request->periodo); //Período
+
         /*  
                     PREGUNTA 1
         */        
@@ -511,6 +527,8 @@ class TasasIndicadoresController extends Controller
         $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][3], $preguntas_3_alumnado['item4']);           
         # Item 5
         $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][4], $preguntas_3_alumnado['item5']);
+        # Item 6
+        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][5], $preguntas_3_alumnado['item6']);
         /*  
                     PREGUNTA 4
         */        
@@ -546,22 +564,129 @@ class TasasIndicadoresController extends Controller
         # Item 3
         $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][2], $preguntas_6_alumnado['item3']); 
         # Item 4
-        $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][3], $preguntas_6_alumnado['item4']);
+        $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][3], $preguntas_6_alumnado['item4']); 
         # Item 5
-        $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][4], $preguntas_6_alumnado['item5']);   
+        $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][4], $preguntas_6_alumnado['item5']); 
         # Item 6
         $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][5], $preguntas_6_alumnado['item6']); 
         # Item 7
         $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][6], $preguntas_6_alumnado['item7']); 
         # Item 8
-        $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][7], $preguntas_6_alumnado['item8']);
+        $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][7], $preguntas_6_alumnado['item8']); 
         # Item 9
-        $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][8], $preguntas_6_alumnado['item9']);
-                    
+        $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][8], $preguntas_6_alumnado['item9']); 
+         /*  
+                    PREGUNTA 7
+        */        
+        $preguntas_7_alumnado = preguntas_7_alumnado($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_septima_pregunta'][0], $preguntas_7_alumnado['item1']);
+        
+        #######################################################################
+        #####################      Encuestas respondidas ######################
+        #######################################################################
+        $encuestas_respondidas = encuestas_respondidas($ficheroCSV);
+        
+        $fecha = \explode("-",$request->periodo);
+        $fechaInicio = $fecha[0].'-01-09 00:00:00'; 
+        $fechaFin = $fecha[1].'-08-31 29:59:00';
+        $data = Grupos::where('fecFechaInicio', '>=', $fechaInicio)->where('fecFechaFinalizacion', '<=', $fechaFin)->get();
+        $primero = 0;$segundo = 0;$tercero = 0;$cuarto = 0;$master = 0;$bienal = 0;
+        foreach($data as $item){
+            if ($item->numIdTipoGrupo == 4){
+                $primero += $item->numAlumnos;
+            }else if ($item->numIdTipoGrupo == 5){
+                $segundo += $item->numAlumnos;
+            }else if ($item->numIdTipoGrupo == 7){
+                $tercero += $item->numAlumnos;
+            }else if ($item->numIdTipoGrupo == 9){
+                $cuarto += $item->numAlumnos;
+            }else if ($item->numIdTipoGrupo == 17){
+                $master += $item->numAlumnos;
+            }else if ($item->numIdTipoGrupo == 29){
+                $bienal += $item->numAlumnos;
+                $tipo = $this->matriculaGrupo($item->numIdGrupo, $tercero, $cuarto);
+            }
+        }
+
+        if ($request->tipo_estudio == 'grado-oficial'){  
+            ############################################
+            # Encuestas respondidas.
+            #Alumnos 1er año
+            $worksheet->setCellValue('I16', $encuestas_respondidas['primero']);
+            #Alumnos 2do año
+            $worksheet->setCellValue('I17', $encuestas_respondidas['segundo']);
+            #Alumnos 3er año
+            $worksheet->setCellValue('I18', $encuestas_respondidas['tercero']);
+            #Alumnos 4to año
+            $worksheet->setCellValue('I19', $encuestas_respondidas['cuarto']);
+
+            ############################################
+            # Previstas
+            #Alumnos 1er año
+            $worksheet->setCellValue('G16', $primero);
+            #Alumnos 2do año
+            $worksheet->setCellValue('G17', $segundo);
+            #Alumnos 3er año
+            $worksheet->setCellValue('G18', $tercero);
+            #Alumnos 4to año
+            $worksheet->setCellValue('G19', $cuarto);
+
+            ############################################
+            # Encuestas respondidas
+            #Alumnos 1er año
+            $worksheet->setCellValue('J16', $request->grado_1);
+            #Alumnos 2do año
+            $worksheet->setCellValue('J17', $request->grado_2);
+            #Alumnos 3er año
+            $worksheet->setCellValue('J18', $request->grado_3);
+            #Alumnos 4to año
+            $worksheet->setCellValue('J19', $request->grado_4);
+
+            ############################################
+            # Alumnos / Cursos
+            #Alumnos 1er año
+            $worksheet->setCellValue('E16', $request->grado_1_alumno_cruso);
+            #Alumnos 2do año
+            $worksheet->setCellValue('E17', $request->grado_2_alumno_curso);
+            #Alumnos 3er año
+            $worksheet->setCellValue('E18', $request->grado_3_alumno_curso);
+            #Alumnos 4to año                                                
+            $worksheet->setCellValue('E19', $request->grado_4_alumno_curso);
+        }else{
+            ############################################
+            # Alumnos / Cursos
+            #Alumnos 1er año
+            $worksheet->setCellValue('E16', $request->grado_1_alumno_cruso);
+            ############################################
+            # Previstas
+            #Alumnos 1er año
+            $worksheet->setCellValue('G16', $master);
+            # Encuestas respondidas.
+            #Alumnos 1er año
+            $worksheet->setCellValue('H16', $encuestas_respondidas['primero']);
+            ############################################
+            # Encuestas por curso            
+            #Alumnos 1er año
+            $worksheet->setCellValue('J16', $request->grado_1);            
+        }
+                            
         $writer = new Xlsx($spreadsheet);   
         $writer->save($nameFile);
 
         return $nameFile;
+    }
+
+    function matriculaGrupo($numIdGrupo, $tercero, $cuarto){
+        $matriculas_grupos = Matriculas_grupos::where('numIdMatriculaGrupo', $numIdGrupo)->get();
+        foreach($matriculas_grupos as $matricula_grupo){
+            $matricula = Matriculas::find($matricula_grupo->numIdMatricula);
+            if($matricula->numIdTipoMatricula == 4){
+                $tercero++;
+            }else if($matricula->numIdTipoMatricula == 5){
+                $cuarto++;
+            }
+        }  
     }
 
     function generaGradoSatisfaccionProfesorado($request,$ficheroCSV){
@@ -579,6 +704,8 @@ class TasasIndicadoresController extends Controller
             $posicionExcel = posicionEnElExcelProfesorado($request->periodo);
             $nameFile = \uniqid('profesorado-master-satisfaccion-').'.xlsx';
         }        
+
+        $worksheet->setCellValue('B3', $request->periodo);
         
         $respondidas = respondidas($ficheroCSV);
         $worksheet->setCellValue($posicionExcel['respondidas'], $respondidas); //Preguntas respondidas
@@ -668,6 +795,211 @@ class TasasIndicadoresController extends Controller
         $writer->save($nameFile);
 
         return $nameFile;
+    }
+
+    function generaGradoSatisfaccionEmpleadores($request,$ficheroCSV){
+        
+        include_once "satisfaccion/satisfaccion_empleadores.php";
+
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/empleadores-grado-satisfaccion.xlsx");
+        $worksheet = $spreadsheet->getActiveSheet();
+        $posicionExcel = posicionEnElExcelEmpleadores();
+        $nameFile = \uniqid('empleadores-grado-satisfaccion-').'.xlsx';
+                
+        $worksheet->setCellValue('B3', $request->periodo);
+        
+        $respondidas = respondidas($ficheroCSV);
+        $worksheet->setCellValue($posicionExcel['respondidas'], $respondidas); //Preguntas respondidas
+        $worksheet->setCellValue($posicionExcel['empleadores'], $request->empleadores); //Empleadores
+
+        /*  
+                    PREGUNTA 1
+        */        
+        $preguntas_1_empleadores = preguntas_1_empleadores($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][0], $preguntas_1_empleadores['item1']); 
+        # Item 2
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][1], $preguntas_1_empleadores['item2']); 
+        # Item 3
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][2], $preguntas_1_empleadores['item3']);
+        # Item 4
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][3], $preguntas_1_empleadores['item4']);  
+        # Item 5
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][4], $preguntas_1_empleadores['item5']); 
+        # Item 6
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][5], $preguntas_1_empleadores['item6']); 
+        # Item 7
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][6], $preguntas_1_empleadores['item7']);  
+        # Item 8
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][7], $preguntas_1_empleadores['item8']); 
+        # Item 9
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][8], $preguntas_1_empleadores['item9']); 
+        # Item 10
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][9], $preguntas_1_empleadores['item10']);
+        # Item 11
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][10], $preguntas_1_empleadores['item11']);
+        # Item 12
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][11], $preguntas_1_empleadores['item12']);
+
+        /*  
+                    PREGUNTA 2
+        */        
+        $preguntas_2_empleadores = preguntas_2_empleadores($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_segunda_pregunta'][0], $preguntas_2_empleadores['item1']); 
+        # Item 2
+        $worksheet->setCellValue($posicionExcel['pos_items_segunda_pregunta'][1], $preguntas_2_empleadores['item2']); 
+        # Item 3
+        $worksheet->setCellValue($posicionExcel['pos_items_segunda_pregunta'][2], $preguntas_2_empleadores['item3']);
+        # Item 4
+        $worksheet->setCellValue($posicionExcel['pos_items_segunda_pregunta'][3], $preguntas_2_empleadores['item4']);  
+        # Item 5
+        $worksheet->setCellValue($posicionExcel['pos_items_segunda_pregunta'][4], $preguntas_2_empleadores['item5']); 
+        # Item 6
+        $worksheet->setCellValue($posicionExcel['pos_items_segunda_pregunta'][5], $preguntas_2_empleadores['item6']);        
+
+        /*  
+                    PREGUNTA 3
+        */        
+        $preguntas_3_empleadores = preguntas_3_empleadores($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][0], $preguntas_3_empleadores['item1']); 
+                    
+        $writer = new Xlsx($spreadsheet);   
+        $writer->save($nameFile);
+
+        return $nameFile;
+    }
+
+    function generaGradoSatisfaccionEgresados($request,$ficheroCSV){
+        
+        include_once "satisfaccion/satisfaccion_egresados.php";        
+
+        if ($request->tipo_estudio == 'grado-oficial'){
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/egresados-grado-satisfaccion-grado-oficial.xlsx");
+            $worksheet = $spreadsheet->getActiveSheet();
+            $posicionExcel = posicionEnElExcelEgresados();
+            $nameFile = \uniqid('egresados-grado-satisfaccion-').'.xlsx';
+        }else{
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/egresados-grado-satisfaccion-master.xlsx");
+            $worksheet = $spreadsheet->getActiveSheet();
+            $posicionExcel = posicionEnElExcelEgresados();
+            $nameFile = \uniqid('egresados-master-').'.xlsx';
+        }   
+
+                
+        $worksheet->setCellValue('B3', $request->periodo);
+        
+        $respondidas = respondidas($ficheroCSV);
+        $worksheet->setCellValue($posicionExcel['respondidas'], $respondidas); //Preguntas respondidas
+        $worksheet->setCellValue($posicionExcel['egresados'], $request->ExAlumnos); //ExAlumnos
+
+        /*  
+                    PREGUNTA 1
+        */        
+        $preguntas_1_egresados = preguntas_1_egresados($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_primera_pregunta'][0], $preguntas_1_egresados['item1']);        
+
+        /*  
+                    PREGUNTA 2
+        */        
+        $preguntas_2_egresados = preguntas_2_egresados($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_segunda_pregunta'][0], $preguntas_2_egresados['item1']);               
+
+        /*  
+                    PREGUNTA 3
+        */        
+        $preguntas_3_egresados = preguntas_3_egresados($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][0], $preguntas_3_egresados['item1']); 
+
+        /*  
+                    PREGUNTA 4
+        */        
+        $preguntas_4_egresados = preguntas_4_egresados($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][0], $preguntas_4_egresados['item1']);   
+        # Item 2
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][1], $preguntas_4_egresados['item2']); 
+        # Item 3
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][2], $preguntas_4_egresados['item3']); 
+        # Item 4
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][3], $preguntas_4_egresados['item4']);           
+        # Item 5
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][4], $preguntas_4_egresados['item5']);
+
+        /*  
+                    PREGUNTA 5
+        */        
+        $preguntas_5_egresados = preguntas_5_egresados($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_quinta_pregunta'][0], $preguntas_5_egresados['item1']);
+
+        /*  
+                    PREGUNTA 6
+        */        
+        $preguntas_6_egresados = preguntas_6_egresados($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][0], $preguntas_6_egresados['item1']);   
+        # Item 2
+        $worksheet->setCellValue($posicionExcel['pos_items_sexta_pregunta'][1], $preguntas_6_egresados['item2']); 
+                    
+        $writer = new Xlsx($spreadsheet);   
+        $writer->save($nameFile);
+
+        return $nameFile;
+    }
+
+    public function informeFinal()
+    {        
+        return view('informe-final.informe-final');
+    }
+
+    public function guardarIndicadoresPrincipales(Request $request){
+
+        $data = [];                       
+        $data['tipo']       = 'indicadores';
+        $data['estudio']    =  $request->estudio;
+        $data['periodo']    =  $request->periodo;
+        $data['dato1']      =  $request->tasa_graduacion;
+        $data['dato2']      =  $request->tasa_abandono;
+        $data['dato3']      =  $request->tasa_eficiencia;
+        $data['dato4']      =  $request->tasa_rendimiento;
+
+        $exists = Informes_finales::updateOrCreate([
+            'tipo' => 'indicadores',
+            'estudio' => $request->estudio,
+            'periodo' => $request->periodo,
+        ], $data);  
+
+        return response()->json(array('success' => true, 'message' => 'indicadores tasas', 'data' => $exists, ''));
+        
+    }
+
+    public function generarInformeFinal(Request $request){
+
+        $informe = Informes_finales::where(['tipo'=>$request->informe,'estudio'=>$request->tipo_estudio,'periodo'=>$request->cohorte])->first();
+        if($informe === NULL){
+            return response()->json(array('success' => false, 'message' => 'No existe información generada para este informe (previamente debe generar las tasas y el grado de sastifacción correspondiente)'));
+        }else{      
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/indicadores-tasas.xlsx");
+            $worksheet = $spreadsheet->getActiveSheet();
+            $nameFile = \uniqid('indicadores-tasas-').'.xlsx'; 
+
+            $worksheet->setCellValue('B16', 'La Facultad de Teología UEBE se esfuerza en ofrecer una formación de calidad y para optimizar y afianzar los sistemas de garantía de la calidad, por lo que realiza anualmente numerosas encuestas de satisfacción, tanto con la formación recibida como con el profesorado, la calidad de los servicios, y las prácticas, entre otros. Los datos obtenidos de esta evaluación son tratados para elaborar los indicadores y tasas conforme a la definición de SIIU. Los datos presentados a continuación responden a los indicadores más representativos del curso xxxx-xxxx  en el Grado en Teología:');        
+
+            $worksheet->setCellValue('K19', $informe->dato1.'%');
+            $worksheet->setCellValue('K20', $informe->dato2.'%');
+            $worksheet->setCellValue('K21', $informe->dato3.'%');
+            $worksheet->setCellValue('K22', $informe->dato4.'%');
+
+            $writer = new Xlsx($spreadsheet);   
+            $writer->save($nameFile);
+
+            return response()->json(array('success' => true, 'message' => 'El informe se genero correctamente', 'data' => $informe, 'fichero' => $nameFile));
+        }
     }
 
 }
