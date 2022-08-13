@@ -88,12 +88,30 @@ $(document).on("ready", function() {
         })
             .done(function(response) {
                 console.log(response); 
-                if (response.success){    
-                    $("#tasa-graduacion").text(response.data.dato1);
-                    $("#tasa-abandono").text(response.data.dato2);
-                    $("#tasa-eficiencia").text(response.data.dato3);
-                    $("#tasa-rendimiento").text(response.data.dato4);
+                if (response.success){                        
 
+                    if (tipo == "indicadores"){
+                        $("#tasa-graduacion").text(response.data.dato1+'%');
+                        $("#tasa-abandono").text(response.data.dato2+'%');
+                        $("#tasa-eficiencia").text(response.data.dato3+'%');
+                        $("#tasa-rendimiento").text(response.data.dato4+'%');
+                        $("#satisfaccion-del-estudiante-con-el-titulo").text(response.data.dato5+'%');
+                        $("#satisfaccion-del-estudiante-con-el-profesorado").text(response.data.dato6+'%');
+                        $("#satisfaccion-del-profesorado-con-el-titulo").text(response.data.dato7+'%');
+                    }else if(tipo == 'alumnos'){
+                        $("#alumnado-pregunta-1").text(response.data.dato1+'%');
+                        $("#alumnado-pregunta-2").text(response.data.dato2+'%');
+                        $("#alumnado-pregunta-3").text(response.data.dato3+'%');
+                        $("#alumnado-pregunta-4").text(response.data.dato4+'%');
+                        $("#alumnado-pregunta-5").text(response.data.dato5+'%');
+                        $("#alumnado-pregunta-6").text(response.data.dato6+'%');
+                        $("#alumnado-pregunta-7").text(response.data.dato7+'%');
+                    }else if(tipo == 'profesores'){
+                    }else if(tipo == 'pas'){
+                    }else if(tipo == 'egresados'){
+                    }else if(tipo == 'empleadores'){
+                    }
+                                        
                     var link = document.createElement("a");
                     link.href = response.fichero;
                     link.download = 'Informe '+$("#informe").val();

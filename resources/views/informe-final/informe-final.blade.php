@@ -97,6 +97,7 @@
         <div class="card card-resultados" id="card-alumnos">
             <div class="card-body">
                 <h5 class="card-title">Informe alumnos.</h5>
+                @include('informe-final.table-alumnos')
             </div>
         </div>
         <div class="card card-resultados" id="card-profesores">

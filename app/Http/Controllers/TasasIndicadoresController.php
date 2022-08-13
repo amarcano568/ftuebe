@@ -428,45 +428,47 @@ class TasasIndicadoresController extends Controller
         // /*  
         //             PREGUNTA 3
         // */        
-        // $preguntas_3_pas = preguntas_3_pas($ficheroCSV,$respondidas);
-        // # Item 1
-        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][0], $preguntas_3_pas['item1']);     
-        // # Item 2
-        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][1], $preguntas_3_pas['item2']); 
-        // # Item 3
-        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][2], $preguntas_3_pas['item3']); 
-        // # Item 4
-        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][3], $preguntas_3_pas['item4']);
-        // # Item 5
-        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][4], $preguntas_3_pas['item5']); 
-        // # Item 6
-        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][5], $preguntas_3_pas['item6']);             
-        // # Item 7
-        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][6], $preguntas_3_pas['item7']);     
-        // # Item 8
-        // $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][7], $preguntas_3_pas['item8']);
+        $preguntas_3_pas = preguntas_3_pas($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][0], $preguntas_3_pas['item1']);     
+        # Item 2
+        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][1], $preguntas_3_pas['item2']); 
+        # Item 3
+        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][2], $preguntas_3_pas['item3']); 
+        # Item 4
+        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][3], $preguntas_3_pas['item4']);
+        # Item 5
+        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][4], $preguntas_3_pas['item5']); 
+        # Item 6
+        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][5], $preguntas_3_pas['item6']);             
+        # Item 7
+        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][6], $preguntas_3_pas['item7']);     
+        # Item 8
+        $worksheet->setCellValue($posicionExcel['pos_items_tercera_pregunta'][7], $preguntas_3_pas['item8']);
         // /*  
         //             PREGUNTA 4
         // */        
-        // $preguntas_4_pas = preguntas_4_pas($ficheroCSV,$respondidas);
-        // # Item 1
-        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][0], $preguntas_4_pas['item1']);     
-        // # Item 2
-        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][1], $preguntas_4_pas['item2']); 
-        // # Item 3
-        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][2], $preguntas_4_pas['item3']); 
-        // # Item 4
-        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][3], $preguntas_4_pas['item4']);
-        // # Item 5
-        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][4], $preguntas_4_pas['item5']); 
-        // # Item 6
-        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][5], $preguntas_4_pas['item6']);             
-        // # Item 7
-        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][6], $preguntas_4_pas['item7']);     
-        // # Item 8
-        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][7], $preguntas_4_pas['item8']);
-        //  # Item 9
-        // $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][8], $preguntas_4_pas['item9']);     
+        $preguntas_4_pas = preguntas_4_pas($ficheroCSV,$respondidas);
+        # Item 1
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][0], $preguntas_4_pas['item1']);     
+        # Item 2
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][1], $preguntas_4_pas['item2']); 
+        # Item 3
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][2], $preguntas_4_pas['item3']); 
+        # Item 4
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][3], $preguntas_4_pas['item4']);
+        # Item 5
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][4], $preguntas_4_pas['item5']); 
+        # Item 6
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][5], $preguntas_4_pas['item6']);             
+        # Item 7
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][6], $preguntas_4_pas['item7']);     
+        # Item 8
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][7], $preguntas_4_pas['item8']);
+        # Item 9
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][8], $preguntas_4_pas['item9']); 
+        # Item 10
+        $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][9], $preguntas_4_pas['item10']);     
         
                     
         $writer = new Xlsx($spreadsheet);   
@@ -674,6 +676,59 @@ class TasasIndicadoresController extends Controller
         $writer = new Xlsx($spreadsheet);   
         $writer->save($nameFile);
 
+        /***********************************************
+            Se guarda la información para informe final
+        ************************************************/
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($nameFile);
+        $worksheet = $spreadsheet->getActiveSheet();
+        $dato1 = $worksheet->getCell('L4')->getCalculatedValue(); //Pregunta 1
+        $dato2 = $worksheet->getCell('L5')->getCalculatedValue(); //Pregunta 2   
+        $dato3 = $worksheet->getCell('L6')->getCalculatedValue(); //Pregunta 3
+        $dato4 = $worksheet->getCell('L7')->getCalculatedValue(); //Pregunta 4   
+        $dato5 = $worksheet->getCell('L8')->getCalculatedValue(); //Pregunta 5
+        $dato6 = $worksheet->getCell('L9')->getCalculatedValue(); //Pregunta 6   
+        $dato7 = $worksheet->getCell('L10')->getCalculatedValue(); //Pregunta 7
+
+        if ($request->tipo_estudio == 'grado-oficial'){ 
+            $dato8 = $worksheet->getCell('I20')->getCalculatedValue(); //Encuestas respondidas
+            $dato9 = $worksheet->getCell('E20')->getCalculatedValue(); //nº alumnos  /curso
+            $dato10 = $worksheet->getCell('J21')->getCalculatedValue(); //Índice de participación general
+            $dato11 = $worksheet->getCell('E16')->getCalculatedValue(); //Primero
+            $dato12 = $worksheet->getCell('E17')->getCalculatedValue(); //Segundo
+            $dato13 = $worksheet->getCell('E18')->getCalculatedValue(); //Tercero
+            $dato14 = $worksheet->getCell('E19')->getCalculatedValue(); //Cuarto
+        }else{
+            $dato8 = $worksheet->getCell('H16')->getCalculatedValue(); //Encuestas respondidas            
+            $dato9 = $worksheet->getCell('E16')->getCalculatedValue(); //nº alumnos  /curso
+            $dato10 = $worksheet->getCell('J18')->getCalculatedValue(); //Índice de participación general
+            $dato11 = 0; //Primero
+            $dato12 = 0; //Segundo
+            $dato13 = 0; //Tercero
+            $dato14 = 0; //Cuarto
+        }
+       
+        $data = [];                       
+        $data['dato1']      =  $dato1*100;
+        $data['dato2']      =  $dato2*100;
+        $data['dato3']      =  $dato3*100;
+        $data['dato4']      =  $dato4*100;
+        $data['dato5']      =  $dato5*100;
+        $data['dato6']      =  $dato6*100;
+        $data['dato7']      =  $dato7*100;
+        $data['dato8']      =  $dato8;
+        $data['dato9']      =  $dato9;
+        $data['dato10']     =  $dato10;
+        $data['dato11']     =  $dato11;
+        $data['dato12']     =  $dato12;
+        $data['dato13']     =  $dato13;
+        $data['dato14']     =  $dato14;
+      
+        $exists = Informes_finales::updateOrCreate([
+            'tipo' => 'alumnos',
+            'estudio' => $request->tipo_estudio,
+            'periodo' => $request->periodo,
+        ], $data);  
+
         return $nameFile;
     }
 
@@ -793,6 +848,27 @@ class TasasIndicadoresController extends Controller
                     
         $writer = new Xlsx($spreadsheet);   
         $writer->save($nameFile);
+
+        /***********************************************
+            Se guarda la información para informe final
+        ************************************************/
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($nameFile);
+        $worksheet = $spreadsheet->getActiveSheet();
+        $pregunta1 = $worksheet->getCell('L4')->getCalculatedValue(); //Pregunta 1
+        $pregunta2 = $worksheet->getCell('L5')->getCalculatedValue(); //Pregunta 2  
+        $pregunta3 = $worksheet->getCell('L7')->getCalculatedValue(); //Pregunta 3
+        $pregunta4 = $worksheet->getCell('L8')->getCalculatedValue(); //Pregunta 4  
+
+        $data = [];                       
+        $data['dato7']      =  (($pregunta1+$pregunta2+$pregunta3+$pregunta4)/4)*100;
+        $periodo = explode('-',$request->periodo);
+        $ano_inicial = (int)$periodo[1]-5;
+        $periodos = $ano_inicial.'-'.$periodo[1];        
+        $exists = Informes_finales::updateOrCreate([
+            'tipo' => 'indicadores',
+            'estudio' => $request->tipo_estudio,
+            'periodo' => $periodos,
+        ], $data);  
 
         return $nameFile;
     }
@@ -979,27 +1055,71 @@ class TasasIndicadoresController extends Controller
     }
 
     public function generarInformeFinal(Request $request){
+                 
+            switch ($request->informe) {
+                case 'indicadores':
+                    $informe = Informes_finales::where(['tipo'=>$request->informe,'estudio'=>$request->tipo_estudio,'periodo'=>$request->cohorte])->first();
+                    if($informe === NULL){
+                        return response()->json(array('success' => false, 'message' => 'No existe información generada para este informe (previamente debe generar las tasas y el grado de sastifacción correspondiente)'));
+                    }
+                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/indicadores-tasas.xlsx");
+                    $worksheet = $spreadsheet->getActiveSheet();
+                    $nameFile = \uniqid('indicadores-tasas-').'.xlsx'; 
+        
+                    $worksheet->setCellValue('B16', 'La Facultad de Teología UEBE se esfuerza en ofrecer una formación de calidad y para optimizar y afianzar los sistemas de garantía de la calidad, por lo que realiza anualmente numerosas encuestas de satisfacción, tanto con la formación recibida como con el profesorado, la calidad de los servicios, y las prácticas, entre otros. Los datos obtenidos de esta evaluación son tratados para elaborar los indicadores y tasas conforme a la definición de SIIU. Los datos presentados a continuación responden a los indicadores más representativos del curso '.$request->cohorte.'  en el Grado en Teología:');        
+                    $worksheet->setCellValue('B18', 'TASAS CORRESPONDIENTES A LA COHORTE '.$request->cohorte);
+                    $worksheet->setCellValue('K19', $informe->dato1.'%');
+                    $worksheet->setCellValue('K20', $informe->dato2.'%');
+                    $worksheet->setCellValue('K21', $informe->dato3.'%');
+                    $worksheet->setCellValue('K22', $informe->dato4.'%');
+                    $worksheet->setCellValue('K23', $informe->dato5.'%');
+                    $worksheet->setCellValue('K24', $informe->dato6.'%');
+                    $worksheet->setCellValue('K25', $informe->dato7.'%');
+                  break;
+                case 'alumnos':
+                    $informe = Informes_finales::where(['tipo'=>$request->informe,'estudio'=>$request->tipo_estudio,'periodo'=>$request->periodo])->first();
+                    if($informe === NULL){
+                        return response()->json(array('success' => false, 'message' => 'No existe información generada para este informe (previamente debe generar las tasas y el grado de sastifacción correspondiente)'));
+                    }
+                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/plantilla-informe-final-satisfaccion-grupo.xlsx");
+                    $worksheet = $spreadsheet->getActiveSheet();
+                    $nameFile = \uniqid('informe-final-satisfaccion-grupo-').'.xlsx'; 
+        
+                    if ($request->tipo_estudio == 'grado-oficial'){
+                        $titulo = 'GRADO EN TEOLOGÍA';
+                        $worksheet->setCellValue('D25', $informe->dato11);# PRIMERO
+                        $worksheet->setCellValue('F25', $informe->dato12);# SEGUNDO 
+                        $worksheet->setCellValue('H25', $informe->dato13);# TERCERO
+                        $worksheet->setCellValue('F27', $informe->dato14);# CUARTO
+                    }else{
+                        $titulo = 'MASTER EN TEOLOGÍA';
+                    }
 
-        $informe = Informes_finales::where(['tipo'=>$request->informe,'estudio'=>$request->tipo_estudio,'periodo'=>$request->cohorte])->first();
-        if($informe === NULL){
-            return response()->json(array('success' => false, 'message' => 'No existe información generada para este informe (previamente debe generar las tasas y el grado de sastifacción correspondiente)'));
-        }else{      
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/indicadores-tasas.xlsx");
-            $worksheet = $spreadsheet->getActiveSheet();
-            $nameFile = \uniqid('indicadores-tasas-').'.xlsx'; 
+                    $worksheet->setCellValue('C17', $titulo);
+                    $worksheet->setCellValue('C19', 'ALUMNADO');
 
-            $worksheet->setCellValue('B16', 'La Facultad de Teología UEBE se esfuerza en ofrecer una formación de calidad y para optimizar y afianzar los sistemas de garantía de la calidad, por lo que realiza anualmente numerosas encuestas de satisfacción, tanto con la formación recibida como con el profesorado, la calidad de los servicios, y las prácticas, entre otros. Los datos obtenidos de esta evaluación son tratados para elaborar los indicadores y tasas conforme a la definición de SIIU. Los datos presentados a continuación responden a los indicadores más representativos del curso xxxx-xxxx  en el Grado en Teología:');        
+                    $worksheet->setCellValue('G21', $informe->dato8);# Nº CUESTIONARIOS CUMPLIMENTADOS
+                    $worksheet->setCellValue('G22', $informe->dato9);# Nº DE ESTUDIANTES MATRICULADOS 
+                    $worksheet->setCellValue('G23', $informe->dato10.'%');# TASA DE PARTICIPACIÓN 
 
-            $worksheet->setCellValue('K19', $informe->dato1.'%');
-            $worksheet->setCellValue('K20', $informe->dato2.'%');
-            $worksheet->setCellValue('K21', $informe->dato3.'%');
-            $worksheet->setCellValue('K22', $informe->dato4.'%');
+                    
+
+                    $worksheet->setCellValue('I32', $informe->dato1.'%');# pregunta 1
+                    $worksheet->setCellValue('I33', $informe->dato2.'%');# pregunta 2
+                    $worksheet->setCellValue('I34', $informe->dato3.'%');# pregunta 3
+                    $worksheet->setCellValue('I35', $informe->dato4.'%');# pregunta 4
+                    $worksheet->setCellValue('I36', $informe->dato5.'%');# pregunta 5
+                    $worksheet->setCellValue('I37', $informe->dato6.'%');# pregunta 6
+                    $worksheet->setCellValue('I38', $informe->dato7.'%');# pregunta 7
+                  break;                
+                
+              }
 
             $writer = new Xlsx($spreadsheet);   
             $writer->save($nameFile);
 
             return response()->json(array('success' => true, 'message' => 'El informe se genero correctamente', 'data' => $informe, 'fichero' => $nameFile));
-        }
+        
     }
 
 }

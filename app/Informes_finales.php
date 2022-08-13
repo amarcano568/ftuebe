@@ -22,5 +22,9 @@ class Informes_finales extends Model
         'dato8',
         'dato9',
         'dato10',                          
+        'dato11',         
+        'dato12',         
+        'dato13',         
+        'dato14',         
 ];
 }

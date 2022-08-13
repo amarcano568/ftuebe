@@ -271,7 +271,8 @@ $(document).on("ready", function() {
             // }
         })
             .done(function(response) {
-                console.log(response);               
+                console.log(response);   
+                            
             })
             .fail(function(statusCode, errorThrown) {
                 $.unblockUI();
