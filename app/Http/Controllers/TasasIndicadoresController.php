@@ -469,10 +469,39 @@ class TasasIndicadoresController extends Controller
         $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][8], $preguntas_4_pas['item9']); 
         # Item 10
         $worksheet->setCellValue($posicionExcel['pos_items_cuarta_pregunta'][9], $preguntas_4_pas['item10']);     
-        
-                    
+                            
         $writer = new Xlsx($spreadsheet);   
         $writer->save($nameFile);
+
+        /***********************************************
+            Se guarda la información para informe final
+        ************************************************/    
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($nameFile);
+        $worksheet = $spreadsheet->getActiveSheet();
+        $pregunta1 = $worksheet->getCell('M5')->getCalculatedValue(); //Pregunta 1
+        $pregunta2 = $worksheet->getCell('M6')->getCalculatedValue(); //Pregunta 2  
+        $pregunta3 = $worksheet->getCell('M8')->getCalculatedValue(); //Pregunta 3
+        $pregunta4 = $worksheet->getCell('M9')->getCalculatedValue(); //Pregunta 4  
+
+        $data = [];                       
+        $data['dato1']      =  $pregunta1*100;
+        $data['dato2']      =  $pregunta2*100;
+        $data['dato3']      =  $pregunta3*100;
+        $data['dato4']      =  $pregunta4*100;
+
+        $dato5 = $worksheet->getCell('P6')->getCalculatedValue(); //Encuestas respondidas            
+        $dato6 = $worksheet->getCell('P7')->getCalculatedValue(); //nº pas        
+        $dato7 = $worksheet->getCell('Q9')->getCalculatedValue(); //Índice de participación general
+        
+        $data['dato5'] = $dato5;
+        $data['dato6'] = $dato6;
+        $data['dato7'] = $dato7;
+
+        $exists = Informes_finales::updateOrCreate([
+            'tipo' => 'pas',
+            'estudio' => $request->tipo_estudio,
+            'periodo' => $request->periodo,
+        ], $data); 
 
         return $nameFile;
     }
@@ -859,6 +888,7 @@ class TasasIndicadoresController extends Controller
         $pregunta3 = $worksheet->getCell('L7')->getCalculatedValue(); //Pregunta 3
         $pregunta4 = $worksheet->getCell('L8')->getCalculatedValue(); //Pregunta 4  
 
+        /** Se guarda el dato 7 para el informe de indicadores */
         $data = [];                       
         $data['dato7']      =  (($pregunta1+$pregunta2+$pregunta3+$pregunta4)/4)*100;
         $periodo = explode('-',$request->periodo);
@@ -869,6 +899,30 @@ class TasasIndicadoresController extends Controller
             'estudio' => $request->tipo_estudio,
             'periodo' => $periodos,
         ], $data);  
+
+        /***********************************************
+            Se guarda la información para informe final
+        ************************************************/      
+        $data = [];                       
+        $data['dato1']      =  $pregunta1*100;
+        $data['dato2']      =  $pregunta2*100;
+        $data['dato3']      =  $pregunta3*100;
+        $data['dato4']      =  $pregunta4*100;
+
+        $dato5 = $worksheet->getCell('O5')->getCalculatedValue(); //Encuestas respondidas            
+        $dato6 = $worksheet->getCell('O6')->getCalculatedValue(); //nº profesores
+        $dato7 = $worksheet->getCell('P8')->getCalculatedValue(); //Índice de participación general
+        
+        $data['dato5'] = $dato5;
+        $data['dato6'] = $dato6;
+        $data['dato7'] = $dato7;
+
+        $exists = Informes_finales::updateOrCreate([
+            'tipo' => 'profesores',
+            'estudio' => $request->tipo_estudio,
+            'periodo' => $request->periodo,
+        ], $data);  
+
 
         return $nameFile;
     }
@@ -1025,6 +1079,38 @@ class TasasIndicadoresController extends Controller
         $writer = new Xlsx($spreadsheet);   
         $writer->save($nameFile);
 
+        /***********************************************
+            Se guarda la información para informe final
+        ************************************************/    
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($nameFile);
+        $worksheet = $spreadsheet->getActiveSheet();
+        $pregunta1 = $worksheet->getCell('L4')->getCalculatedValue(); //1.	 Información académica
+        $pregunta2 = $worksheet->getCell('L5')->getCalculatedValue(); //2.	Información administrativa
+        $pregunta3 = $worksheet->getCell('L7')->getCalculatedValue(); //3.	 Valoración distintos aspectos académicos
+        $pregunta4 = $worksheet->getCell('L9')->getCalculatedValue(); //4.	Valoración de adquisición de competencias
+        $pregunta5 = $worksheet->getCell('L10')->getCalculatedValue(); //5.	 Valoración de infraestructuras y recursos
+
+        $data = [];                       
+        $data['dato1']      =  $pregunta1*100;
+        $data['dato2']      =  $pregunta2*100;
+        $data['dato3']      =  $pregunta3*100;
+        $data['dato4']      =  $pregunta4*100;
+        $data['dato5']      =  $pregunta5*100;
+
+        $dato6 = $worksheet->getCell('O6')->getCalculatedValue(); //Encuestas respondidas            
+        $dato7 = $worksheet->getCell('O7')->getCalculatedValue(); //nº egresados        
+        $dato8 = $worksheet->getCell('P9')->getCalculatedValue(); //Índice de participación general
+        
+        $data['dato6'] = $dato6;
+        $data['dato7'] = $dato7;
+        $data['dato8'] = $dato8;
+
+        $exists = Informes_finales::updateOrCreate([
+            'tipo' => 'egresados',
+            'estudio' => $request->tipo_estudio,
+            'periodo' => $request->periodo,
+        ], $data); 
+
         return $nameFile;
     }
 
@@ -1062,7 +1148,7 @@ class TasasIndicadoresController extends Controller
                     if($informe === NULL){
                         return response()->json(array('success' => false, 'message' => 'No existe información generada para este informe (previamente debe generar las tasas y el grado de sastifacción correspondiente)'));
                     }
-                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/indicadores-tasas.xlsx");
+                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/plantilla-informe-indicadores-tasas.xlsx");
                     $worksheet = $spreadsheet->getActiveSheet();
                     $nameFile = \uniqid('indicadores-tasas-').'.xlsx'; 
         
@@ -1081,9 +1167,9 @@ class TasasIndicadoresController extends Controller
                     if($informe === NULL){
                         return response()->json(array('success' => false, 'message' => 'No existe información generada para este informe (previamente debe generar las tasas y el grado de sastifacción correspondiente)'));
                     }
-                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/plantilla-informe-final-satisfaccion-grupo.xlsx");
+                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/plantilla-informe-final-satisfaccion-alumnado.xlsx");
                     $worksheet = $spreadsheet->getActiveSheet();
-                    $nameFile = \uniqid('informe-final-satisfaccion-grupo-').'.xlsx'; 
+                    $nameFile = \uniqid('informe-final-satisfaccion-alumnado-').'.xlsx'; 
         
                     if ($request->tipo_estudio == 'grado-oficial'){
                         $titulo = 'GRADO EN TEOLOGÍA';
@@ -1102,8 +1188,6 @@ class TasasIndicadoresController extends Controller
                     $worksheet->setCellValue('G22', $informe->dato9);# Nº DE ESTUDIANTES MATRICULADOS 
                     $worksheet->setCellValue('G23', $informe->dato10.'%');# TASA DE PARTICIPACIÓN 
 
-                    
-
                     $worksheet->setCellValue('I32', $informe->dato1.'%');# pregunta 1
                     $worksheet->setCellValue('I33', $informe->dato2.'%');# pregunta 2
                     $worksheet->setCellValue('I34', $informe->dato3.'%');# pregunta 3
@@ -1111,7 +1195,89 @@ class TasasIndicadoresController extends Controller
                     $worksheet->setCellValue('I36', $informe->dato5.'%');# pregunta 5
                     $worksheet->setCellValue('I37', $informe->dato6.'%');# pregunta 6
                     $worksheet->setCellValue('I38', $informe->dato7.'%');# pregunta 7
-                  break;                
+                  break;  
+                case 'profesores':
+                    $informe = Informes_finales::where(['tipo'=>$request->informe,'estudio'=>$request->tipo_estudio,'periodo'=>$request->periodo])->first();
+                    if($informe === NULL){
+                        return response()->json(array('success' => false, 'message' => 'No existe información generada para este informe (previamente debe generar las tasas y el grado de sastifacción correspondiente)'));
+                    }
+                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/plantilla-informe-final-satisfaccion-profesores.xlsx");
+                    $worksheet = $spreadsheet->getActiveSheet();
+                    $nameFile = \uniqid('informe-final-satisfaccion-profesores-').'.xlsx'; 
+
+                    if ($request->tipo_estudio == 'grado-oficial'){
+                        $titulo = 'GRADO EN TEOLOGÍA';                       
+                    }else{
+                        $titulo = 'MASTER EN TEOLOGÍA';
+                    }
+
+                    $worksheet->setCellValue('C17', $titulo);
+                    $worksheet->setCellValue('C19', 'PROFESORADO');
+
+                    $worksheet->setCellValue('G21', $informe->dato5);# Nº CUESTIONARIOS CUMPLIMENTADOS
+                    $worksheet->setCellValue('G22', $informe->dato6);# Nº DE ESTUDIANTES MATRICULADOS 
+                    $worksheet->setCellValue('G23', $informe->dato7.'%');# TASA DE PARTICIPACIÓN 
+        
+                    $worksheet->setCellValue('I29', $informe->dato1.'%');
+                    $worksheet->setCellValue('I30', $informe->dato2.'%');
+                    $worksheet->setCellValue('I31', $informe->dato3.'%');
+                    $worksheet->setCellValue('I32', $informe->dato4.'%');                    
+                  break; 
+                case 'pas':
+                    $informe = Informes_finales::where(['tipo'=>$request->informe,'estudio'=>$request->tipo_estudio,'periodo'=>$request->periodo])->first();
+                    if($informe === NULL){
+                        return response()->json(array('success' => false, 'message' => 'No existe información generada para este informe (previamente debe generar las tasas y el grado de sastifacción correspondiente)'));
+                    }
+                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/plantilla-informe-final-satisfaccion-pas.xlsx");
+                    $worksheet = $spreadsheet->getActiveSheet();
+                    $nameFile = \uniqid('informe-final-satisfaccion-pas-').'.xlsx'; 
+
+                    if ($request->tipo_estudio == 'grado-oficial'){
+                        $titulo = 'GRADO EN TEOLOGÍA';                       
+                    }else{
+                        $titulo = 'MASTER EN TEOLOGÍA';
+                    }
+
+                    $worksheet->setCellValue('C17', $titulo);
+                    $worksheet->setCellValue('C19', 'PAS');
+
+                    $worksheet->setCellValue('G21', $informe->dato5);# Nº CUESTIONARIOS CUMPLIMENTADOS
+                    $worksheet->setCellValue('G22', $informe->dato6);# Nº DE ESTUDIANTES MATRICULADOS 
+                    $worksheet->setCellValue('G23', $informe->dato7.'%');# TASA DE PARTICIPACIÓN 
+        
+                    $worksheet->setCellValue('I29', $informe->dato1.'%');
+                    $worksheet->setCellValue('I30', $informe->dato2.'%');
+                    $worksheet->setCellValue('I31', $informe->dato3.'%');
+                    $worksheet->setCellValue('I32', $informe->dato4.'%');                    
+                  break; 
+                case 'egresados':
+                    $informe = Informes_finales::where(['tipo'=>$request->informe,'estudio'=>$request->tipo_estudio,'periodo'=>$request->periodo])->first();
+                    if($informe === NULL){
+                        return response()->json(array('success' => false, 'message' => 'No existe información generada para este informe (previamente debe generar las tasas y el grado de sastifacción correspondiente)'));
+                    }
+                    $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load("plantillas_satisfaccion/plantilla-informe-final-satisfaccion-egresados.xlsx");
+                    $worksheet = $spreadsheet->getActiveSheet();
+                    $nameFile = \uniqid('informe-final-satisfaccion-egresados-').'.xlsx'; 
+
+                    if ($request->tipo_estudio == 'grado-oficial'){
+                        $titulo = 'GRADO EN TEOLOGÍA';                       
+                    }else{
+                        $titulo = 'MASTER EN TEOLOGÍA';
+                    }
+
+                    $worksheet->setCellValue('C17', $titulo);
+                    $worksheet->setCellValue('C19', 'EGRESADOS');
+
+                    $worksheet->setCellValue('G21', $informe->dato6);# Nº CUESTIONARIOS CUMPLIMENTADOS
+                    $worksheet->setCellValue('G22', $informe->dato7);# Nº DE egresados
+                    $worksheet->setCellValue('G23', $informe->dato8.'%');# TASA DE PARTICIPACIÓN 
+        
+                    $worksheet->setCellValue('I29', $informe->dato1.'%');
+                    $worksheet->setCellValue('I30', $informe->dato2.'%');
+                    $worksheet->setCellValue('I31', $informe->dato3.'%');
+                    $worksheet->setCellValue('I32', $informe->dato4.'%'); 
+                    $worksheet->setCellValue('I33', $informe->dato5.'%');                    
+                  break;               
                 
               }
 

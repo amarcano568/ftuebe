@@ -31,7 +31,7 @@
         $respondidas = 0;
         while (!feof($file_handle)) {
             $linea = fgetcsv($file_handle, 0, ';');
-            if($fila==3 && $fila<=5){
+            if($fila>=3 && $fila<=5){
                 $respondidas += (int)$linea[1];
             }
             $fila++;

@@ -107,8 +107,21 @@ $(document).on("ready", function() {
                         $("#alumnado-pregunta-6").text(response.data.dato6+'%');
                         $("#alumnado-pregunta-7").text(response.data.dato7+'%');
                     }else if(tipo == 'profesores'){
+                        $("#profesores-pregunta-1").text(response.data.dato1+'%');
+                        $("#profesores-pregunta-2").text(response.data.dato2+'%');
+                        $("#profesores-pregunta-3").text(response.data.dato3+'%');
+                        $("#profesores-pregunta-4").text(response.data.dato4+'%');
                     }else if(tipo == 'pas'){
+                        $("#pas-pregunta-1").text(response.data.dato1+'%');
+                        $("#pas-pregunta-2").text(response.data.dato2+'%');
+                        $("#pas-pregunta-3").text(response.data.dato3+'%');
+                        $("#pas-pregunta-4").text(response.data.dato4+'%');
                     }else if(tipo == 'egresados'){
+                        $("#egresados-pregunta-1").text(response.data.dato1+'%');
+                        $("#egresados-pregunta-2").text(response.data.dato2+'%');
+                        $("#egresados-pregunta-3").text(response.data.dato3+'%');
+                        $("#egresados-pregunta-4").text(response.data.dato4+'%');
+                        $("#egresados-pregunta-5").text(response.data.dato5+'%');
                     }else if(tipo == 'empleadores'){
                     }
                                         

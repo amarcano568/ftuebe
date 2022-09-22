@@ -103,16 +103,19 @@
         <div class="card card-resultados" id="card-profesores">
             <div class="card-body">
                 <h5 class="card-title">Informe profesores.</h5>
+                @include('informe-final.table-profesores')
             </div>
         </div>
         <div class="card card-resultados" id="card-pas">
             <div class="card-body">
                 <h5 class="card-title">Informe PAS.</h5>
+                @include('informe-final.table-pas')
             </div>
         </div>
         <div class="card card-resultados" id="card-egresados">
             <div class="card-body">
                 <h5 class="card-title">Informe egresados.</h5>
+                @include('informe-final.table-egresados')
             </div>
         </div>
         <div class="card card-resultados" id="card-empleadores">
